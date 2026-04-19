@@ -1,4 +1,4 @@
-﻿namespace MyACTPlugin
+﻿namespace Simulant
 {
     partial class PluginPage
     {

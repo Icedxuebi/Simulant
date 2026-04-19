@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace MyACTPlugin
+namespace Simulant
 {
     public partial class PluginPage : UserControl
     {

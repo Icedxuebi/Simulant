@@ -7,8 +7,8 @@
     <ProjectGuid>{BD1DE001-BA1C-42FF-9A63-32D45E84EA04}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MyACTPlugin</RootNamespace>
-    <AssemblyName>MyACTPlugin</AssemblyName>
+    <RootNamespace>Simulant</RootNamespace>
+    <AssemblyName>Simulant</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>

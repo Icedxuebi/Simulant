@@ -9,9 +9,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Advanced_Combat_Tracker;
-using MyACTPlugin.Utils;
+using Simulant.Utils;
 
-namespace MyACTPlugin
+namespace Simulant
 {
     public class PluginMain : IActPluginV1
     {
@@ -28,7 +28,7 @@ namespace MyACTPlugin
         {
             Helpers._tabPage = pluginScreenSpace;
             lblStatus = pluginStatusText;
-            pluginScreenSpace.Text = "插件标题";
+            pluginScreenSpace.Text = "仿生石";
 
             Helpers._plugin = this;
 
@@ -47,7 +47,7 @@ namespace MyACTPlugin
         /// </summary>
         public void DeInitPlugin()
         {
-            Helpers.ffxivPlugin.DataSubscription.NetworkReceived -= ffxivPluginNetworkReceivedDelegate;
+            // Helpers.ffxivPlugin.DataSubscription.NetworkReceived -= ffxivPluginNetworkReceivedDelegate;
             Helpers.ffxivPlugin.DataSubscription.ProcessChanged -= OnFFXIVProcessChanged;
             //settings.save();
             lblStatus.Text = "插件已卸载";
@@ -66,29 +66,29 @@ namespace MyACTPlugin
                     return;
                 }
 
+                if (Helpers.ffxivPlugin != null)
+                    return;
+
+                var ffxivPluginData = ActGlobals.oFormActMain.ActPlugins.FirstOrDefault(x => x.pluginObj?.GetType().ToString() == "FFXIV_ACT_Plugin.FFXIV_ACT_Plugin");
+                Helpers.ffxivPlugin = (FFXIV_ACT_Plugin.FFXIV_ACT_Plugin)ffxivPluginData?.pluginObj;
                 if (Helpers.ffxivPlugin == null)
-                {
-                    var ffxivPluginData = ActGlobals.oFormActMain.ActPlugins.FirstOrDefault(x => x.pluginObj?.GetType().ToString() == "FFXIV_ACT_Plugin.FFXIV_ACT_Plugin");
-                    Helpers.ffxivPlugin = (FFXIV_ACT_Plugin.FFXIV_ACT_Plugin)ffxivPluginData?.pluginObj;
-                    if (Helpers.ffxivPlugin != null)
+                    return;
+
+                var waitingFFXIVPlugin = new Task(() => {
+                    var isFFXIVPluginStarted = false;
+                    while (!isFFXIVPluginStarted)
                     {
-                        var waitingFFXIVPlugin = new Task(() => {
-                            var isFFXIVPluginStarted = false;
-                            while (!isFFXIVPluginStarted)
-                            {
-                                if (ffxivPluginData.lblPluginStatus.Text.ToUpper().Contains("Started".ToUpper()))
-                                {
-                                    Helpers.ffxivPlugin.DataSubscription.ProcessChanged += OnFFXIVProcessChanged;
-                                    OnFFXIVProcessChanged(Helpers.ffxivPlugin.DataRepository.GetCurrentFFXIVProcess());
-                                    isFFXIVPluginStarted = true;
-                                    return;
-                                }
-                                Thread.Sleep(3000);
-                            }
-                        });
-                        waitingFFXIVPlugin.Start();
+                        if (ffxivPluginData.lblPluginStatus.Text.ToUpper().Contains("Started".ToUpper()))
+                        {
+                            Helpers.ffxivPlugin.DataSubscription.ProcessChanged += OnFFXIVProcessChanged;
+                            OnFFXIVProcessChanged(Helpers.ffxivPlugin.DataRepository.GetCurrentFFXIVProcess());
+                            isFFXIVPluginStarted = true;
+                            return;
+                        }
+                        Thread.Sleep(3000);
                     }
-                }
+                });
+                waitingFFXIVPlugin.Start();
             }
         }
 
@@ -104,10 +104,11 @@ namespace MyACTPlugin
             var gameVersion = Helpers.GetGameVersion(gameProcess);
             var gameRegion = Helpers.GetRegion(Helpers.ffxivPlugin);
 
-            Helpers.ffxivPlugin.DataSubscription.NetworkReceived -= ffxivPluginNetworkReceivedDelegate;
-            Helpers.ffxivPlugin.DataSubscription.NetworkReceived += ffxivPluginNetworkReceivedDelegate;
+            // Helpers.ffxivPlugin.DataSubscription.NetworkReceived -= ffxivPluginNetworkReceivedDelegate;
+            // Helpers.ffxivPlugin.DataSubscription.NetworkReceived += ffxivPluginNetworkReceivedDelegate;
         }
 
+        /*
         // 网络包解析
         private ushort MapEffect = 0xFFFF;
         private unsafe void ffxivPluginNetworkReceivedDelegate(string connection, long epoch, byte[] message)
@@ -194,5 +195,6 @@ namespace MyACTPlugin
             [FieldOffset(12)]
             public ushort parm4;
         }
+        */
     }
 }
