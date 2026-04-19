@@ -1,4 +1,4 @@
-﻿namespace Simulant
+﻿namespace Simulant.UI
 {
     partial class PluginPage
     {

@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Simulant
+namespace Simulant.UI
 {
     public partial class PluginPage : UserControl
     {
