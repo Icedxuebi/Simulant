@@ -10,11 +10,52 @@ using System.Windows.Forms;
 
 namespace Simulant.UI
 {
-    public partial class PluginPage : UserControl
+    public partial class SimulantUI : UserControl
     {
-        public PluginPage()
+        public SimulantUI()
         {
             InitializeComponent();
         }
+
+        private void SimulantUI_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tableLog_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void lblLogRegex_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tableL_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void label1_Click_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnInitPlugin_Click(object sender, EventArgs e)
+        {
+
+        }
+
     }
 }
