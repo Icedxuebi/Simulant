@@ -52,7 +52,7 @@ namespace Simulant.ACT
             {
                 return (int)ffxiv_plugin.DataRepository.GetSelectedLanguageID();
             }
-            catch (Exception e)
+            catch
             {
                 return 0;
             }

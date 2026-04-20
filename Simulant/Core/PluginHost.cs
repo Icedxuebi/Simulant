@@ -11,19 +11,19 @@ namespace Simulant.Core
 {
     internal sealed class PluginHost
     {
-        private Label _statusLabel;
-        private SimulantUI _ui;
+        private readonly Label _statusLabel;
+        private readonly SimulantUI _ui;
 
-        public void Initialize(TabPage pluginScreenSpace, Label pluginStatusText)
+        internal readonly PluginLog _log = new PluginLog();
+
+        public PluginHost(TabPage pluginScreenSpace, Label pluginStatusText)
         {
             _statusLabel = pluginStatusText;
-
             pluginScreenSpace.Text = "仿生石";
 
-            _ui = new SimulantUI();
-            _ui.Dock = DockStyle.Fill;
+            _ui = new SimulantUI(this) { Dock = DockStyle.Fill };
             pluginScreenSpace.Controls.Add(_ui);
-
+            
             Attach();
 
             _statusLabel.Text = "初始化完成";
@@ -90,10 +90,22 @@ namespace Simulant.Core
             if (gameProcess == null)
                 return;
 
-            var gameRegion = XivPluginInterop.GetRegion(XivPluginInterop.plugin);
+            // var gameRegion = XivPluginInterop.GetRegion(XivPluginInterop.plugin);
 
             // 这里先只确认能拿到进程、版本、区服
             // 后面再接签名扫描、能力探测、运行时初始化
         }
+
+        internal void Log(LogType type, string message)
+        {
+            _log.Add(type, message);
+            _ui?.RefreshLogView();
+        }
+
+        internal void LogError(string message) => Log(LogType.Error, message);
+        internal void LogWarning(string message) => Log(LogType.Warning, message);
+        internal void LogSim(string message) => Log(LogType.Sim, message);
+        internal void LogCall(string message) => Log(LogType.Call, message);
+        internal void LogVerbose(string message) => Log(LogType.Verbose, message);
     }
 }
