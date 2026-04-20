@@ -12,7 +12,7 @@ namespace Simulant.Core
     internal sealed class PluginHost
     {
         private Label _statusLabel;
-        private PluginPage _configPage;
+        private SimulantUI _ui;
 
         public void Initialize(TabPage pluginScreenSpace, Label pluginStatusText)
         {
@@ -20,9 +20,9 @@ namespace Simulant.Core
 
             pluginScreenSpace.Text = "仿生石";
 
-            _configPage = new PluginPage();
-            _configPage.Dock = DockStyle.Fill;
-            pluginScreenSpace.Controls.Add(_configPage);
+            _ui = new SimulantUI();
+            _ui.Dock = DockStyle.Fill;
+            pluginScreenSpace.Controls.Add(_ui);
 
             Attach();
 

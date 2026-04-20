@@ -6,7 +6,7 @@ namespace Simulant.ACT
     /// <summary>
     /// Wrapper for PostNamazu.Common.SigScanner
     /// </summary>
-    public class NamazuScanner
+    public class NamazuScanner // maybe IScanner
     {
         private readonly dynamic _scanner;
 

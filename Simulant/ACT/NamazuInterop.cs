@@ -4,17 +4,17 @@ using Advanced_Combat_Tracker;
 
 namespace Simulant.ACT
 {
-    internal sealed class NamazuInterop
+    public static class NamazuInterop
     {
-        public object RawPlugin { get; private set; }
-        public NamazuPlugin Plugin { get; private set; }
+        public static object RawPlugin { get; private set; }
+        public static NamazuPlugin Plugin { get; private set; }
 
-        public bool IsReady
+        public static bool IsReady
         {
             get { return Plugin != null && Plugin.IsReady; }
         }
 
-        public void Initialize()
+        public static void Init()
         {
             RawPlugin = null;
             Plugin = null;
@@ -30,6 +30,12 @@ namespace Simulant.ACT
 
             RawPlugin = pluginData.pluginObj;
             Plugin = new NamazuPlugin(RawPlugin);
+        }
+
+        public static void DeInit()
+        {
+            RawPlugin = null;
+            Plugin = null;
         }
     }
 }

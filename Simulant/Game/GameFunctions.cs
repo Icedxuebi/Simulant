@@ -1,77 +1,44 @@
-﻿using System;
-using Simulant.ACT;
+﻿using Simulant.ACT;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.CompilerServices;
+using static Simulant.Game.AddressStore;
 
 namespace Simulant.Game
 {
-    internal sealed class GameFunctions
+    public static class GameFunctions
     {
-        private readonly NamazuInterop _namazu;
-        private readonly AddressStore _addr;
 
-        public GameFunctions(NamazuInterop namazu, AddressStore addr)
+        public static IntPtr Knockback(IntPtr entityPtr, float angle, float distance, float duration, byte a5 = 0, int a6 = 0)
         {
-            _namazu = namazu;
-            _addr = addr;
+            CheckStatus(KnockbackFuncPtr);
+            return KnockbackFuncPtr.Call<IntPtr>(entityPtr, angle, distance, duration, a5, a6);
         }
 
-        public bool IsReady
+        private static void CheckStatus([CallerMemberName] string callerNameAuto = null)
+            => CheckStatusCore(callerNameAuto);
+        private static void CheckStatus(IntPtr ptr1, [CallerMemberName] string callerNameAuto = null)
+            => CheckStatusCore(callerNameAuto, ptr1);
+        private static void CheckStatus(IntPtr ptr1, IntPtr ptr2, [CallerMemberName] string callerNameAuto = null)
+            => CheckStatusCore(callerNameAuto, ptr1, ptr2);
+        private static void CheckStatus(IntPtr ptr1, IntPtr ptr2, IntPtr ptr3, [CallerMemberName] string callerNameAuto = null)
+            => CheckStatusCore(callerNameAuto, ptr1, ptr2, ptr3);
+        private static void CheckStatus(IntPtr ptr1, IntPtr ptr2, IntPtr ptr3, IntPtr ptr4, [CallerMemberName] string callerNameAuto = null)
+            => CheckStatusCore(callerNameAuto, ptr1, ptr2, ptr3, ptr4);
+        private static void CheckStatusCore([CallerMemberName] string callerNameAuto = null, params IntPtr[] ptrs)
         {
-            get
-            {
-                return _namazu != null
-                    && _namazu.IsReady
-                    && _namazu.Plugin != null
-                    && _namazu.Plugin.Memory != null;
-            }
+            if (!NamazuInterop.IsReady || NamazuInterop.Plugin?.Memory == null)
+                throw new InvalidOperationException($"{callerNameAuto} 函数执行时 NamazuInterop 未就绪。");
+
+            if (ptrs.Any(ptr => ptr == IntPtr.Zero))
+                throw new InvalidOperationException($"{callerNameAuto} 函数执行所需的指针为空。");
         }
 
-        public void Scan()
-        {
-            if (!IsReady)
-                return;
+        private static void Call(this IntPtr ptr, params object[] args)
+            => NamazuInterop.Plugin.Memory.CallInjected64(ptr, args);
 
-            if (_addr.PlayActionTimelinePtr == IntPtr.Zero)
-            {
-                _addr.PlayActionTimelinePtr = _namazu.Plugin.SigScanner.TryScan(
-                    "",
-                    "PlayActionTimeline");
-            }
-
-            if (_addr.KnockbackPtr == IntPtr.Zero)
-            {
-                _addr.KnockbackPtr = _namazu.Plugin.SigScanner.TryScan(
-                    "",
-                    "Knockback");
-            }
-        }
-
-        public void PlayActionTimeline(IntPtr entityPtr, ushort timelineId, byte param1, byte param2)
-        {
-            if (!IsReady || entityPtr == IntPtr.Zero || _addr.PlayActionTimelinePtr == IntPtr.Zero)
-                return;
-
-            _namazu.Plugin.Memory.CallInjected64(
-                _addr.PlayActionTimelinePtr,
-                entityPtr,
-                timelineId,
-                param1,
-                param2);
-        }
-
-        public void PlayActionTimeline(IntPtr entityPtr, ushort timelineId)
-        {
-            PlayActionTimeline(entityPtr, timelineId, 0, 0);
-        }
-
-        public void Knockback(IntPtr entityPtr, float angle)
-        {
-            if (!IsReady || entityPtr == IntPtr.Zero || _addr.KnockbackPtr == IntPtr.Zero)
-                return;
-
-            _namazu.Plugin.Memory.CallInjected64(
-                _addr.KnockbackPtr,
-                entityPtr,
-                angle);
-        }
+        private static T Call<T>(this IntPtr ptr, params object[] args) where T : struct
+            => NamazuInterop.Plugin.Memory.CallInjected64<T>(ptr, args);
     }
 }
