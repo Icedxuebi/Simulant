@@ -78,8 +78,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ACT\ActInterop.cs" />
+    <Compile Include="ACT\GreyMagicExternalProcessMemory.cs" />
+    <Compile Include="ACT\GreyMagicMemoryBase.cs" />
+    <Compile Include="ACT\NamazuInterop.cs" />
+    <Compile Include="ACT\NamazuPlugin.cs" />
+    <Compile Include="ACT\NamazuScanner.cs" />
     <Compile Include="ACT\XivPluginInterop.cs" />
     <Compile Include="Core\PluginHost.cs" />
+    <Compile Include="Game\GameFunctions.cs" />
+    <Compile Include="Game\AddressStore.cs" />
     <Compile Include="PluginMain.cs" />
     <Compile Include="UI\PluginPage.cs">
       <SubType>UserControl</SubType>
@@ -90,8 +97,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils\ControlExtensions.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Game\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
