@@ -1,4 +1,5 @@
 ﻿#pragma warning disable IDE1006
+using Simulant.ACT;
 using Simulant.Core;
 using Simulant.Game.ExtractedCsv;
 using Simulant.Game.ExtractedCsv.Rows;
@@ -24,11 +25,33 @@ namespace Simulant.UI
 
         private void btnInitPlugin_Click(object sender, EventArgs e)
         {
-            _host.LogVerbose("测试：点击初始化插件按钮。");
-            _host.LogSim("测试：模拟日志。");
-            _host.LogCall("测试：调用日志。");
-            _host.LogWarning("测试：警告日志。");
-            _host.LogError("测试：错误日志。");
+            try
+            {
+                _host.LogVerbose("测试：点击初始化插件按钮。");
+                _host.LogCall("测试：调用日志。");
+                _host.LogWarning("测试：警告日志。");
+                _host.LogError("测试：错误日志。");
+
+                _host.LogVerbose("正在绑定鲶鱼精邮差……");
+                NamazuInterop.Init();
+
+                _host.LogVerbose("正在扫描地址……");
+                var scanResult = Game.SigAddressScanner.Scan();
+                var errorLines = scanResult
+                    .Where(x => !string.IsNullOrEmpty(x.Value))
+                    .Select(x => $"{x.Key}: {x.Value}")
+                    .ToList();
+
+                _host.LogVerbose($"地址扫描完成，成功：{scanResult.Count - errorLines.Count} / {scanResult.Count}");
+                foreach (var line in errorLines)
+                {
+                    _host.LogError("地址扫描失败：" + line);
+                }
+            }
+            catch (Exception ex)
+            {
+                _host.LogError("初始化插件失败：" + ex.Message);
+            }
         }
 
         private void btnLoadPreset_Click(object sender, EventArgs e)
@@ -60,38 +83,6 @@ namespace Simulant.UI
         private void btnSimEnter_Click(object sender, EventArgs e)
         {
             _host.LogVerbose("测试：btnSimEnter_Click");
-            try
-            {
-                var mgr = CsvManager.Instance;
-                mgr.Clear();
-
-                mgr.LoadTable("Action");
-
-                if (!mgr.TryGetTable("Action", out var table))
-                    throw new Exception("TryGetTable(Action) failed.");
-
-                _host.LogWarning(
-                    "Raw table loaded. " +
-                    $"Headers = {table.Headers.Count} " +
-                    $"Types = {table.Types.Count} " +
-                    $"Rows = {table.Rows.Count}"
-                );
-
-                var typed = mgr.Get<Game.ExtractedCsv.Rows.Action>();
-
-                _host.LogWarning(
-                    "Typed table loaded. " +
-                    $"Typed rows = {typed.Count}"
-                );
-
-                _host.LogWarning("Action.csv loaded successfully.");
-            }
-            catch (Exception ex)
-            {
-                _host.LogError(
-                    $"CSV load failed.\n{ex}"
-                );
-            }
         }
 
         private void btnSimExit_Click(object sender, EventArgs e)
