@@ -98,6 +98,7 @@
     <Compile Include="ACT\NamazuPlugin.cs" />
     <Compile Include="ACT\NamazuScanner.cs" />
     <Compile Include="ACT\XivPluginInterop.cs" />
+    <Compile Include="Presets\U6b3_屏幕探测.cs" />
     <Compile Include="Utils\CsvHelper.cs" />
     <Compile Include="Utils\Maths\MathParser.cs" />
     <Compile Include="Utils\Maths\EquationHelper.cs" />

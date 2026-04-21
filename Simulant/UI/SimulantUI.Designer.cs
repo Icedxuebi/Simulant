@@ -169,6 +169,7 @@
             this.btnSimEnter.TabStop = false;
             this.btnSimEnter.Text = "加载区域";
             this.btnSimEnter.UseVisualStyleBackColor = true;
+            this.btnSimEnter.Click += new System.EventHandler(this.btnSimEnter_Click);
             // 
             // lblPhase
             // 
@@ -180,7 +181,7 @@
             this.lblPhase.Name = "lblPhase";
             this.lblPhase.Size = new System.Drawing.Size(149, 22);
             this.lblPhase.TabIndex = 1;
-            this.lblPhase.Text = "阶段：P6 宇宙天箭";
+            this.lblPhase.Text = "阶段：无";
             // 
             // btnSimExit
             // 
@@ -197,6 +198,7 @@
             this.btnSimExit.TabStop = false;
             this.btnSimExit.Text = "退出模拟";
             this.btnSimExit.UseVisualStyleBackColor = true;
+            this.btnSimExit.Click += new System.EventHandler(this.btnSimExit_Click);
             // 
             // lblTerritory
             // 
@@ -208,7 +210,7 @@
             this.lblTerritory.Name = "lblTerritory";
             this.lblTerritory.Size = new System.Drawing.Size(249, 22);
             this.lblTerritory.TabIndex = 0;
-            this.lblTerritory.Text = "区域：欧米茄绝境验证战 (1122)";
+            this.lblTerritory.Text = "区域: 无 (0)";
             // 
             // picLogo
             // 

@@ -1,5 +1,7 @@
 ﻿#pragma warning disable IDE1006
 using Simulant.Core;
+using Simulant.Game.ExtractedCsv;
+using Simulant.Game.ExtractedCsv.Rows;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -32,7 +34,69 @@ namespace Simulant.UI
         private void btnLoadPreset_Click(object sender, EventArgs e)
         {
             _host.LogVerbose("测试：btnLoadPreset_Click");
-            new SimPresetSelectForm().ShowDialog();
+
+            var form = new SimPresetSelectForm();
+            if (form.ShowDialog() != DialogResult.OK)
+                return;
+
+            var preset = form.PresetResult;
+            if (!CsvManager.Instance.Get<TerritoryType>().TryGetValue(preset.TerritoryId, out var territory))
+            {
+                lblTerritory.Text = $"区域: 无 (0)";
+                lblPhase.Text = $"阶段: 无";
+            }
+            var id = preset.TerritoryId;
+            if (!string.IsNullOrWhiteSpace(territory.ContentFinderCondition.Name))
+            {
+                lblTerritory.Text = $"副本: {territory.ContentFinderCondition.Name} ({id})";
+            }
+            else
+            {
+                lblTerritory.Text = $"区域: {territory.PlaceName.Name} ({id})";
+            }
+            lblPhase.Text = $"阶段: {preset.Name}";
+        }
+
+        private void btnSimEnter_Click(object sender, EventArgs e)
+        {
+            _host.LogVerbose("测试：btnSimEnter_Click");
+            try
+            {
+                var mgr = CsvManager.Instance;
+                mgr.Clear();
+
+                mgr.LoadTable("Action");
+
+                if (!mgr.TryGetTable("Action", out var table))
+                    throw new Exception("TryGetTable(Action) failed.");
+
+                _host.LogWarning(
+                    "Raw table loaded. " +
+                    $"Headers = {table.Headers.Count} " +
+                    $"Types = {table.Types.Count} " +
+                    $"Rows = {table.Rows.Count}"
+                );
+
+                var typed = mgr.Get<Game.ExtractedCsv.Rows.Action>();
+
+                _host.LogWarning(
+                    "Typed table loaded. " +
+                    $"Typed rows = {typed.Count}"
+                );
+
+                _host.LogWarning("Action.csv loaded successfully.");
+            }
+            catch (Exception ex)
+            {
+                _host.LogError(
+                    $"CSV load failed.\n{ex}"
+                );
+            }
+        }
+
+        private void btnSimExit_Click(object sender, EventArgs e)
+        {
+            _host.LogVerbose("测试：btnSimExit_Click");
         }
 
         #region Log
@@ -50,7 +114,7 @@ namespace Simulant.UI
         {
             if (InvokeRequired)
             {
-                BeginInvoke(new Action(RefreshLogView));
+                BeginInvoke(new System.Action(RefreshLogView));
                 return;
             }
 

@@ -8,23 +8,17 @@ namespace Simulant.Core
 {
     public abstract class SimPresetBase
     {
-        public abstract MapType Kind { get; }
-
-        public abstract string Name { get; }
-
-        public abstract string Author { get; }
-
         public abstract int TerritoryId { get; }
+        public abstract string Name { get; }
+        public abstract string Author { get; }
+        public abstract DateTime LastUpdated { get; }
+        public abstract Type SimLogicType { get; }
+        public abstract string Description { get; }
 
-        public abstract Func<SimLogicBase> CreateLogic { get; }
-
-    }
-
-    public enum MapType
-    {
-        Ultimate,
-        Savage,
-        Others,
-        Custom
+        public SimLogicBase CreateSimLogic()
+        {
+            // TODO: Add error handling for invalid SimLogicType
+            return SimLogicType == null ? null : (SimLogicBase)Activator.CreateInstance(SimLogicType);
+        }
     }
 }

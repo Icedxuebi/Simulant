@@ -1,5 +1,6 @@
 ﻿using Advanced_Combat_Tracker;
 using Simulant.ACT;
+using Simulant.Game.ExtractedCsv;
 using Simulant.UI;
 using System.Diagnostics;
 using System.Linq;
@@ -27,6 +28,11 @@ namespace Simulant.Core
             Attach();
 
             _statusLabel.Text = "初始化完成";
+
+            new Task(() =>
+            {
+                CsvManager.Instance.LoadAllTables();
+            }).Start();
         }
 
         public void Dispose()
