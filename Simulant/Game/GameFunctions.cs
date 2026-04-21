@@ -16,6 +16,8 @@ namespace Simulant.Game
             return KnockbackFuncPtr.Call<IntPtr>(entityPtr, angle, distance, duration, a5, a6);
         }
 
+        #region Common
+
         private static void CheckStatus([CallerMemberName] string callerNameAuto = null)
             => CheckStatusCore(callerNameAuto);
         private static void CheckStatus(IntPtr ptr1, [CallerMemberName] string callerNameAuto = null)
@@ -40,5 +42,7 @@ namespace Simulant.Game
 
         private static T Call<T>(this IntPtr ptr, params object[] args) where T : struct
             => NamazuInterop.Plugin.Memory.CallInjected64<T>(ptr, args);
+
+        #endregion Common
     }
 }

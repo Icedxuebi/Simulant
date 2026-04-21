@@ -67,8 +67,21 @@
       <HintPath>..\FFXIV_ACT_Plugin_CN\SDK\Latest\Machina.FFXIV.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.5.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.6.1\lib\net462\System.Buffers.dll</HintPath>
+    </Reference>
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Memory, Version=4.0.5.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.6.3\lib\net462\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.6.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.6.1\lib\net462\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.6.1.2\lib\net462\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -85,10 +98,43 @@
     <Compile Include="ACT\NamazuPlugin.cs" />
     <Compile Include="ACT\NamazuScanner.cs" />
     <Compile Include="ACT\XivPluginInterop.cs" />
+    <Compile Include="Utils\CsvHelper.cs" />
+    <Compile Include="Utils\Maths\MathParser.cs" />
+    <Compile Include="Utils\Maths\EquationHelper.cs" />
+    <Compile Include="Utils\Maths\MinimumMatchHelper.cs" />
     <Compile Include="Core\PluginHost.cs" />
     <Compile Include="Core\PluginLog.cs" />
     <Compile Include="Core\SimLogicBase.cs" />
     <Compile Include="Core\SimPresetBase.cs" />
+    <Compile Include="Utils\ArgHelper.cs" />
+    <Compile Include="Utils\DataStringHelper.cs" />
+    <Compile Include="Utils\InvariantHexExtensions.cs" />
+    <Compile Include="Utils\InvariantNumericExtensions.cs" />
+    <Compile Include="Game\ExtractedCsv\CsvManager.cs" />
+    <Compile Include="Game\ExtractedCsv\CsvRow.cs" />
+    <Compile Include="Game\ExtractedCsv\CsvTable.cs" />
+    <Compile Include="Game\ExtractedCsv\RowIndexKey.cs" />
+    <Compile Include="Game\ExtractedCsv\Rows\Action.cs" />
+    <Compile Include="Game\ExtractedCsv\Rows\ActionCastTimeline.cs" />
+    <Compile Include="Game\ExtractedCsv\Rows\ActionCastVfx.cs" />
+    <Compile Include="Game\ExtractedCsv\Rows\ActionTimeline.cs" />
+    <Compile Include="Game\ExtractedCsv\Rows\BNpcBase.cs" />
+    <Compile Include="Game\ExtractedCsv\Rows\BNpcName.cs" />
+    <Compile Include="Game\ExtractedCsv\Rows\Channeling.cs" />
+    <Compile Include="Game\ExtractedCsv\Rows\ContentFinderCondition.cs" />
+    <Compile Include="Game\ExtractedCsv\Rows\ContentType.cs" />
+    <Compile Include="Game\ExtractedCsv\Rows\EObj.cs" />
+    <Compile Include="Game\ExtractedCsv\Rows\EObjName.cs" />
+    <Compile Include="Game\ExtractedCsv\Rows\Level.cs" />
+    <Compile Include="Game\ExtractedCsv\Rows\LockOn.cs" />
+    <Compile Include="Game\ExtractedCsv\Rows\Map.cs" />
+    <Compile Include="Game\ExtractedCsv\Rows\Omen.cs" />
+    <Compile Include="Game\ExtractedCsv\Rows\PlaceName.cs" />
+    <Compile Include="Game\ExtractedCsv\Rows\Status.cs" />
+    <Compile Include="Game\ExtractedCsv\Rows\StatusLoopVfx.cs" />
+    <Compile Include="Game\ExtractedCsv\Rows\TerritoryType.cs" />
+    <Compile Include="Game\ExtractedCsv\Rows\Vfx.cs" />
+    <Compile Include="Game\ExtractedCsv\TypedCsvRow.cs" />
     <Compile Include="Game\GameFunctions.cs" />
     <Compile Include="Game\AddressStore.cs" />
     <Compile Include="PluginMain.cs" />
@@ -124,6 +170,13 @@
     <EmbeddedResource Include="UI\SimPresetSelectForm.resx">
       <DependentUpon>SimPresetSelectForm.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Game\ExtractedCsv\RawExd\**\*.csv" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
