@@ -98,6 +98,18 @@
     <Compile Include="ACT\NamazuPlugin.cs" />
     <Compile Include="ACT\NamazuScanner.cs" />
     <Compile Include="ACT\XivPluginInterop.cs" />
+    <Compile Include="Game\FFCS\Client\Game\Character\Character.cs" />
+    <Compile Include="Game\FFCS\Client\Game\Character\CharacterData.cs" />
+    <Compile Include="Game\FFCS\Client\Game\Character\ModelContainer.cs" />
+    <Compile Include="Game\FFCS\Client\Game\Character\VfxContainer.cs" />
+    <Compile Include="Game\FFCS\Client\Game\Character\TimelineContainer.cs" />
+    <Compile Include="Game\FFCS\Client\Game\Control\ActionTimelineSequencer.cs" />
+    <Compile Include="Game\FFCS\Client\Game\Control\EmoteController.cs" />
+    <Compile Include="Game\FFCS\Client\Game\Object\EventObject.cs" />
+    <Compile Include="Game\FFCS\Client\Game\Object\GameObject.cs" />
+    <Compile Include="Game\FFCS\Client\Game\StatusManager.cs" />
+    <Compile Include="Game\FFCS\Client\Graphics\Scene\Object.cs" />
+    <Compile Include="Game\FFCS\Client\Graphics\Scene\DrawObject.cs" />
     <Compile Include="Game\FFCS\Client\Network\NetworkModule.cs" />
     <Compile Include="Game\FFCS\Client\Network\NetworkModulePacketReceiverCallback.cs" />
     <Compile Include="Game\FFCS\Client\Network\NetworkModuleProxy.cs" />
@@ -105,6 +117,7 @@
     <Compile Include="Game\FFCS\Client\System\Framework\Framework.cs" />
     <Compile Include="Game\IMemoryObject.cs" />
     <Compile Include="Game\IntPtrExtensions.cs" />
+    <Compile Include="Game\MemoryField.cs" />
     <Compile Include="Game\SigAddressScanner.cs" />
     <Compile Include="Game\VTable.cs" />
     <Compile Include="Presets\U6b3_屏幕探测.cs" />

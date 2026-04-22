@@ -1,0 +1,31 @@
+﻿using System;
+
+namespace Simulant.Game
+{
+    public readonly struct MemoryField<T> where T : struct
+    {
+        private readonly IntPtr _basePtr;
+        private readonly int _offset;
+
+        internal MemoryField(IntPtr basePtr, int offset)
+        {
+            _basePtr = basePtr;
+            _offset = offset;
+        }
+
+        public T Value
+        {
+            get => _basePtr.Read<T>(_offset);
+            set => _basePtr.Write(value, _offset);
+        }
+
+        public void Set(T value)
+            => Value = value;
+
+        public override string ToString()
+            => Value.ToString();
+
+        public static implicit operator T(MemoryField<T> field)
+            => field.Value;
+    }
+}

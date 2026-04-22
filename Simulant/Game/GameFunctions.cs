@@ -8,11 +8,7 @@ namespace Simulant.Game
 {
     public static class GameFunctions
     {
-        public static IntPtr Knockback(IntPtr entityPtr, float angle, float distance, float duration, byte a5 = 0, int a6 = 0)
-        {
-            CheckStatus(KnockbackFuncPtr);
-            return KnockbackFuncPtr.Call<IntPtr>(entityPtr, angle, distance, duration, a5, a6);
-        }
+
 
         #region Common
 

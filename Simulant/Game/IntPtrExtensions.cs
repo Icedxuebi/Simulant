@@ -29,6 +29,9 @@ namespace Simulant.Game
             return NamazuInterop.Plugin.Memory.Read<IntPtr>(ptr + offset);
         }
 
+        public static MemoryField<T> Field<T>(this IntPtr ptr, int offset) where T : struct
+            => new MemoryField<T>(ptr, offset);
+
         public static TMemoryObject As<TMemoryObject>(this IntPtr ptr, int offset = 0, 
             [CallerMemberName] string callerName = "") where TMemoryObject : struct, IMemoryObject
         {
