@@ -1,10 +1,12 @@
 ﻿using System.Runtime.InteropServices;
+using System;
 
 namespace Simulant.Game.FFCS.Client.Network
 {
-    [StructLayout(LayoutKind.Explicit, Size = 0xC50)]
-    public unsafe partial struct NetworkModule
+    public struct NetworkModule : IMemoryObject
     {
-        [FieldOffset(0xAA8)] public NetworkModulePacketReceiverCallback* PacketReceiverCallback;
+        public IntPtr Ptr { get; set; }
+        public NetworkModulePacketReceiverCallback PacketReceiverCallback 
+            => (Ptr + 0xAA8).ReadPtr().As<NetworkModulePacketReceiverCallback>();
     }
 }

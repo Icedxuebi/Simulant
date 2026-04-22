@@ -103,7 +103,10 @@
     <Compile Include="Game\FFCS\Client\Network\NetworkModuleProxy.cs" />
     <Compile Include="Game\FFCS\Client\Network\PacketDispatcher.cs" />
     <Compile Include="Game\FFCS\Client\System\Framework\Framework.cs" />
+    <Compile Include="Game\IMemoryObject.cs" />
+    <Compile Include="Game\IntPtrExtensions.cs" />
     <Compile Include="Game\SigAddressScanner.cs" />
+    <Compile Include="Game\VTable.cs" />
     <Compile Include="Presets\U6b3_屏幕探测.cs" />
     <Compile Include="Utils\CsvHelper.cs" />
     <Compile Include="Utils\Maths\MathParser.cs" />

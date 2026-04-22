@@ -1,16 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Simulant.Game.FFCS.Client.Network
 {
-    [StructLayout(LayoutKind.Explicit, Size = 0x20)]
-    public unsafe partial struct NetworkModuleProxy
+    public struct NetworkModuleProxy : IMemoryObject
     {
-        [FieldOffset(0x08)] public NetworkModule* NetworkModule;
+        
+        public IntPtr Ptr { get; set; }
+        public NetworkModule NetworkModule => Ptr.ReadPtr(0x8).As<NetworkModule>();
     }
 }
 

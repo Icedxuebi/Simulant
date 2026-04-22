@@ -1,8 +1,10 @@
 ﻿#pragma warning disable IDE1006
 using Simulant.ACT;
 using Simulant.Core;
+using Simulant.Game;
 using Simulant.Game.ExtractedCsv;
 using Simulant.Game.ExtractedCsv.Rows;
+using Simulant.Game.FFCS.Client.System.Framework;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -36,7 +38,7 @@ namespace Simulant.UI
                 NamazuInterop.Init();
 
                 _host.LogVerbose("正在扫描地址……");
-                var scanResult = Game.SigAddressScanner.Scan();
+                var scanResult = SigAddressScanner.Scan();
                 var errorLines = scanResult
                     .Where(x => !string.IsNullOrEmpty(x.Value))
                     .Select(x => $"{x.Key}: {x.Value}")
@@ -80,9 +82,37 @@ namespace Simulant.UI
             lblPhase.Text = $"阶段: {preset.Name}";
         }
 
-        private void btnSimEnter_Click(object sender, EventArgs e)
+        private unsafe void btnSimEnter_Click(object sender, EventArgs e)
         {
             _host.LogVerbose("测试：btnSimEnter_Click");
+            Test();
+        }
+
+        private void Test()
+        {
+            try
+            {
+                _host.LogVerbose($"Framework.Instance at {(ulong)Framework.Instance.Ptr:X}");
+
+                var networkModuleProxy = Framework.Instance.NetworkModuleProxy;
+                _host.LogVerbose($"NetworkModuleProxy at {(ulong)networkModuleProxy.Ptr:X}");
+
+                var networkModule = networkModuleProxy.NetworkModule;
+                _host.LogVerbose($"NetworkModule at {(ulong)networkModule.Ptr:X}");
+
+                var callback = networkModule.PacketReceiverCallback;
+                _host.LogVerbose($"PacketReceiverCallback at {(ulong)callback.Ptr:X}");
+
+                var dispatcher = callback.PacketDispatcher;
+                _host.LogVerbose($"PacketDispatcher at {(ulong)dispatcher.Ptr:X}");
+
+                var vFuncPtr = dispatcher.Ptr.GetVFuncPtr(1);
+                _host.LogVerbose($"OnReceivePacket at {(ulong)vFuncPtr:X}");
+            }
+            catch (Exception ex)
+            { 
+                _host.LogError("测试失败：" + ex.Message);
+            }
         }
 
         private void btnSimExit_Click(object sender, EventArgs e)
@@ -159,7 +189,7 @@ namespace Simulant.UI
                 .Where(pair => IsLogTypeEnabled(pair.Key))
                 .SelectMany(pair => pair.Value)
                 .Where(log => regex == null || regex.IsMatch(log.Message ?? string.Empty))
-                .OrderByDescending(log => log.Timestamp)
+                .OrderBy(log => log.Timestamp)
                 .ToList();
 
             dgvLog.RowCount = _virtualData.Count;
@@ -168,6 +198,8 @@ namespace Simulant.UI
             if (dgvLog.RowCount > 0)
             {
                 dgvLog.ClearSelection();
+                // scroll to bottom
+                dgvLog.FirstDisplayedScrollingRowIndex = dgvLog.RowCount - 1;
             }
         }
 
