@@ -57,6 +57,8 @@
             this.colText = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnFirewallOn = new System.Windows.Forms.Button();
+            this.btnFirewallOff = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitMainV)).BeginInit();
             this.splitMainV.Panel1.SuspendLayout();
             this.splitMainV.Panel2.SuspendLayout();
@@ -98,18 +100,21 @@
             this.tableL.ColumnCount = 2;
             this.tableL.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableL.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableL.Controls.Add(this.btnFirewallOff, 1, 5);
+            this.tableL.Controls.Add(this.btnFirewallOn, 0, 5);
             this.tableL.Controls.Add(this.btnInitPlugin, 0, 1);
             this.tableL.Controls.Add(this.btnLoadPreset, 0, 2);
-            this.tableL.Controls.Add(this.btnSimEnter, 0, 5);
+            this.tableL.Controls.Add(this.btnSimEnter, 0, 6);
             this.tableL.Controls.Add(this.lblPhase, 0, 4);
-            this.tableL.Controls.Add(this.btnSimExit, 1, 5);
+            this.tableL.Controls.Add(this.btnSimExit, 1, 6);
             this.tableL.Controls.Add(this.lblTerritory, 0, 3);
             this.tableL.Controls.Add(this.picLogo, 0, 0);
             this.tableL.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableL.Location = new System.Drawing.Point(0, 0);
             this.tableL.Name = "tableL";
-            this.tableL.RowCount = 7;
+            this.tableL.RowCount = 8;
             this.tableL.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 156F));
+            this.tableL.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableL.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableL.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableL.RowStyles.Add(new System.Windows.Forms.RowStyle());
@@ -160,7 +165,7 @@
             this.btnSimEnter.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.btnSimEnter.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnSimEnter.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnSimEnter.Location = new System.Drawing.Point(15, 374);
+            this.btnSimEnter.Location = new System.Drawing.Point(15, 436);
             this.btnSimEnter.Margin = new System.Windows.Forms.Padding(15, 10, 15, 10);
             this.btnSimEnter.Name = "btnSimEnter";
             this.btnSimEnter.Padding = new System.Windows.Forms.Padding(5);
@@ -179,7 +184,7 @@
             this.lblPhase.Location = new System.Drawing.Point(15, 332);
             this.lblPhase.Margin = new System.Windows.Forms.Padding(15, 10, 15, 10);
             this.lblPhase.Name = "lblPhase";
-            this.lblPhase.Size = new System.Drawing.Size(149, 22);
+            this.lblPhase.Size = new System.Drawing.Size(74, 22);
             this.lblPhase.TabIndex = 1;
             this.lblPhase.Text = "阶段：无";
             // 
@@ -189,7 +194,7 @@
             this.btnSimExit.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.btnSimExit.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnSimExit.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnSimExit.Location = new System.Drawing.Point(193, 374);
+            this.btnSimExit.Location = new System.Drawing.Point(193, 436);
             this.btnSimExit.Margin = new System.Windows.Forms.Padding(15, 10, 15, 10);
             this.btnSimExit.Name = "btnSimExit";
             this.btnSimExit.Padding = new System.Windows.Forms.Padding(5);
@@ -208,7 +213,7 @@
             this.lblTerritory.Location = new System.Drawing.Point(15, 290);
             this.lblTerritory.Margin = new System.Windows.Forms.Padding(15, 10, 15, 10);
             this.lblTerritory.Name = "lblTerritory";
-            this.lblTerritory.Size = new System.Drawing.Size(249, 22);
+            this.lblTerritory.Size = new System.Drawing.Size(112, 22);
             this.lblTerritory.TabIndex = 0;
             this.lblTerritory.Text = "区域: 无 (0)";
             // 
@@ -517,6 +522,40 @@
             this.toolStripMenuItem2.Size = new System.Drawing.Size(105, 24);
             this.toolStripMenuItem2.Text = "111";
             // 
+            // btnFirewallOn
+            // 
+            this.btnFirewallOn.AutoSize = true;
+            this.btnFirewallOn.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btnFirewallOn.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnFirewallOn.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnFirewallOn.Location = new System.Drawing.Point(15, 374);
+            this.btnFirewallOn.Margin = new System.Windows.Forms.Padding(15, 10, 15, 10);
+            this.btnFirewallOn.Name = "btnFirewallOn";
+            this.btnFirewallOn.Padding = new System.Windows.Forms.Padding(5);
+            this.btnFirewallOn.Size = new System.Drawing.Size(148, 42);
+            this.btnFirewallOn.TabIndex = 4;
+            this.btnFirewallOn.TabStop = false;
+            this.btnFirewallOn.Text = "开启防火墙";
+            this.btnFirewallOn.UseVisualStyleBackColor = true;
+            this.btnFirewallOn.Click += new System.EventHandler(this.btnFirewallOn_Click);
+            // 
+            // btnFirewallOff
+            // 
+            this.btnFirewallOff.AutoSize = true;
+            this.btnFirewallOff.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btnFirewallOff.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnFirewallOff.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnFirewallOff.Location = new System.Drawing.Point(193, 374);
+            this.btnFirewallOff.Margin = new System.Windows.Forms.Padding(15, 10, 15, 10);
+            this.btnFirewallOff.Name = "btnFirewallOff";
+            this.btnFirewallOff.Padding = new System.Windows.Forms.Padding(5);
+            this.btnFirewallOff.Size = new System.Drawing.Size(148, 42);
+            this.btnFirewallOff.TabIndex = 5;
+            this.btnFirewallOff.TabStop = false;
+            this.btnFirewallOff.Text = "关闭防火墙";
+            this.btnFirewallOff.UseVisualStyleBackColor = true;
+            this.btnFirewallOff.Click += new System.EventHandler(this.btnFirewallOff_Click);
+            // 
             // SimulantUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
@@ -575,5 +614,7 @@
         private System.Windows.Forms.CheckBox chkLogWarning;
         private System.Windows.Forms.CheckBox chkLogFilterError;
         private System.Windows.Forms.CheckBox chkLogFilterAll;
+        private System.Windows.Forms.Button btnFirewallOff;
+        private System.Windows.Forms.Button btnFirewallOn;
     }
 }

@@ -29,6 +29,13 @@ namespace Simulant.Game
             return NamazuInterop.Plugin.Memory.Read<IntPtr>(ptr + offset);
         }
 
+        public static byte[] ReadBytes(this IntPtr ptr, int count, int offset = 0,
+            [CallerMemberName] string callerName = "")
+        {
+            ptr.ThrowIfZero(callerName, offset, "读取 IntPtr ");
+            return NamazuInterop.Plugin.Memory.ReadBytes(ptr + offset, count);
+        }
+
         public static MemoryField<T> Field<T>(this IntPtr ptr, int offset) where T : struct
             => new MemoryField<T>(ptr, offset);
 
@@ -46,6 +53,13 @@ namespace Simulant.Game
         {
             ptr.ThrowIfZero(callerName, offset, "写入");
             NamazuInterop.Plugin.Memory.Write<T>(ptr + offset, value);
+        }
+
+        public static void WriteBytes(this IntPtr ptr, byte[] data, int offset = 0,
+            [CallerMemberName] string callerName = "")
+        {
+            ptr.ThrowIfZero(callerName, offset, "写入字节数组");
+            NamazuInterop.Plugin.Memory.WriteBytes(ptr + offset, data);
         }
 
         public static void Call(this IntPtr ptr, params object[] args)
