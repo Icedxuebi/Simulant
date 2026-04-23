@@ -2,6 +2,7 @@
 using Simulant.ACT;
 using Simulant.Game.ExtractedCsv;
 using Simulant.UI;
+using Simulant.Core.Zone;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
@@ -15,7 +16,12 @@ namespace Simulant.Core
         private readonly Label _statusLabel;
         private readonly SimulantUI _ui;
 
-        internal readonly PluginLog _log = new PluginLog();
+        internal readonly PluginLog PluginLog = new PluginLog();
+        internal readonly ZoneSelectionState ZoneSelectionState = new ZoneSelectionState();
+
+        internal readonly Firewall.FirewallService FirewallService;
+        internal readonly ZoneService ZoneService;
+        internal readonly Environment.EnvironmentService EnvironmentService;
 
         public PluginHost(TabPage pluginScreenSpace, Label pluginStatusText)
         {
@@ -24,7 +30,11 @@ namespace Simulant.Core
 
             _ui = new SimulantUI(this) { Dock = DockStyle.Fill };
             pluginScreenSpace.Controls.Add(_ui);
-            
+
+            FirewallService = new Firewall.FirewallService(this);
+            ZoneService = new ZoneService(this, ZoneSelectionState);
+            EnvironmentService = new Environment.EnvironmentService(this);
+
             Attach();
 
             _statusLabel.Text = "初始化完成";
@@ -104,7 +114,7 @@ namespace Simulant.Core
 
         internal void Log(LogType type, string message)
         {
-            _log.Add(type, message);
+            PluginLog.Add(type, message);
             _ui?.RefreshLogView();
         }
 

@@ -8,6 +8,7 @@ namespace Simulant.Game.ExtractedCsv.Rows
 
         // "AAC Cruiserweight M1"
         public override string Name => Get("Name");
+        public uint ContentId => Get<uint>("Content");
         public byte ContentTypeId => Get<byte>("ContentType"); // ContentType
         // Raids
         public ContentType ContentType => GetRow<ContentType>(ContentTypeId);

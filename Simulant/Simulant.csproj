@@ -98,6 +98,10 @@
     <Compile Include="ACT\NamazuPlugin.cs" />
     <Compile Include="ACT\NamazuScanner.cs" />
     <Compile Include="ACT\XivPluginInterop.cs" />
+    <Compile Include="Core\Environment\EnvironmentService.cs" />
+    <Compile Include="Core\Firewall\FirewallService.cs" />
+    <Compile Include="Core\Zone\ZoneSelectionState.cs" />
+    <Compile Include="Core\Zone\ZoneService.cs" />
     <Compile Include="Game\FFCS\Client\Game\BGMSystem.cs" />
     <Compile Include="Game\FFCS\Client\Game\Character\Character.cs" />
     <Compile Include="Game\FFCS\Client\Game\Character\CharacterData.cs" />
@@ -109,6 +113,7 @@
     <Compile Include="Game\FFCS\Client\Game\Event\DirectorModule.cs" />
     <Compile Include="Game\FFCS\Client\Game\Event\EventFramework.cs" />
     <Compile Include="Game\FFCS\Client\Game\Event\EventHandler.cs" />
+    <Compile Include="Game\FFCS\Client\Game\GameMain.cs" />
     <Compile Include="Game\FFCS\Client\Game\InstanceContent\PublicContentDirector.cs" />
     <Compile Include="Game\FFCS\Client\Game\InstanceContent\InstanceContentDirector.cs" />
     <Compile Include="Game\FFCS\Client\Game\InstanceContent\ContentDirector.cs" />

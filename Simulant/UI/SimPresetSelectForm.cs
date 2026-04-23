@@ -96,6 +96,7 @@ namespace Simulant.UI
                 result = _allTerritories.Where(t =>
                     _cachedRegex.IsMatch(t.IdString) ||
                     _cachedRegex.IsMatch(t.InstanceName) ||
+                    _cachedRegex.IsMatch(t.PlaceName) ||
                     _cachedRegex.IsMatch(t.RegionName)
                 );
             }

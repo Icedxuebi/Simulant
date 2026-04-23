@@ -85,6 +85,19 @@ namespace Simulant.Game.FFCS.Client.Game.Event
         public static void LeaveCurrentContent(bool forced = false)
             => LeaveCurrentContentFuncPtr.Call(forced);
 
+        // from Hyperborea
+        [SigPattern("E8 * * * * E9 ? ? ? ? E8 ? ? ? ? 8B 54 24 70 48 8B C8 E8 ? ? ? ? E9 ? ? ? ? E8 ? ? ? ? 0F B6 54 24")]
+        public static IntPtr SetupInstanceContentFuncPtr { get; set; }
+        /// <summary> fullContentId: 0x8003XXXX, contentId: XXXX </summary>
+        public IntPtr SetupInstanceContent(uint fullContentId, uint contentId, uint a4 = 0)
+            => SetupInstanceContentFuncPtr.Call<IntPtr>(Ptr, fullContentId, contentId, a4);
+
+        // from Hyperborea
+        [SigPattern("48 89 5C 24 ? 48 89 6C 24 ? 48 89 74 24 ? 57 48 83 EC 70 48 8D B1")]
+        public static IntPtr FinalizeInstanceContentFuncPtr { get; set; }
+        /// <summary> fullContentId: 0x8003XXXX, contentId: XXXX </summary>
+        public byte FinalizeInstanceContent(uint fullContentId = 0)
+            => FinalizeInstanceContentFuncPtr.Call<byte>(Ptr, fullContentId);
     }
 
     public enum ContentType : byte
