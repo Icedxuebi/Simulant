@@ -13,14 +13,14 @@ namespace Simulant.Game
             _offset = offset;
         }
 
-        public T Value
+        private T Value
         {
             get => _basePtr.Read<T>(_offset);
             set => _basePtr.Write(value, _offset);
         }
 
-        public void Set(T value)
-            => Value = value;
+        public T Get() => Value;
+        public void Set(T value) => Value = value;
 
         public override string ToString()
             => Value.ToString();

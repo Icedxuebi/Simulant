@@ -38,7 +38,7 @@ namespace Simulant.UI
                 NamazuInterop.Init();
 
                 _host.LogVerbose("正在扫描地址……");
-                var scanResult = SigAddressScanner.Scan();
+                var scanResult = SigAddressScanner.Scan(); // 应该新开线程扫描
                 var errorLines = scanResult
                     .Where(x => !string.IsNullOrEmpty(x.Value))
                     .Select(x => $"{x.Key}: {x.Value}")

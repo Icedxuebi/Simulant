@@ -98,6 +98,7 @@
     <Compile Include="ACT\NamazuPlugin.cs" />
     <Compile Include="ACT\NamazuScanner.cs" />
     <Compile Include="ACT\XivPluginInterop.cs" />
+    <Compile Include="Game\FFCS\Client\Game\BGMSystem.cs" />
     <Compile Include="Game\FFCS\Client\Game\Character\Character.cs" />
     <Compile Include="Game\FFCS\Client\Game\Character\CharacterData.cs" />
     <Compile Include="Game\FFCS\Client\Game\Character\ModelContainer.cs" />
@@ -105,9 +106,16 @@
     <Compile Include="Game\FFCS\Client\Game\Character\TimelineContainer.cs" />
     <Compile Include="Game\FFCS\Client\Game\Control\ActionTimelineSequencer.cs" />
     <Compile Include="Game\FFCS\Client\Game\Control\EmoteController.cs" />
+    <Compile Include="Game\FFCS\Client\Game\Event\DirectorModule.cs" />
+    <Compile Include="Game\FFCS\Client\Game\Event\EventFramework.cs" />
+    <Compile Include="Game\FFCS\Client\Game\Event\EventHandler.cs" />
+    <Compile Include="Game\FFCS\Client\Game\InstanceContent\PublicContentDirector.cs" />
+    <Compile Include="Game\FFCS\Client\Game\InstanceContent\InstanceContentDirector.cs" />
+    <Compile Include="Game\FFCS\Client\Game\InstanceContent\ContentDirector.cs" />
     <Compile Include="Game\FFCS\Client\Game\Object\EventObject.cs" />
     <Compile Include="Game\FFCS\Client\Game\Object\GameObject.cs" />
     <Compile Include="Game\FFCS\Client\Game\StatusManager.cs" />
+    <Compile Include="Game\FFCS\Client\Graphics\Environment\EnvManager.cs" />
     <Compile Include="Game\FFCS\Client\Graphics\Scene\Object.cs" />
     <Compile Include="Game\FFCS\Client\Graphics\Scene\DrawObject.cs" />
     <Compile Include="Game\FFCS\Client\Network\NetworkModule.cs" />
