@@ -19,6 +19,7 @@ namespace Simulant.Game
             set => _basePtr.Write(value, _offset);
         }
 
+        public IntPtr Ptr => _basePtr + _offset;
         public T Get() => Value;
         public void Set(T value) => Value = value;
 

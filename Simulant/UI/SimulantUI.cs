@@ -4,8 +4,10 @@ using Simulant.Core;
 using Simulant.Game;
 using Simulant.Game.ExtractedCsv;
 using Simulant.Game.ExtractedCsv.Rows;
+using Simulant.Game.FFCS.Client.System.Framework;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -366,6 +368,42 @@ namespace Simulant.UI
         }
 
         #endregion Log
+
+
+        private void btnDebug_Click(object sender, EventArgs e)
+        {
+            Benchmark();
+        }
+
+        void Benchmark()
+        {
+            RunOnce(1000);
+            RunOnce(10000);
+            RunOnce(100000);
+        }
+
+        void RunOnce(int count)
+        {
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+            GC.Collect();
+
+            var ptr = Framework.InstancePtrPtr;
+            var value = ptr.ReadPtr(); 
+
+            var sw = Stopwatch.StartNew();
+
+            for (int i = 0; i < count; i++)
+            {
+                ptr.Write<IntPtr>(value);
+            }
+
+            sw.Stop();
+
+            double totalMs = sw.Elapsed.TotalMilliseconds;
+            double avgNs = sw.ElapsedTicks * 1000000000.0 / Stopwatch.Frequency / count;
+            _host.LogSim($"{count} 次；{totalMs:F6} ms；平均 {avgNs:F2} ns/次");
+        }
 
     }
 }

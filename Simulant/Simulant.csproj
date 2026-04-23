@@ -98,11 +98,16 @@
     <Compile Include="ACT\NamazuPlugin.cs" />
     <Compile Include="ACT\NamazuScanner.cs" />
     <Compile Include="ACT\XivPluginInterop.cs" />
+    <Compile Include="Core\Entity\Character.cs" />
+    <Compile Include="Core\Entity\EntityProvider.cs" />
+    <Compile Include="Core\Entity\EventObject.cs" />
+    <Compile Include="Core\Entity\EntityBase.cs" />
     <Compile Include="Core\Environment\EnvironmentService.cs" />
     <Compile Include="Core\Firewall\FirewallService.cs" />
     <Compile Include="Core\Zone\ZoneSelectionState.cs" />
     <Compile Include="Core\Zone\ZoneService.cs" />
     <Compile Include="Game\FFCS\Client\Game\BGMSystem.cs" />
+    <Compile Include="Game\FFCS\Client\Game\Character\CastInfo.cs" />
     <Compile Include="Game\FFCS\Client\Game\Character\Character.cs" />
     <Compile Include="Game\FFCS\Client\Game\Character\CharacterData.cs" />
     <Compile Include="Game\FFCS\Client\Game\Character\ModelContainer.cs" />
@@ -117,6 +122,7 @@
     <Compile Include="Game\FFCS\Client\Game\InstanceContent\PublicContentDirector.cs" />
     <Compile Include="Game\FFCS\Client\Game\InstanceContent\InstanceContentDirector.cs" />
     <Compile Include="Game\FFCS\Client\Game\InstanceContent\ContentDirector.cs" />
+    <Compile Include="Game\FFCS\Client\Game\Object\ClientObjectManager.cs" />
     <Compile Include="Game\FFCS\Client\Game\Object\EventObject.cs" />
     <Compile Include="Game\FFCS\Client\Game\Object\GameObject.cs" />
     <Compile Include="Game\FFCS\Client\Game\StatusManager.cs" />

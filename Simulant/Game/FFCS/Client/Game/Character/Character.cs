@@ -1,8 +1,9 @@
-﻿using System.Numerics;
-using Simulant.Game.FFCS.Client.Game.Control;
+﻿using Simulant.Game.FFCS.Client.Game.Control;
 using Simulant.Game.FFCS.Client.Game.Object;
 using Simulant.Game.FFCS.Client.Graphics.Scene;
 using System;
+using System.Dynamic;
+using System.Numerics;
 
 namespace Simulant.Game.FFCS.Client.Game.Character
 {
@@ -81,6 +82,11 @@ namespace Simulant.Game.FFCS.Client.Game.Character
         public MemoryField<CharacterModes> Mode => Ptr.Field<CharacterModes>(0x2364);
         public MemoryField<byte> ModeParam => Ptr.Field<byte>(0x2365);
 
+        // The fields below are from BattleChara, just put here for simplicity
+        public StatusManager StatusManager => Ptr.As<StatusManager>(0x23B0);
+        public CastInfo CastInfo => Ptr.As<CastInfo>(0x2790);
+        // public ActionEffectHandler ActionEffectHandler => Ptr.As<ActionEffectHandler>(0x2900);
+
         [SigPattern("E8 * * * * 45 84 FF 75 40")]
         public static IntPtr SetModeFuncPtr { get; set; }
         public void SetMode(CharacterModes mode, byte modeParam) 
@@ -100,7 +106,7 @@ namespace Simulant.Game.FFCS.Client.Game.Character
         public StatusManager GetStatusManager() 
             => Ptr.CallVFunc<IntPtr>(77).As<StatusManager>(); // StatusManager* VFunc(77)
 
-        // Kodakku
+        // from Kodakku
         [SigPattern("E8 * * * * 48 8D 0D ? ? ? ? E8 ? ? ? ? FF C6")]
         public static IntPtr KnockbackFuncPtr { get; set; }
         public IntPtr Knockback(float angle, float distance, float duration, byte a5 = 0, int a6 = 0)
