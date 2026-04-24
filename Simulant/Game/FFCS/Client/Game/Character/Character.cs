@@ -77,6 +77,7 @@ namespace Simulant.Game.FFCS.Client.Game.Character
         public EmoteController EmoteController => Ptr.As<EmoteController>(0x630);
         public TimelineContainer Timeline => Ptr.As<TimelineContainer>(0xA30);
         public VfxContainer Vfx => Ptr.As<VfxContainer>(0x1988);
+        public CharacterSetupContainer CharacterSetup => Ptr.As<CharacterSetupContainer>(0x1B10);
         public ModelContainer ModelContainer => Ptr.As<ModelContainer>(0x1B28);
         public MemoryField<float> Alpha => Ptr.Field<float>(0x22E8);
         public MemoryField<CharacterModes> Mode => Ptr.Field<CharacterModes>(0x2364);

@@ -75,7 +75,7 @@ namespace Simulant.Game.FFCS.Client.Game.Object
 
         [SigPattern("E8 * * * * C6 43 49 00")]
         public static IntPtr DeleteObjectByIndexFuncPtr { get; set; }
-        public void DeleteObjectByIndex(ushort idx, byte param)
+        public void DeleteObjectByIndex(ushort idx, byte param = 0)
             => DeleteObjectByIndexFuncPtr.Call(Ptr, idx, param);
 
         [SigPattern("E8 * * * * 8B F8 48 8B CB 83 F8 FF")]

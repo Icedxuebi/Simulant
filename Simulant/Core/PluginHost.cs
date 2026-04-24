@@ -1,8 +1,9 @@
 ﻿using Advanced_Combat_Tracker;
 using Simulant.ACT;
+using Simulant.Core.Entity;
+using Simulant.Core.Zone;
 using Simulant.Game.ExtractedCsv;
 using Simulant.UI;
-using Simulant.Core.Zone;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
@@ -11,17 +12,18 @@ using System.Windows.Forms;
 
 namespace Simulant.Core
 {
-    internal sealed class PluginHost
+    public sealed class PluginHost
     {
-        private readonly Label _statusLabel;
-        private readonly SimulantUI _ui;
+        private Label _statusLabel;
+        private SimulantUI _ui;
 
-        internal readonly PluginLog PluginLog = new PluginLog();
-        internal readonly ZoneSelectionState ZoneSelectionState = new ZoneSelectionState();
+        internal PluginLog PluginLog = new PluginLog();
+        internal ZoneSelectionState ZoneSelectionState = new ZoneSelectionState();
 
-        internal readonly Firewall.FirewallService FirewallService;
-        internal readonly ZoneService ZoneService;
-        internal readonly Environment.EnvironmentService EnvironmentService;
+        internal Firewall.FirewallService FirewallService;
+        internal ZoneService ZoneService;
+        internal Environment.EnvironmentService EnvironmentService;
+        internal EntityProvider EntityProvider;
 
         public PluginHost(TabPage pluginScreenSpace, Label pluginStatusText)
         {
@@ -31,10 +33,6 @@ namespace Simulant.Core
             _ui = new SimulantUI(this) { Dock = DockStyle.Fill };
             pluginScreenSpace.Controls.Add(_ui);
 
-            FirewallService = new Firewall.FirewallService(this);
-            ZoneService = new ZoneService(this, ZoneSelectionState);
-            EnvironmentService = new Environment.EnvironmentService(this);
-
             Attach();
 
             _statusLabel.Text = "初始化完成";
@@ -43,6 +41,14 @@ namespace Simulant.Core
             {
                 CsvManager.Instance.LoadAllTables();
             }).Start();
+        }
+
+        public void Init()
+        {
+            FirewallService = new Firewall.FirewallService(this);
+            ZoneService = new ZoneService(this, ZoneSelectionState);
+            EnvironmentService = new Environment.EnvironmentService(this);
+            EntityProvider = new EntityProvider(this);
         }
 
         public void Dispose()

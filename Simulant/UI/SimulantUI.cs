@@ -1,6 +1,7 @@
 ﻿#pragma warning disable IDE1006
 using Simulant.ACT;
 using Simulant.Core;
+using Simulant.Core.Entity;
 using Simulant.Game;
 using Simulant.Game.ExtractedCsv;
 using Simulant.Game.ExtractedCsv.Rows;
@@ -10,7 +11,9 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
+using System.Numerics;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Simulant.UI
@@ -28,30 +31,38 @@ namespace Simulant.UI
 
         private void btnInitPlugin_Click(object sender, EventArgs e)
         {
-            try
+            new Task(() =>
             {
-                _host.LogVerbose("测试：点击初始化插件按钮。");
-
-                _host.LogVerbose("正在绑定鲶鱼精邮差……");
-                NamazuInterop.Init();
-
-                _host.LogVerbose("正在扫描地址……");
-                var scanResult = SigAddressScanner.Scan(); // 应该新开线程扫描
-                var errorLines = scanResult
-                    .Where(x => !string.IsNullOrEmpty(x.Value))
-                    .Select(x => $"{x.Key}: {x.Value}")
-                    .ToList();
-
-                _host.LogVerbose($"地址扫描完成，成功：{scanResult.Count - errorLines.Count} / {scanResult.Count}");
-                foreach (var line in errorLines)
+                try
                 {
-                    _host.LogError("地址扫描失败：" + line);
+                    _host.LogVerbose("正在初始化插件……");
+
+                    _host.Init();
+
+                    _host.LogVerbose("正在绑定鲶鱼精邮差……");
+                    NamazuInterop.Init();
+
+                    _host.LogVerbose("正在绑定 Triggernometry……");
+                    TriggernometryInterop.Init();
+
+                    _host.LogVerbose("正在扫描地址……");
+                    var scanResult = SigAddressScanner.Scan(); // 应该新开线程扫描
+                    var errorLines = scanResult
+                        .Where(x => !string.IsNullOrEmpty(x.Value))
+                        .Select(x => $"{x.Key}: {x.Value}")
+                        .ToList();
+
+                    _host.LogVerbose($"地址扫描完成，成功：{scanResult.Count - errorLines.Count} / {scanResult.Count}");
+                    foreach (var line in errorLines)
+                    {
+                        _host.LogError("地址扫描失败：" + line);
+                    }
                 }
-            }
-            catch (Exception ex)
-            {
-                _host.LogError("初始化插件失败：" + ex.Message);
-            }
+                catch (Exception ex)
+                {
+                    _host.LogError("初始化插件失败：" + ex.ToString());
+                }
+            }).Start();
         }
 
         private void btnLoadPreset_Click(object sender, EventArgs e)
@@ -370,39 +381,25 @@ namespace Simulant.UI
         #endregion Log
 
 
-        private void btnDebug_Click(object sender, EventArgs e)
+        private async void btnDebug_Click(object sender, EventArgs e)
         {
-            Benchmark();
-        }
+            var me = _host.EntityProvider.GetMyself();
 
-        void Benchmark()
-        {
-            RunOnce(1000);
-            RunOnce(10000);
-            RunOnce(100000);
-        }
+            var spawner = new EntitySpawner(_host, 100);
+            var player = spawner.SpawnPlayer(job: 5);
+            var bnpc = spawner.SpawnBNpc(4909, 3765);
+            bnpc.Pos3D = me.Pos3D + new Vector3(1, 0, 0);
 
-        void RunOnce(int count)
-        {
-            GC.Collect();
-            GC.WaitForPendingFinalizers();
-            GC.Collect();
+            player.Native.SetReadyToDraw();
+            player.Native.EnableDraw();
 
-            var ptr = Framework.InstancePtrPtr;
-            var value = ptr.ReadPtr(); 
+            bnpc.Native.SetReadyToDraw();
+            bnpc.Native.EnableDraw();
 
-            var sw = Stopwatch.StartNew();
+            await Task.Delay(5000);
 
-            for (int i = 0; i < count; i++)
-            {
-                ptr.Write<IntPtr>(value);
-            }
-
-            sw.Stop();
-
-            double totalMs = sw.Elapsed.TotalMilliseconds;
-            double avgNs = sw.ElapsedTicks * 1000000000.0 / Stopwatch.Frequency / count;
-            _host.LogSim($"{count} 次；{totalMs:F6} ms；平均 {avgNs:F2} ns/次");
+            spawner.Delete(player);
+            spawner.Delete(bnpc);
         }
 
     }
