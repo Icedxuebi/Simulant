@@ -21,6 +21,7 @@ namespace Simulant.Game.FFCS.Client.Game.Object
         public BattleChara BattleCharaMemory => Ptr.ReadPtr(0x00).As<BattleChara>(); // ?
         public MemoryField<uint> BattleCharaSize => Ptr.Field<uint>(0x08);
 
+        // 仅本地实体，遍历实体不要找这里
         // [FieldOffset(0x10), FixedSizeArray] internal FixedSizeArray249<BattleCharaEntry> _battleCharas;
         public BattleCharaList BattleCharas => Ptr.As<BattleCharaList>(0x10); // temp until we implement the array struct
 
@@ -57,6 +58,11 @@ namespace Simulant.Game.FFCS.Client.Game.Object
 
             private const int BattleCharaEntrySize = 0x10;
         }
+
+        // 下述传入和返回的 index 均为本地实体 ClientObject 的 index，
+        // 与全部实体的 ObjectIndex 相差 BattleCharacter 容量 * 2 （目前为 200）。
+        // 如 index = 2 对应的 ObjectIndex 为 202。
+        // 详见 GameObjectManager。
 
         [SigPattern("E8 * * * * 41 89 44 FC ?")]
         public static IntPtr CreateBattleCharacterFuncPtr { get; set; }

@@ -1,17 +1,11 @@
 ﻿#pragma warning disable IDE1006
 using Simulant.ACT;
 using Simulant.Core;
-using Simulant.Core.Entity;
 using Simulant.Game;
-using Simulant.Game.ExtractedCsv;
-using Simulant.Game.ExtractedCsv.Rows;
-using Simulant.Game.FFCS.Client.System.Framework;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
-using System.Numerics;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -383,23 +377,7 @@ namespace Simulant.UI
 
         private async void btnDebug_Click(object sender, EventArgs e)
         {
-            var me = _host.EntityProvider.GetMyself();
-
-            var spawner = new EntitySpawner(_host, 100);
-            var player = spawner.SpawnPlayer(job: 5);
-            var bnpc = spawner.SpawnBNpc(4909, 3765);
-            bnpc.Pos3D = me.Pos3D + new Vector3(1, 0, 0);
-
-            player.Native.SetReadyToDraw();
-            player.Native.EnableDraw();
-
-            bnpc.Native.SetReadyToDraw();
-            bnpc.Native.EnableDraw();
-
-            await Task.Delay(5000);
-
-            spawner.Delete(player);
-            spawner.Delete(bnpc);
+            await new Test(_host).Run();
         }
 
     }
