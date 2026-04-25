@@ -128,6 +128,8 @@
     <Compile Include="Game\FFCS\Client\Game\InstanceContent\PublicContentDirector.cs" />
     <Compile Include="Game\FFCS\Client\Game\InstanceContent\InstanceContentDirector.cs" />
     <Compile Include="Game\FFCS\Client\Game\InstanceContent\ContentDirector.cs" />
+    <Compile Include="Game\FFCS\Client\Game\Network\ActorMovePacket.cs" />
+    <Compile Include="Game\FFCS\Client\Game\Network\SpawnPackets.cs" />
     <Compile Include="Game\FFCS\Client\Game\Object\ClientObjectManager.cs" />
     <Compile Include="Game\FFCS\Client\Game\Object\EventObject.cs" />
     <Compile Include="Game\FFCS\Client\Game\Object\GameObject.cs" />
@@ -143,10 +145,11 @@
     <Compile Include="Game\IMemoryObject.cs" />
     <Compile Include="Game\IntPtrExtensions.cs" />
     <Compile Include="Game\MemoryField.cs" />
-    <Compile Include="Game\Packets\ActorMove.cs" />
-    <Compile Include="Game\Packets\Helper.cs" />
+    <Compile Include="Packet\PacketCodec.cs" />
+    <Compile Include="Packet\PacketInvoker.cs" />
     <Compile Include="Game\SigAddressScanner.cs" />
     <Compile Include="Game\VTable.cs" />
+    <Compile Include="Packet\SpawnObjectData.cs" />
     <Compile Include="Presets\U6b3_屏幕探测.cs" />
     <Compile Include="Test.cs" />
     <Compile Include="Utils\CsvHelper.cs" />
