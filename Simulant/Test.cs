@@ -1,14 +1,11 @@
 ﻿using Simulant.Core;
 using Simulant.Core.Entity;
+using Simulant.Core.Environment;
+using Simulant.Game;
+using Simulant.Game.FFCS.Client.Game.Event;
 using Simulant.Game.FFCS.Client.System.Framework;
-using Simulant.Game.Packets;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Numerics;
-using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace Simulant
 {
@@ -21,8 +18,31 @@ namespace Simulant
         }
 
         internal async Task Run()
-        { 
-            
+        {
+            TestEnvManager();
+        }
+
+        private void TestEnvManager()
+        {
+            var phaseData = Content.U6b.U6b.P3;
+            _host.EnvironmentService.SetWeather(phaseData.Weather);
+            _host.EnvironmentService.SetBgm(phaseData.BGM);
+
+            for (uint slot = 0; slot < phaseData.MapEffectFlags.Count; slot++)
+            {
+                var flag = phaseData.MapEffectFlags[(int)slot];
+                _host.EnvironmentService.PlayMapEffect(slot, flag);
+            }
+        }
+
+        private void TestInstanceDirectors()
+        {
+            var ef = EventFramework.Instance;
+            _host.LogRuntime($"EventFramework: {(ulong)ef.Ptr:X}");
+            _host.LogRuntime($"ContentDirector: {(ulong)ef.ContentDirector.Ptr:X}");
+            _host.LogRuntime($"GetContentDirector(): {(ulong)ef.GetContentDirector().Ptr:X}");
+            _host.LogRuntime($"GetInstanceContentDirector(): {(ulong)ef.GetInstanceContentDirector().Ptr:X}");
+            _host.LogRuntime($"GetPublicContentDirector(): {(ulong)ef.GetPublicContentDirector().Ptr:X}");
         }
 
         private async void EntityTimelineTest()
@@ -61,7 +81,7 @@ namespace Simulant
         private void GetOnReceivePtr()
         {
             var ptr = Framework.Instance.NetworkModuleProxy.NetworkModule.PacketReceiverCallback.PacketDispatcher.Ptr.GetVFuncPtr(1);
-            _host.LogSim($"OnReceive: {(ulong)ptr:X}");
+            _host.LogRuntime($"OnReceive: {(ulong)ptr:X}");
         }
     }
 }

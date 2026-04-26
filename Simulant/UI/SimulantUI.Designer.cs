@@ -32,21 +32,23 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SimulantUI));
             this.splitMainV = new System.Windows.Forms.SplitContainer();
             this.tableL = new System.Windows.Forms.TableLayoutPanel();
-            this.btnFirewallOff = new System.Windows.Forms.Button();
-            this.btnFirewallOn = new System.Windows.Forms.Button();
+            this.btnDebug = new System.Windows.Forms.Button();
             this.btnInitPlugin = new System.Windows.Forms.Button();
-            this.btnLoadPreset = new System.Windows.Forms.Button();
+            this.btnSelectTerritory = new System.Windows.Forms.Button();
             this.btnSimEnter = new System.Windows.Forms.Button();
-            this.lblPhase = new System.Windows.Forms.Label();
             this.btnSimExit = new System.Windows.Forms.Button();
             this.lblTerritory = new System.Windows.Forms.Label();
             this.picLogo = new System.Windows.Forms.PictureBox();
+            this.cbxPhase = new System.Windows.Forms.ComboBox();
+            this.chkToggleFirewall = new System.Windows.Forms.CheckBox();
+            this.lblTerritoryId = new System.Windows.Forms.Label();
+            this.numTerritoryId = new System.Windows.Forms.NumericUpDown();
             this.splitMainH = new System.Windows.Forms.SplitContainer();
             this.lblPresetAbsent = new System.Windows.Forms.Label();
             this.tableLog = new System.Windows.Forms.TableLayoutPanel();
             this.chkLogFilterVerbose = new System.Windows.Forms.CheckBox();
-            this.chkLogFilterCall = new System.Windows.Forms.CheckBox();
             this.chkLogFilterSim = new System.Windows.Forms.CheckBox();
+            this.chkLogFilterRuntime = new System.Windows.Forms.CheckBox();
             this.chkLogWarning = new System.Windows.Forms.CheckBox();
             this.chkLogFilterError = new System.Windows.Forms.CheckBox();
             this.chkLogFilterAll = new System.Windows.Forms.CheckBox();
@@ -59,13 +61,13 @@
             this.colText = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
-            this.btnDebug = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitMainV)).BeginInit();
             this.splitMainV.Panel1.SuspendLayout();
             this.splitMainV.Panel2.SuspendLayout();
             this.splitMainV.SuspendLayout();
             this.tableL.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picLogo)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numTerritoryId)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitMainH)).BeginInit();
             this.splitMainH.Panel1.SuspendLayout();
             this.splitMainH.Panel2.SuspendLayout();
@@ -98,24 +100,27 @@
             this.tableL.AutoSize = true;
             this.tableL.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.tableL.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.tableL.ColumnCount = 2;
+            this.tableL.ColumnCount = 3;
             this.tableL.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableL.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableL.Controls.Add(this.btnDebug, 1, 1);
-            this.tableL.Controls.Add(this.btnFirewallOff, 1, 5);
-            this.tableL.Controls.Add(this.btnFirewallOn, 0, 5);
+            this.tableL.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 22.19101F));
+            this.tableL.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 27.80899F));
+            this.tableL.Controls.Add(this.btnDebug, 1, 6);
             this.tableL.Controls.Add(this.btnInitPlugin, 0, 1);
-            this.tableL.Controls.Add(this.btnLoadPreset, 0, 2);
-            this.tableL.Controls.Add(this.btnSimEnter, 0, 6);
-            this.tableL.Controls.Add(this.lblPhase, 0, 4);
-            this.tableL.Controls.Add(this.btnSimExit, 1, 6);
+            this.tableL.Controls.Add(this.btnSelectTerritory, 0, 2);
+            this.tableL.Controls.Add(this.btnSimEnter, 0, 5);
+            this.tableL.Controls.Add(this.btnSimExit, 1, 5);
             this.tableL.Controls.Add(this.lblTerritory, 0, 3);
             this.tableL.Controls.Add(this.picLogo, 0, 0);
+            this.tableL.Controls.Add(this.cbxPhase, 0, 4);
+            this.tableL.Controls.Add(this.chkToggleFirewall, 1, 1);
+            this.tableL.Controls.Add(this.lblTerritoryId, 1, 2);
+            this.tableL.Controls.Add(this.numTerritoryId, 2, 2);
             this.tableL.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableL.Location = new System.Drawing.Point(0, 0);
             this.tableL.Name = "tableL";
-            this.tableL.RowCount = 8;
+            this.tableL.RowCount = 9;
             this.tableL.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 156F));
+            this.tableL.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableL.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableL.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableL.RowStyles.Add(new System.Windows.Forms.RowStyle());
@@ -127,39 +132,23 @@
             this.tableL.TabIndex = 0;
             this.tableL.TabStop = true;
             // 
-            // btnFirewallOff
+            // btnDebug
             // 
-            this.btnFirewallOff.AutoSize = true;
-            this.btnFirewallOff.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btnFirewallOff.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnFirewallOff.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnFirewallOff.Location = new System.Drawing.Point(193, 374);
-            this.btnFirewallOff.Margin = new System.Windows.Forms.Padding(15, 10, 15, 10);
-            this.btnFirewallOff.Name = "btnFirewallOff";
-            this.btnFirewallOff.Padding = new System.Windows.Forms.Padding(5);
-            this.btnFirewallOff.Size = new System.Drawing.Size(148, 42);
-            this.btnFirewallOff.TabIndex = 5;
-            this.btnFirewallOff.TabStop = false;
-            this.btnFirewallOff.Text = "关闭防火墙";
-            this.btnFirewallOff.UseVisualStyleBackColor = true;
-            this.btnFirewallOff.Click += new System.EventHandler(this.btnFirewallOff_Click);
-            // 
-            // btnFirewallOn
-            // 
-            this.btnFirewallOn.AutoSize = true;
-            this.btnFirewallOn.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btnFirewallOn.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnFirewallOn.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnFirewallOn.Location = new System.Drawing.Point(15, 374);
-            this.btnFirewallOn.Margin = new System.Windows.Forms.Padding(15, 10, 15, 10);
-            this.btnFirewallOn.Name = "btnFirewallOn";
-            this.btnFirewallOn.Padding = new System.Windows.Forms.Padding(5);
-            this.btnFirewallOn.Size = new System.Drawing.Size(148, 42);
-            this.btnFirewallOn.TabIndex = 4;
-            this.btnFirewallOn.TabStop = false;
-            this.btnFirewallOn.Text = "开启防火墙";
-            this.btnFirewallOn.UseVisualStyleBackColor = true;
-            this.btnFirewallOn.Click += new System.EventHandler(this.btnFirewallOn_Click);
+            this.btnDebug.AutoSize = true;
+            this.btnDebug.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.tableL.SetColumnSpan(this.btnDebug, 2);
+            this.btnDebug.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnDebug.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnDebug.Location = new System.Drawing.Point(193, 476);
+            this.btnDebug.Margin = new System.Windows.Forms.Padding(15, 10, 15, 10);
+            this.btnDebug.Name = "btnDebug";
+            this.btnDebug.Padding = new System.Windows.Forms.Padding(5);
+            this.btnDebug.Size = new System.Drawing.Size(148, 42);
+            this.btnDebug.TabIndex = 6;
+            this.btnDebug.TabStop = false;
+            this.btnDebug.Text = "调试";
+            this.btnDebug.UseVisualStyleBackColor = true;
+            this.btnDebug.Click += new System.EventHandler(this.btnDebug_Click);
             // 
             // btnInitPlugin
             // 
@@ -178,22 +167,22 @@
             this.btnInitPlugin.UseVisualStyleBackColor = true;
             this.btnInitPlugin.Click += new System.EventHandler(this.btnInitPlugin_Click);
             // 
-            // btnLoadPreset
+            // btnSelectTerritory
             // 
-            this.btnLoadPreset.AutoSize = true;
-            this.btnLoadPreset.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btnLoadPreset.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnLoadPreset.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnLoadPreset.Location = new System.Drawing.Point(15, 228);
-            this.btnLoadPreset.Margin = new System.Windows.Forms.Padding(15, 10, 15, 10);
-            this.btnLoadPreset.Name = "btnLoadPreset";
-            this.btnLoadPreset.Padding = new System.Windows.Forms.Padding(5);
-            this.btnLoadPreset.Size = new System.Drawing.Size(148, 42);
-            this.btnLoadPreset.TabIndex = 0;
-            this.btnLoadPreset.TabStop = false;
-            this.btnLoadPreset.Text = "选择预设";
-            this.btnLoadPreset.UseVisualStyleBackColor = true;
-            this.btnLoadPreset.Click += new System.EventHandler(this.btnLoadPreset_Click);
+            this.btnSelectTerritory.AutoSize = true;
+            this.btnSelectTerritory.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btnSelectTerritory.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnSelectTerritory.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnSelectTerritory.Location = new System.Drawing.Point(15, 228);
+            this.btnSelectTerritory.Margin = new System.Windows.Forms.Padding(15, 10, 15, 10);
+            this.btnSelectTerritory.Name = "btnSelectTerritory";
+            this.btnSelectTerritory.Padding = new System.Windows.Forms.Padding(5);
+            this.btnSelectTerritory.Size = new System.Drawing.Size(148, 42);
+            this.btnSelectTerritory.TabIndex = 0;
+            this.btnSelectTerritory.TabStop = false;
+            this.btnSelectTerritory.Text = "选择地图";
+            this.btnSelectTerritory.UseVisualStyleBackColor = true;
+            this.btnSelectTerritory.Click += new System.EventHandler(this.btnSelectTerritory_Click);
             // 
             // btnSimEnter
             // 
@@ -201,7 +190,7 @@
             this.btnSimEnter.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.btnSimEnter.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnSimEnter.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnSimEnter.Location = new System.Drawing.Point(15, 436);
+            this.btnSimEnter.Location = new System.Drawing.Point(15, 414);
             this.btnSimEnter.Margin = new System.Windows.Forms.Padding(15, 10, 15, 10);
             this.btnSimEnter.Name = "btnSimEnter";
             this.btnSimEnter.Padding = new System.Windows.Forms.Padding(5);
@@ -212,25 +201,14 @@
             this.btnSimEnter.UseVisualStyleBackColor = true;
             this.btnSimEnter.Click += new System.EventHandler(this.btnSimEnter_Click);
             // 
-            // lblPhase
-            // 
-            this.lblPhase.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.lblPhase.AutoSize = true;
-            this.tableL.SetColumnSpan(this.lblPhase, 2);
-            this.lblPhase.Location = new System.Drawing.Point(15, 332);
-            this.lblPhase.Margin = new System.Windows.Forms.Padding(15, 10, 15, 10);
-            this.lblPhase.Name = "lblPhase";
-            this.lblPhase.Size = new System.Drawing.Size(74, 22);
-            this.lblPhase.TabIndex = 1;
-            this.lblPhase.Text = "阶段：无";
-            // 
             // btnSimExit
             // 
             this.btnSimExit.AutoSize = true;
             this.btnSimExit.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.tableL.SetColumnSpan(this.btnSimExit, 2);
             this.btnSimExit.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnSimExit.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnSimExit.Location = new System.Drawing.Point(193, 436);
+            this.btnSimExit.Location = new System.Drawing.Point(193, 414);
             this.btnSimExit.Margin = new System.Windows.Forms.Padding(15, 10, 15, 10);
             this.btnSimExit.Name = "btnSimExit";
             this.btnSimExit.Padding = new System.Windows.Forms.Padding(5);
@@ -245,17 +223,17 @@
             // 
             this.lblTerritory.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.lblTerritory.AutoSize = true;
-            this.tableL.SetColumnSpan(this.lblTerritory, 2);
+            this.tableL.SetColumnSpan(this.lblTerritory, 3);
             this.lblTerritory.Location = new System.Drawing.Point(15, 290);
             this.lblTerritory.Margin = new System.Windows.Forms.Padding(15, 10, 15, 10);
             this.lblTerritory.Name = "lblTerritory";
-            this.lblTerritory.Size = new System.Drawing.Size(112, 22);
+            this.lblTerritory.Size = new System.Drawing.Size(106, 44);
             this.lblTerritory.TabIndex = 0;
-            this.lblTerritory.Text = "区域: 无 (0)";
+            this.lblTerritory.Text = "选中区域：无\r\n选中副本：无";
             // 
             // picLogo
             // 
-            this.tableL.SetColumnSpan(this.picLogo, 2);
+            this.tableL.SetColumnSpan(this.picLogo, 3);
             this.picLogo.Dock = System.Windows.Forms.DockStyle.Fill;
             this.picLogo.Image = ((System.Drawing.Image)(resources.GetObject("picLogo.Image")));
             this.picLogo.Location = new System.Drawing.Point(20, 20);
@@ -265,6 +243,65 @@
             this.picLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.picLogo.TabIndex = 2;
             this.picLogo.TabStop = false;
+            // 
+            // cbxPhase
+            // 
+            this.tableL.SetColumnSpan(this.cbxPhase, 3);
+            this.cbxPhase.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cbxPhase.DropDownHeight = 500;
+            this.cbxPhase.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbxPhase.FormattingEnabled = true;
+            this.cbxPhase.IntegralHeight = false;
+            this.cbxPhase.Location = new System.Drawing.Point(15, 359);
+            this.cbxPhase.Margin = new System.Windows.Forms.Padding(15);
+            this.cbxPhase.MaxDropDownItems = 15;
+            this.cbxPhase.Name = "cbxPhase";
+            this.cbxPhase.Size = new System.Drawing.Size(326, 30);
+            this.cbxPhase.TabIndex = 8;
+            // 
+            // chkToggleFirewall
+            // 
+            this.chkToggleFirewall.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.chkToggleFirewall.AutoSize = true;
+            this.chkToggleFirewall.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.tableL.SetColumnSpan(this.chkToggleFirewall, 2);
+            this.chkToggleFirewall.Location = new System.Drawing.Point(181, 169);
+            this.chkToggleFirewall.Name = "chkToggleFirewall";
+            this.chkToggleFirewall.Padding = new System.Windows.Forms.Padding(0, 5, 5, 5);
+            this.chkToggleFirewall.Size = new System.Drawing.Size(117, 36);
+            this.chkToggleFirewall.TabIndex = 7;
+            this.chkToggleFirewall.Text = "启用防火墙";
+            this.chkToggleFirewall.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.chkToggleFirewall.UseVisualStyleBackColor = true;
+            this.chkToggleFirewall.CheckedChanged += new System.EventHandler(this.chkToggleFirewall_CheckedChanged);
+            // 
+            // lblTerritoryId
+            // 
+            this.lblTerritoryId.AutoSize = true;
+            this.lblTerritoryId.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblTerritoryId.Location = new System.Drawing.Point(181, 218);
+            this.lblTerritoryId.Margin = new System.Windows.Forms.Padding(3, 0, 0, 0);
+            this.lblTerritoryId.Name = "lblTerritoryId";
+            this.lblTerritoryId.Size = new System.Drawing.Size(76, 62);
+            this.lblTerritoryId.TabIndex = 9;
+            this.lblTerritoryId.Text = "地图 ID";
+            this.lblTerritoryId.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // numTerritoryId
+            // 
+            this.numTerritoryId.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.numTerritoryId.Location = new System.Drawing.Point(267, 234);
+            this.numTerritoryId.Margin = new System.Windows.Forms.Padding(10, 10, 15, 10);
+            this.numTerritoryId.Maximum = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
+            this.numTerritoryId.Name = "numTerritoryId";
+            this.numTerritoryId.Size = new System.Drawing.Size(74, 29);
+            this.numTerritoryId.TabIndex = 10;
+            this.numTerritoryId.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.numTerritoryId.ValueChanged += new System.EventHandler(this.numTerritoryId_ValueChanged);
             // 
             // splitMainH
             // 
@@ -307,8 +344,8 @@
             this.tableLog.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLog.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLog.Controls.Add(this.chkLogFilterVerbose, 2, 5);
-            this.tableLog.Controls.Add(this.chkLogFilterCall, 2, 4);
-            this.tableLog.Controls.Add(this.chkLogFilterSim, 2, 3);
+            this.tableLog.Controls.Add(this.chkLogFilterSim, 2, 4);
+            this.tableLog.Controls.Add(this.chkLogFilterRuntime, 2, 3);
             this.tableLog.Controls.Add(this.chkLogWarning, 2, 2);
             this.tableLog.Controls.Add(this.chkLogFilterError, 2, 1);
             this.tableLog.Controls.Add(this.chkLogFilterAll, 2, 0);
@@ -340,6 +377,8 @@
             // 
             this.chkLogFilterVerbose.AutoCheck = false;
             this.chkLogFilterVerbose.AutoSize = true;
+            this.chkLogFilterVerbose.Checked = true;
+            this.chkLogFilterVerbose.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkLogFilterVerbose.Dock = System.Windows.Forms.DockStyle.Fill;
             this.chkLogFilterVerbose.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.chkLogFilterVerbose.Location = new System.Drawing.Point(735, 183);
@@ -354,24 +393,6 @@
             this.chkLogFilterVerbose.MouseClick += new System.Windows.Forms.MouseEventHandler(this.chkLogFilters_MouseClick);
             this.chkLogFilterVerbose.MouseDown += new System.Windows.Forms.MouseEventHandler(this.chkLogFilters_MouseDown);
             // 
-            // chkLogFilterCall
-            // 
-            this.chkLogFilterCall.AutoCheck = false;
-            this.chkLogFilterCall.AutoSize = true;
-            this.chkLogFilterCall.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.chkLogFilterCall.ForeColor = System.Drawing.Color.SlateBlue;
-            this.chkLogFilterCall.Location = new System.Drawing.Point(735, 147);
-            this.chkLogFilterCall.Margin = new System.Windows.Forms.Padding(0);
-            this.chkLogFilterCall.Name = "chkLogFilterCall";
-            this.chkLogFilterCall.Padding = new System.Windows.Forms.Padding(10, 5, 5, 5);
-            this.chkLogFilterCall.Size = new System.Drawing.Size(114, 36);
-            this.chkLogFilterCall.TabIndex = 0;
-            this.chkLogFilterCall.TabStop = false;
-            this.chkLogFilterCall.Text = "调用";
-            this.chkLogFilterCall.UseVisualStyleBackColor = true;
-            this.chkLogFilterCall.MouseClick += new System.Windows.Forms.MouseEventHandler(this.chkLogFilters_MouseClick);
-            this.chkLogFilterCall.MouseDown += new System.Windows.Forms.MouseEventHandler(this.chkLogFilters_MouseDown);
-            // 
             // chkLogFilterSim
             // 
             this.chkLogFilterSim.AutoCheck = false;
@@ -379,8 +400,8 @@
             this.chkLogFilterSim.Checked = true;
             this.chkLogFilterSim.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkLogFilterSim.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.chkLogFilterSim.ForeColor = System.Drawing.Color.SeaGreen;
-            this.chkLogFilterSim.Location = new System.Drawing.Point(735, 111);
+            this.chkLogFilterSim.ForeColor = System.Drawing.Color.SlateBlue;
+            this.chkLogFilterSim.Location = new System.Drawing.Point(735, 147);
             this.chkLogFilterSim.Margin = new System.Windows.Forms.Padding(0);
             this.chkLogFilterSim.Name = "chkLogFilterSim";
             this.chkLogFilterSim.Padding = new System.Windows.Forms.Padding(10, 5, 5, 5);
@@ -391,6 +412,26 @@
             this.chkLogFilterSim.UseVisualStyleBackColor = true;
             this.chkLogFilterSim.MouseClick += new System.Windows.Forms.MouseEventHandler(this.chkLogFilters_MouseClick);
             this.chkLogFilterSim.MouseDown += new System.Windows.Forms.MouseEventHandler(this.chkLogFilters_MouseDown);
+            // 
+            // chkLogFilterRuntime
+            // 
+            this.chkLogFilterRuntime.AutoCheck = false;
+            this.chkLogFilterRuntime.AutoSize = true;
+            this.chkLogFilterRuntime.Checked = true;
+            this.chkLogFilterRuntime.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkLogFilterRuntime.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.chkLogFilterRuntime.ForeColor = System.Drawing.Color.SeaGreen;
+            this.chkLogFilterRuntime.Location = new System.Drawing.Point(735, 111);
+            this.chkLogFilterRuntime.Margin = new System.Windows.Forms.Padding(0);
+            this.chkLogFilterRuntime.Name = "chkLogFilterRuntime";
+            this.chkLogFilterRuntime.Padding = new System.Windows.Forms.Padding(10, 5, 5, 5);
+            this.chkLogFilterRuntime.Size = new System.Drawing.Size(114, 36);
+            this.chkLogFilterRuntime.TabIndex = 0;
+            this.chkLogFilterRuntime.TabStop = false;
+            this.chkLogFilterRuntime.Text = "运行";
+            this.chkLogFilterRuntime.UseVisualStyleBackColor = true;
+            this.chkLogFilterRuntime.MouseClick += new System.Windows.Forms.MouseEventHandler(this.chkLogFilters_MouseClick);
+            this.chkLogFilterRuntime.MouseDown += new System.Windows.Forms.MouseEventHandler(this.chkLogFilters_MouseDown);
             // 
             // chkLogWarning
             // 
@@ -558,23 +599,6 @@
             this.toolStripMenuItem2.Size = new System.Drawing.Size(105, 24);
             this.toolStripMenuItem2.Text = "111";
             // 
-            // btnDebug
-            // 
-            this.btnDebug.AutoSize = true;
-            this.btnDebug.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btnDebug.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnDebug.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnDebug.Location = new System.Drawing.Point(193, 166);
-            this.btnDebug.Margin = new System.Windows.Forms.Padding(15, 10, 15, 10);
-            this.btnDebug.Name = "btnDebug";
-            this.btnDebug.Padding = new System.Windows.Forms.Padding(5);
-            this.btnDebug.Size = new System.Drawing.Size(148, 42);
-            this.btnDebug.TabIndex = 6;
-            this.btnDebug.TabStop = false;
-            this.btnDebug.Text = "调试";
-            this.btnDebug.UseVisualStyleBackColor = true;
-            this.btnDebug.Click += new System.EventHandler(this.btnDebug_Click);
-            // 
             // SimulantUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
@@ -590,6 +614,7 @@
             this.tableL.ResumeLayout(false);
             this.tableL.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picLogo)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numTerritoryId)).EndInit();
             this.splitMainH.Panel1.ResumeLayout(false);
             this.splitMainH.Panel1.PerformLayout();
             this.splitMainH.Panel2.ResumeLayout(false);
@@ -616,11 +641,10 @@
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.DataGridView dgvLog;
         private System.Windows.Forms.Label lblTerritory;
-        private System.Windows.Forms.Label lblPhase;
         private System.Windows.Forms.Button btnSimEnter;
         private System.Windows.Forms.Button btnSimExit;
         private System.Windows.Forms.Button btnInitPlugin;
-        private System.Windows.Forms.Button btnLoadPreset;
+        private System.Windows.Forms.Button btnSelectTerritory;
         private System.Windows.Forms.Label lblPresetAbsent;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
         private System.Windows.Forms.DataGridViewTextBoxColumn colTime;
@@ -628,13 +652,15 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colText;
         private System.Windows.Forms.PictureBox picLogo;
         private System.Windows.Forms.CheckBox chkLogFilterVerbose;
-        private System.Windows.Forms.CheckBox chkLogFilterCall;
         private System.Windows.Forms.CheckBox chkLogFilterSim;
+        private System.Windows.Forms.CheckBox chkLogFilterRuntime;
         private System.Windows.Forms.CheckBox chkLogWarning;
         private System.Windows.Forms.CheckBox chkLogFilterError;
         private System.Windows.Forms.CheckBox chkLogFilterAll;
-        private System.Windows.Forms.Button btnFirewallOff;
-        private System.Windows.Forms.Button btnFirewallOn;
         private System.Windows.Forms.Button btnDebug;
+        private System.Windows.Forms.CheckBox chkToggleFirewall;
+        private System.Windows.Forms.ComboBox cbxPhase;
+        private System.Windows.Forms.Label lblTerritoryId;
+        private System.Windows.Forms.NumericUpDown numTerritoryId;
     }
 }

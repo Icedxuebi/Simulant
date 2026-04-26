@@ -86,15 +86,17 @@ namespace Simulant.Game.FFCS.Client.Game
             public MemoryField<float> InitialVolume => Ptr.Field<float>(0x58);
         }
 
-        // this should be the packed bool from BGMScene sheet, but i don't know if this enum is right
+        // https://github.com/perchbirdd/OrchestrionPlugin/blob/main/Orchestrion/BGMSystem/SceneFlags.cs
         [Flags]
-        public enum SceneFlags : uint {
+        public enum SceneFlags : byte
+        {
             None = 0,
-            EnableDisableRestart = 1 << 0,
-            Resume = 1 << 1,
-            EnablePassEnd = 1 << 2,
-            ForceAutoReset = 1 << 3,
-            IgnoreBattle = 1 << 4,
+            Unknown = 1,
+            Resume = 2,
+            EnablePassEnd = 4,
+            ForceAutoReset = 8,
+            EnableDisableRestart = 16,
+            IgnoreBattle = 32,
         }
 
         public enum SituationKind : uint

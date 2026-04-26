@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Simulant.Core
 {
-    public enum LogType { Error, Warning, Sim, Call, Verbose }
+    public enum LogType { Error, Warning, Runtime, Sim, Verbose }
 
     internal sealed class PluginLog
     {
@@ -79,8 +79,8 @@ namespace Simulant.Core
         {
             { LogType.Error,    "错误" },
             { LogType.Warning,  "警告" },
+            { LogType.Runtime,  "运行" },
             { LogType.Sim,      "模拟" },
-            { LogType.Call,     "调用" },
             { LogType.Verbose,  "详细" },
         };
     }

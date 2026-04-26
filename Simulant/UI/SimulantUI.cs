@@ -1,13 +1,14 @@
 ﻿#pragma warning disable IDE1006
-using Simulant.ACT;
 using Simulant.Core;
-using Simulant.Game;
+using Simulant.Core.Environment;
+using Simulant.Game.ExtractedCsv;
+using Simulant.Game.ExtractedCsv.Rows;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Reflection;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Simulant.UI
@@ -16,115 +17,210 @@ namespace Simulant.UI
     {
         private readonly PluginHost _host;
 
+
         internal SimulantUI(PluginHost host)
         {
             _host = host;
             InitializeComponent();
+            UpdateTerritoryData(0);
+            UpdateControlStates();
             RefreshLogView();
         }
 
-        private void btnInitPlugin_Click(object sender, EventArgs e)
+        private async void btnInitPlugin_Click(object sender, EventArgs e)
         {
-            new Task(() =>
-            {
-                try
-                {
-                    _host.LogVerbose("正在初始化插件……");
-
-                    _host.Init();
-
-                    _host.LogVerbose("正在绑定鲶鱼精邮差……");
-                    NamazuInterop.Init();
-
-                    _host.LogVerbose("正在绑定 Triggernometry……");
-                    TriggernometryInterop.Init();
-
-                    _host.LogVerbose("正在扫描地址……");
-                    var scanResult = SigAddressScanner.Scan(); // 应该新开线程扫描
-                    var errorLines = scanResult
-                        .Where(x => !string.IsNullOrEmpty(x.Value))
-                        .Select(x => $"{x.Key}: {x.Value}")
-                        .ToList();
-
-                    _host.LogVerbose($"地址扫描完成，成功：{scanResult.Count - errorLines.Count} / {scanResult.Count}");
-                    foreach (var line in errorLines)
-                    {
-                        _host.LogError("地址扫描失败：" + line);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    _host.LogError("初始化插件失败：" + ex.ToString());
-                }
-            }).Start();
+            await _host.InitAsync();
         }
 
-        private void btnLoadPreset_Click(object sender, EventArgs e)
+        internal void UpdateControlStates()
         {
-            _host.LogVerbose("测试：btnLoadPreset_Click");
-
-            var form = new SimPresetSelectForm();
-            if (form.ShowDialog() != DialogResult.OK)
-                return;
-
-            var preset = form.PresetResult;
-            var territory = _host.ZoneService.SelectPreset(preset);
-
-            if (territory == null)
+            if (InvokeRequired)
             {
-                lblTerritory.Text = $"区域: 无 ({preset.TerritoryId})";
-                lblPhase.Text = $"阶段: {preset.Name}";
+                BeginInvoke(new System.Action(UpdateControlStates));
                 return;
             }
 
-            var id = preset.TerritoryId;
-            if (!string.IsNullOrWhiteSpace(territory.ContentFinderCondition.Name))
+            var csvReady = _host.CsvReady && !_host.CsvLoading;
+            var pluginReady = _host.PluginReady && !_host.IsInitializing;
+            var firewallReady = pluginReady && _host.FirewallEnabled;
+
+            // 初始化按钮：初始化中禁用，初始化完成后仍可再次点击
+            btnInitPlugin.Enabled = !_host.IsInitializing;
+
+            // CSV 加载完：允许选地图、输入区域 ID、选择阶段
+            btnSelectTerritory.Enabled = csvReady;
+            lblTerritoryId.Enabled = csvReady;
+            numTerritoryId.Enabled = csvReady;
+            lblTerritory.Enabled = csvReady;
+            cbxPhase.Enabled = csvReady;
+
+            // 插件初始化完成：允许防火墙和调试
+            chkToggleFirewall.Enabled = pluginReady;
+            btnDebug.Enabled = pluginReady;
+
+            // 防火墙开启：允许加载区域、退出模拟
+            btnSimEnter.Enabled = firewallReady;
+            btnSimExit.Enabled = firewallReady;
+        }
+
+        #region Firewall
+
+        private bool _updatingFirewallToggle;
+
+        private void chkToggleFirewall_CheckedChanged(object sender, EventArgs e)
+        {
+            if (_updatingFirewallToggle)
+                return;
+
+            if (chkToggleFirewall.Checked)
             {
-                lblTerritory.Text = $"副本: {territory.ContentFinderCondition.Name} ({id})";
+                TryEnableFirewall();
             }
             else
             {
-                lblTerritory.Text = $"区域: {territory.PlaceName.Name} ({id})";
+                TryDisableFirewall();
             }
-
-            lblPhase.Text = $"阶段: {preset.Name}";
         }
 
-        private void btnFirewallOn_Click(object sender, EventArgs e)
+        private void TryEnableFirewall()
         {
             try
             {
                 _host.FirewallService.Enable();
+                _host.LogSim("防火墙已成功开启。");
             }
             catch (Exception ex)
             {
                 _host.LogError("防火墙开启失败：" + ex.Message);
+                SetFirewallToggleChecked(false);
+            }
+            finally
+            {
+                UpdateControlStates();
             }
         }
 
-        private void btnFirewallOff_Click(object sender, EventArgs e)
+        private void TryDisableFirewall()
         {
             try
             {
+                _host.ZoneService.ExitToInitialTerritory();
+
                 _host.FirewallService.Disable();
+                _host.LogSim("防火墙已成功关闭。");
+                SetFirewallToggleChecked(false);
             }
             catch (Exception ex)
             {
                 _host.LogError("防火墙关闭失败：" + ex.Message);
+                SetFirewallToggleChecked(_host.FirewallEnabled);
+            }
+            finally
+            {
+                UpdateControlStates();
             }
         }
 
-        private unsafe void btnSimEnter_Click(object sender, EventArgs e)
+        private void SetFirewallToggleChecked(bool value)
         {
-            _host.LogVerbose("测试：btnSimEnter_Click");
-            _host.ZoneService.EnterSelectedTerritory();
+            _updatingFirewallToggle = true;
+            chkToggleFirewall.Checked = value;
+            _updatingFirewallToggle = false;
+        }
+
+        #endregion Firewall
+
+        #region Territory
+
+        private int _selectedTerritoryId;
+
+        private void btnSelectTerritory_Click(object sender, EventArgs e)
+        {
+            var form = new TerritoryForm();
+            if (form.ShowDialog() != DialogResult.OK)
+                return;
+
+            var territoryId = form.TerritoryIdResult;
+            UpdateTerritoryData(territoryId);
+        }
+
+        private void numTerritoryId_ValueChanged(object sender, EventArgs e)
+        {
+            var territoryId = (int)numTerritoryId.Value;
+            UpdateTerritoryData(territoryId);
+        }
+
+        private void UpdateTerritoryData(int territoryId)
+        {
+            _selectedTerritoryId = territoryId;
+
+            var territoryName = "无";
+            var instanceName = "无";
+
+            if (territoryId > 0 && CsvManager.Instance.Get<TerritoryType>().TryGetValue(_selectedTerritoryId, out var territory))
+            {
+                territoryName = territory.PlaceName.Name;
+                if (!string.IsNullOrWhiteSpace(territory?.ContentFinderCondition.Name))
+                {
+                    instanceName = territory.ContentFinderCondition.Name;
+                }
+            }
+            lblTerritory.Text = $"选中区域: {territoryName}\n选中副本：{instanceName}";
+
+            cbxPhase.Items.Clear();
+            
+            var phases = PhaseData.GetPhases(_selectedTerritoryId);
+            cbxPhase.Items.AddRange(phases.Cast<object>().ToArray());
+
+            var sims = Assembly.GetExecutingAssembly().GetTypes() // 应该放在别的地方
+                .Where(type =>
+                    typeof(SimPresetBase).IsAssignableFrom(type)
+                    && !type.IsAbstract
+                    && type.GetConstructor(Type.EmptyTypes) != null)
+                .Select(type => (SimPresetBase)Activator.CreateInstance(type))
+                .Where(preset => preset.TerritoryId == _selectedTerritoryId)
+                .OrderBy(preset => preset.Name) // to-do: 用 attribute 排序
+                .ToList();
+            cbxPhase.Items.AddRange(sims.Cast<object>().ToArray());
+            cbxPhase.SelectedIndex = cbxPhase.Items.Count > 0 ? 0 : -1;
+        }
+
+        private void btnSimEnter_Click(object sender, EventArgs e)
+        {
+            if (_selectedTerritoryId <= 0)
+            {
+                _host.LogError("未选择有效的区域。");
+                return;
+            }
+
+            PhaseData phaseData;
+
+            if (cbxPhase.SelectedItem is PhaseData p)
+            {
+                phaseData = p;
+            }
+            else if (cbxPhase.SelectedItem is SimPresetBase s)
+            {
+                phaseData = s.Phase;
+            }
+            else
+            {
+                _host.LogError("未选择有效的阶段或模拟预设。");
+                return;
+            }
+
+            if (!_host.ZoneService.TryEnterTerritory(_selectedTerritoryId))
+                return;
+
+            _host.ZoneService.EnterPhase(phaseData);
         }
 
         private void btnSimExit_Click(object sender, EventArgs e)
         {
-            _host.LogVerbose("测试：btnSimExit_Click");
             _host.ZoneService.ExitToInitialTerritory();
         }
+
+        #endregion Territory
 
         #region Log
 
@@ -157,10 +253,10 @@ namespace Simulant.UI
                     return chkLogFilterError.Checked;
                 case LogType.Warning:
                     return chkLogWarning.Checked;
+                case LogType.Runtime:
+                    return chkLogFilterRuntime.Checked;
                 case LogType.Sim:
                     return chkLogFilterSim.Checked;
-                case LogType.Call:
-                    return chkLogFilterCall.Checked;
                 case LogType.Verbose:
                     return chkLogFilterVerbose.Checked;
                 default:
@@ -243,10 +339,10 @@ namespace Simulant.UI
                 case LogType.Warning:
                     e.CellStyle.BackColor = LogBgYellow;
                     break;
-                case LogType.Sim:
+                case LogType.Runtime:
                     e.CellStyle.BackColor = LogBgGreen;
                     break;
-                case LogType.Call:
+                case LogType.Sim:
                     e.CellStyle.BackColor = LogBgBlue;
                     break;
                 case LogType.Verbose:
@@ -285,8 +381,8 @@ namespace Simulant.UI
         {
             yield return chkLogFilterError;
             yield return chkLogWarning;
+            yield return chkLogFilterRuntime;
             yield return chkLogFilterSim;
-            yield return chkLogFilterCall;
             yield return chkLogFilterVerbose;
         }
 
@@ -373,7 +469,6 @@ namespace Simulant.UI
         }
 
         #endregion Log
-
 
         private async void btnDebug_Click(object sender, EventArgs e)
         {

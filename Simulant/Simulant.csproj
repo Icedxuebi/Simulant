@@ -99,6 +99,7 @@
     <Compile Include="ACT\NamazuPlugin.cs" />
     <Compile Include="ACT\NamazuScanner.cs" />
     <Compile Include="ACT\XivPluginInterop.cs" />
+    <Compile Include="Content\U6b\U6b.cs" />
     <Compile Include="Core\Entity\Character.cs" />
     <Compile Include="Core\Entity\CharacterData.cs" />
     <Compile Include="Core\Entity\EntityProvider.cs" />
@@ -107,6 +108,8 @@
     <Compile Include="Core\Entity\EntityBase.cs" />
     <Compile Include="Core\Environment\EnvironmentService.cs" />
     <Compile Include="Core\Firewall\FirewallService.cs" />
+    <Compile Include="Core\Environment\Attributes.cs" />
+    <Compile Include="Core\Environment\PhaseData.cs" />
     <Compile Include="Core\Zone\ZoneSelectionState.cs" />
     <Compile Include="Core\Zone\ZoneService.cs" />
     <Compile Include="Game\FFCS\Client\Game\ActionManager.cs" />
@@ -150,7 +153,7 @@
     <Compile Include="Game\SigAddressScanner.cs" />
     <Compile Include="Game\VTable.cs" />
     <Compile Include="Packet\SpawnObjectData.cs" />
-    <Compile Include="Presets\U6b3_屏幕探测.cs" />
+    <Compile Include="Content\U6b\Presets\屏幕探测.cs" />
     <Compile Include="Test.cs" />
     <Compile Include="Utils\CsvHelper.cs" />
     <Compile Include="Utils\Maths\MathParser.cs" />
@@ -192,17 +195,17 @@
     <Compile Include="Game\GameFunctions.cs" />
     <Compile Include="Game\AddressStore.cs" />
     <Compile Include="PluginMain.cs" />
-    <Compile Include="Presets\U6b6_宇宙天箭.cs" />
+    <Compile Include="Content\U6b\Presets\宇宙天箭.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="UI\SimPresetSelectForm.cs">
+    <Compile Include="UI\TerritoryForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\SimPresetSelectForm.Designer.cs">
-      <DependentUpon>SimPresetSelectForm.cs</DependentUpon>
+    <Compile Include="UI\TerritoryForm.Designer.cs">
+      <DependentUpon>TerritoryForm.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\SimulantUI.cs">
       <SubType>UserControl</SubType>
@@ -221,8 +224,8 @@
     <EmbeddedResource Include="UI\SimulantUI.resx">
       <DependentUpon>SimulantUI.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\SimPresetSelectForm.resx">
-      <DependentUpon>SimPresetSelectForm.cs</DependentUpon>
+    <EmbeddedResource Include="UI\TerritoryForm.resx">
+      <DependentUpon>TerritoryForm.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

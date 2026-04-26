@@ -1,6 +1,6 @@
 ﻿namespace Simulant.UI
 {
-    internal partial class SimPresetSelectForm
+    internal partial class TerritoryForm
     {
         /// <summary>
         /// Required designer variable.
@@ -208,7 +208,6 @@
             this.chkPresetOnly.TabIndex = 7;
             this.chkPresetOnly.Text = "仅显示含预设区域";
             this.chkPresetOnly.UseVisualStyleBackColor = true;
-            this.chkPresetOnly.CheckedChanged += new System.EventHandler(this.chkPresetOnly_CheckedChanged);
             // 
             // splitRight
             // 
@@ -253,7 +252,6 @@
             this.dgvPreset.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvPreset.Size = new System.Drawing.Size(255, 499);
             this.dgvPreset.TabIndex = 0;
-            this.dgvPreset.SelectionChanged += new System.EventHandler(this.dgvPreset_SelectionChanged);
             // 
             // colPreset
             // 

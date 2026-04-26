@@ -17,26 +17,30 @@ namespace Simulant.Game.FFCS.Client.Game.Event
         public EventHandlerModule EventHandlerModule => Ptr.As<EventHandlerModule>(0x00);
         public DirectorModule DirectorModule => Ptr.As<DirectorModule>(0xC0);
 
-        // from Hyperborea/Hyperborea/Utils.cs
+        // Hyperborea/Hyperborea/Utils.cs
         // GetMapEffectModule() => *(nint*)(((nint)EventFramework.Instance()) + 344);
-        // Not sure about the actual type (just ContentDirector?), but it is not valid for public contents
-        public InstanceContentDirector InstanceContentDirector => Ptr.As<InstanceContentDirector>(0x158);
+        // 似乎就是 GetContentDirector() 返回的结果
+        // 为了少调用一次函数，优先使用这个
+        public ContentDirector ContentDirector => Ptr.ReadPtr(0x158).As<ContentDirector>();
 
         // [FieldOffset(0x160)] public LuaActorModule LuaActorModule;
         public MemoryField<int> LoadState => Ptr.Field<int>(0x3BF8); //0=Exd, 1=EventHandler, 2=Director, 3=LuaActor, 4=EventScene, 5=Idle?, 6=Ready?
 
         [SigPattern("E8 * * * * 33 D2 48 8B D8 48 85 C0 0F 84")]
         public static IntPtr GetContentDirectorFuncPtr { get; set; }
+        // 似乎会根据当前所在的内容自动返回 InstanceContentDirector/PublicContentDirector/MassivePcContentDirector 等
         public ContentDirector GetContentDirector()
             => GetContentDirectorFuncPtr.Call<IntPtr>(Ptr).As<ContentDirector>();
 
         [SigPattern("E8 * * * * 41 8B 5E 18 48 8B F8")]
         public static IntPtr GetInstanceContentDirectorFuncPtr { get; set; }
+        // 普通副本中有效，无效时为 0
         public InstanceContentDirector GetInstanceContentDirector()
             => GetInstanceContentDirectorFuncPtr.Call<IntPtr>(Ptr).As<InstanceContentDirector>();
 
         [SigPattern("E8 * * * * 48 8B D0 48 85 C0 74 ? 80 B8")]
         public static IntPtr GetPublicContentDirectorFuncPtr { get; set; }
+        // 优雷卡等副本中有效，无效时为 0
         public PublicContentDirector GetPublicContentDirector()
             => GetPublicContentDirectorFuncPtr.Call<IntPtr>(Ptr).As<PublicContentDirector>();
 

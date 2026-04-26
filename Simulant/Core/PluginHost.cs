@@ -2,8 +2,10 @@
 using Simulant.ACT;
 using Simulant.Core.Entity;
 using Simulant.Core.Zone;
+using Simulant.Game;
 using Simulant.Game.ExtractedCsv;
 using Simulant.UI;
+using System;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
@@ -14,17 +16,23 @@ namespace Simulant.Core
 {
     public sealed class PluginHost
     {
-        private Label _statusLabel;
-        private SimulantUI _ui;
+        private readonly Label _statusLabel;
+        private readonly SimulantUI _ui;
+
+        private readonly object _initLock = new object();
 
         internal PluginLog PluginLog = new PluginLog();
-        internal ZoneSelectionState ZoneSelectionState = new ZoneSelectionState();
+
+        internal bool CsvReady { get; private set; }
+        internal bool CsvLoading { get; private set; }
+        internal bool PluginReady { get; private set; }
+        internal bool IsInitializing { get; private set; }
+        internal bool FirewallEnabled => FirewallService != null && FirewallService.IsEnabled;
 
         internal Firewall.FirewallService FirewallService;
         internal ZoneService ZoneService;
         internal Environment.EnvironmentService EnvironmentService;
         internal EntityProvider EntityProvider;
-
         public PluginHost(TabPage pluginScreenSpace, Label pluginStatusText)
         {
             _statusLabel = pluginStatusText;
@@ -33,26 +41,121 @@ namespace Simulant.Core
             _ui = new SimulantUI(this) { Dock = DockStyle.Fill };
             pluginScreenSpace.Controls.Add(_ui);
 
-            Attach();
-
-            _statusLabel.Text = "初始化完成";
-
-            new Task(() =>
-            {
-                CsvManager.Instance.LoadAllTables();
-            }).Start();
-        }
-
-        public void Init()
-        {
             FirewallService = new Firewall.FirewallService(this);
-            ZoneService = new ZoneService(this, ZoneSelectionState);
+            ZoneService = new ZoneService(this);
             EnvironmentService = new Environment.EnvironmentService(this);
             EntityProvider = new EntityProvider(this);
+
+            Attach();
+
+            _statusLabel.Text = "仿生石已启动。";
+
+            _ = LoadCsvAsync();
+        }
+
+        internal async Task LoadCsvAsync()
+        {
+            if (CsvReady || CsvLoading)
+                return;
+
+            CsvLoading = true;
+            _ui?.UpdateControlStates();
+
+            try
+            {
+                LogRuntime("正在加载 CSV 数据……");
+
+                await Task.Run(() =>
+                {
+                    CsvManager.Instance.LoadAllTables();
+                });
+
+                CsvReady = true;
+                LogRuntime("CSV 数据加载完成。");
+            }
+            catch (Exception ex)
+            {
+                CsvReady = false;
+                LogError("CSV 数据加载失败：" + ex);
+            }
+            finally
+            {
+                CsvLoading = false;
+                _ui?.UpdateControlStates();
+            }
+        }
+
+        internal async Task InitAsync()
+        {
+            lock (_initLock)
+            {
+                if (IsInitializing)
+                {
+                    LogWarning("插件正在初始化，跳过重复请求。");
+                    return;
+                }
+
+                IsInitializing = true;
+            }
+
+            _ui?.UpdateControlStates();
+
+            try
+            {
+                LogRuntime("正在绑定鲶鱼精邮差……");
+                await Task.Run(() => NamazuInterop.Init());
+
+                LogRuntime("正在绑定 Triggernometry……");
+                await Task.Run(() => TriggernometryInterop.Init());
+
+                LogRuntime("正在扫描地址……");
+                var scanResult = await Task.Run(() => SigAddressScanner.Scan());
+
+                var errorLines = scanResult
+                    .Where(x => !string.IsNullOrEmpty(x.Value))
+                    .Select(x => $"{x.Key}: {x.Value}")
+                    .ToList();
+
+                foreach (var line in errorLines)
+                {
+                    LogError("地址扫描失败：" + line);
+                }
+
+                LogRuntime($"地址扫描完成，成功：{scanResult.Count - errorLines.Count} / {scanResult.Count}");
+
+                PluginReady = true;
+                LogRuntime("插件初始化完成。");
+            }
+            catch (Exception ex)
+            {
+                PluginReady = false;
+                LogError("初始化插件失败：" + ex);
+            }
+            finally
+            {
+                lock (_initLock)
+                {
+                    IsInitializing = false;
+                }
+
+                _ui?.UpdateControlStates();
+            }
         }
 
         public void Dispose()
         {
+            try
+            {
+                if (FirewallService != null && FirewallService.IsEnabled)
+                {
+                    FirewallService.Disable();
+                }
+            }
+            catch (Exception ex)
+            {
+                LogError("卸载时关闭防火墙失败：" + ex.Message);
+            }
+
             if (XivPluginInterop.plugin != null)
             {
                 XivPluginInterop.plugin.DataSubscription.ProcessChanged -= OnFFXIVProcessChanged;
@@ -84,7 +187,7 @@ namespace Simulant.Core
                 if (XivPluginInterop.plugin == null)
                     return;
 
-                var waitingFFXIVPlugin = new Task(() =>
+                Task.Run(() =>
                 {
                     var isFFXIVPluginStarted = false;
 
@@ -101,8 +204,6 @@ namespace Simulant.Core
                         Thread.Sleep(3000);
                     }
                 });
-
-                waitingFFXIVPlugin.Start();
             }
         }
 
@@ -126,8 +227,8 @@ namespace Simulant.Core
 
         internal void LogError(string message) => Log(LogType.Error, message);
         internal void LogWarning(string message) => Log(LogType.Warning, message);
+        internal void LogRuntime(string message) => Log(LogType.Runtime, message);
         internal void LogSim(string message) => Log(LogType.Sim, message);
-        internal void LogCall(string message) => Log(LogType.Call, message);
         internal void LogVerbose(string message) => Log(LogType.Verbose, message);
     }
 }

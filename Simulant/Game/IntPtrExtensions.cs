@@ -9,10 +9,11 @@ namespace Simulant.Game
     {
         public static bool IsZero(this IntPtr ptr) => ptr == IntPtr.Zero;
 
-        public static void ThrowIfZero(this IntPtr ptr, string callerName, int offset, string opDesc)
+        public static IntPtr ThrowIfZero(this IntPtr ptr, string callerName, int offset, string opDesc)
         {
             if (ptr == IntPtr.Zero)
                 throw new InvalidOperationException($"{callerName} 在 0x{offset:X} 处{opDesc}时指针为空。");
+            return ptr;
         }
 
         public static T Read<T>(this IntPtr ptr, int offset = 0, 
@@ -32,7 +33,7 @@ namespace Simulant.Game
         public static byte[] ReadBytes(this IntPtr ptr, int count, int offset = 0,
             [CallerMemberName] string callerName = "")
         {
-            ptr.ThrowIfZero(callerName, offset, "读取 IntPtr ");
+            ptr.ThrowIfZero(callerName, offset, "读取字节数组");
             return NamazuInterop.Plugin.Memory.ReadBytes(ptr + offset, count);
         }
 
@@ -42,9 +43,9 @@ namespace Simulant.Game
         public static TMemoryObject As<TMemoryObject>(this IntPtr ptr, int offset = 0, 
             [CallerMemberName] string callerName = "") where TMemoryObject : struct, IMemoryObject
         {
-            if (ptr == IntPtr.Zero)
-                throw new InvalidOperationException($" 时指针为空。");
-            ptr.ThrowIfZero(callerName, offset, $"读取 {typeof(TMemoryObject).Name} ");
+            // when the base pointer is null, always return a TMemoryObject which Ptr is 0.
+            if (ptr.IsZero())
+                return new TMemoryObject();
             return new TMemoryObject { Ptr = ptr + offset };
         }
 
@@ -76,8 +77,8 @@ namespace Simulant.Game
         public static IntPtr GetVFuncPtr(this IntPtr objectPtr, int idx, [CallerMemberName] string callerName = "")
         {
             objectPtr.ThrowIfZero(callerName, 0, "获取虚函数指针");
-            var vTable = objectPtr.Read<IntPtr>().As<VTable>();
-            return vTable[idx];
+            var vTablePtr = objectPtr.Read<IntPtr>().ThrowIfZero(callerName, 0, "读取 vTable 指针");
+            return vTablePtr.As<VTable>()[idx];
         }
 
         public static void CallVFunc(this IntPtr objectPtr, int idx, params object[] args)
