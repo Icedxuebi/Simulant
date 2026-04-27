@@ -136,6 +136,7 @@ namespace Simulant.UI
         #region Territory
 
         private int _selectedTerritoryId;
+        private bool _updatingTerritoryIdInput;
         private bool _updatingPhaseSelection;
 
         private void btnSelectTerritory_Click(object sender, EventArgs e)
@@ -145,11 +146,26 @@ namespace Simulant.UI
                 return;
 
             var territoryId = form.TerritoryIdResult;
+
+            // 同步数值框的地图 ID
+            _updatingTerritoryIdInput = true;
+            try
+            {
+                numTerritoryId.Value = territoryId;
+            }
+            finally
+            {
+                _updatingTerritoryIdInput = false;
+            }
+
             UpdateTerritoryData(territoryId);
         }
 
         private void numTerritoryId_ValueChanged(object sender, EventArgs e)
         {
+            if (_updatingTerritoryIdInput)
+                return;
+
             var territoryId = (int)numTerritoryId.Value;
             UpdateTerritoryData(territoryId);
         }

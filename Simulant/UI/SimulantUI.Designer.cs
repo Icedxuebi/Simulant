@@ -92,7 +92,7 @@
             // 
             this.splitMainV.Panel2.Controls.Add(this.splitMainH);
             this.splitMainV.Size = new System.Drawing.Size(1209, 892);
-            this.splitMainV.SplitterDistance = 356;
+            this.splitMainV.SplitterDistance = 340;
             this.splitMainV.TabIndex = 0;
             // 
             // tableL
@@ -128,7 +128,7 @@
             this.tableL.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableL.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableL.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableL.Size = new System.Drawing.Size(356, 892);
+            this.tableL.Size = new System.Drawing.Size(340, 892);
             this.tableL.TabIndex = 0;
             this.tableL.TabStop = true;
             // 
@@ -139,11 +139,11 @@
             this.tableL.SetColumnSpan(this.btnDebug, 2);
             this.btnDebug.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnDebug.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnDebug.Location = new System.Drawing.Point(193, 476);
+            this.btnDebug.Location = new System.Drawing.Point(185, 476);
             this.btnDebug.Margin = new System.Windows.Forms.Padding(15, 10, 15, 10);
             this.btnDebug.Name = "btnDebug";
             this.btnDebug.Padding = new System.Windows.Forms.Padding(5);
-            this.btnDebug.Size = new System.Drawing.Size(148, 42);
+            this.btnDebug.Size = new System.Drawing.Size(140, 42);
             this.btnDebug.TabIndex = 6;
             this.btnDebug.TabStop = false;
             this.btnDebug.Text = "调试";
@@ -160,7 +160,7 @@
             this.btnInitPlugin.Margin = new System.Windows.Forms.Padding(15, 10, 15, 10);
             this.btnInitPlugin.Name = "btnInitPlugin";
             this.btnInitPlugin.Padding = new System.Windows.Forms.Padding(5);
-            this.btnInitPlugin.Size = new System.Drawing.Size(148, 42);
+            this.btnInitPlugin.Size = new System.Drawing.Size(140, 42);
             this.btnInitPlugin.TabIndex = 0;
             this.btnInitPlugin.TabStop = false;
             this.btnInitPlugin.Text = "初始化插件";
@@ -177,7 +177,7 @@
             this.btnSelectTerritory.Margin = new System.Windows.Forms.Padding(15, 10, 15, 10);
             this.btnSelectTerritory.Name = "btnSelectTerritory";
             this.btnSelectTerritory.Padding = new System.Windows.Forms.Padding(5);
-            this.btnSelectTerritory.Size = new System.Drawing.Size(148, 42);
+            this.btnSelectTerritory.Size = new System.Drawing.Size(140, 42);
             this.btnSelectTerritory.TabIndex = 0;
             this.btnSelectTerritory.TabStop = false;
             this.btnSelectTerritory.Text = "选择地图";
@@ -194,7 +194,7 @@
             this.btnSimEnter.Margin = new System.Windows.Forms.Padding(15, 10, 15, 10);
             this.btnSimEnter.Name = "btnSimEnter";
             this.btnSimEnter.Padding = new System.Windows.Forms.Padding(5);
-            this.btnSimEnter.Size = new System.Drawing.Size(148, 42);
+            this.btnSimEnter.Size = new System.Drawing.Size(140, 42);
             this.btnSimEnter.TabIndex = 0;
             this.btnSimEnter.TabStop = false;
             this.btnSimEnter.Text = "加载区域";
@@ -208,11 +208,11 @@
             this.tableL.SetColumnSpan(this.btnSimExit, 2);
             this.btnSimExit.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnSimExit.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnSimExit.Location = new System.Drawing.Point(193, 414);
+            this.btnSimExit.Location = new System.Drawing.Point(185, 414);
             this.btnSimExit.Margin = new System.Windows.Forms.Padding(15, 10, 15, 10);
             this.btnSimExit.Name = "btnSimExit";
             this.btnSimExit.Padding = new System.Windows.Forms.Padding(5);
-            this.btnSimExit.Size = new System.Drawing.Size(148, 42);
+            this.btnSimExit.Size = new System.Drawing.Size(140, 42);
             this.btnSimExit.TabIndex = 0;
             this.btnSimExit.TabStop = false;
             this.btnSimExit.Text = "退出模拟";
@@ -236,10 +236,10 @@
             this.tableL.SetColumnSpan(this.picLogo, 3);
             this.picLogo.Dock = System.Windows.Forms.DockStyle.Fill;
             this.picLogo.Image = ((System.Drawing.Image)(resources.GetObject("picLogo.Image")));
-            this.picLogo.Location = new System.Drawing.Point(20, 20);
-            this.picLogo.Margin = new System.Windows.Forms.Padding(20);
+            this.picLogo.Location = new System.Drawing.Point(15, 15);
+            this.picLogo.Margin = new System.Windows.Forms.Padding(15);
             this.picLogo.Name = "picLogo";
-            this.picLogo.Size = new System.Drawing.Size(316, 116);
+            this.picLogo.Size = new System.Drawing.Size(310, 126);
             this.picLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.picLogo.TabIndex = 2;
             this.picLogo.TabStop = false;
@@ -256,7 +256,7 @@
             this.cbxPhase.Margin = new System.Windows.Forms.Padding(15);
             this.cbxPhase.MaxDropDownItems = 15;
             this.cbxPhase.Name = "cbxPhase";
-            this.cbxPhase.Size = new System.Drawing.Size(326, 30);
+            this.cbxPhase.Size = new System.Drawing.Size(310, 30);
             this.cbxPhase.TabIndex = 8;
             this.cbxPhase.SelectedIndexChanged += new System.EventHandler(this.cbxPhase_SelectedIndexChanged);
             // 
@@ -266,7 +266,7 @@
             this.chkToggleFirewall.AutoSize = true;
             this.chkToggleFirewall.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.tableL.SetColumnSpan(this.chkToggleFirewall, 2);
-            this.chkToggleFirewall.Location = new System.Drawing.Point(181, 169);
+            this.chkToggleFirewall.Location = new System.Drawing.Point(173, 169);
             this.chkToggleFirewall.Name = "chkToggleFirewall";
             this.chkToggleFirewall.Padding = new System.Windows.Forms.Padding(0, 5, 5, 5);
             this.chkToggleFirewall.Size = new System.Drawing.Size(117, 36);
@@ -280,10 +280,10 @@
             // 
             this.lblTerritoryId.AutoSize = true;
             this.lblTerritoryId.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblTerritoryId.Location = new System.Drawing.Point(181, 218);
+            this.lblTerritoryId.Location = new System.Drawing.Point(173, 218);
             this.lblTerritoryId.Margin = new System.Windows.Forms.Padding(3, 0, 0, 0);
             this.lblTerritoryId.Name = "lblTerritoryId";
-            this.lblTerritoryId.Size = new System.Drawing.Size(75, 62);
+            this.lblTerritoryId.Size = new System.Drawing.Size(72, 62);
             this.lblTerritoryId.TabIndex = 9;
             this.lblTerritoryId.Text = "地图 ID";
             this.lblTerritoryId.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -291,7 +291,7 @@
             // numTerritoryId
             // 
             this.numTerritoryId.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.numTerritoryId.Location = new System.Drawing.Point(266, 234);
+            this.numTerritoryId.Location = new System.Drawing.Point(255, 234);
             this.numTerritoryId.Margin = new System.Windows.Forms.Padding(10, 10, 15, 10);
             this.numTerritoryId.Maximum = new decimal(new int[] {
             65535,
@@ -299,7 +299,7 @@
             0,
             0});
             this.numTerritoryId.Name = "numTerritoryId";
-            this.numTerritoryId.Size = new System.Drawing.Size(74, 29);
+            this.numTerritoryId.Size = new System.Drawing.Size(70, 29);
             this.numTerritoryId.TabIndex = 10;
             this.numTerritoryId.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.numTerritoryId.ValueChanged += new System.EventHandler(this.numTerritoryId_ValueChanged);
@@ -320,7 +320,7 @@
             // splitMainH.Panel2
             // 
             this.splitMainH.Panel2.Controls.Add(this.tableLog);
-            this.splitMainH.Size = new System.Drawing.Size(849, 892);
+            this.splitMainH.Size = new System.Drawing.Size(865, 892);
             this.splitMainH.SplitterDistance = 423;
             this.splitMainH.TabIndex = 0;
             // 
@@ -328,7 +328,7 @@
             // 
             this.lblPresetAbsent.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lblPresetAbsent.AutoSize = true;
-            this.lblPresetAbsent.Location = new System.Drawing.Point(347, 203);
+            this.lblPresetAbsent.Location = new System.Drawing.Point(355, 224);
             this.lblPresetAbsent.Name = "lblPresetAbsent";
             this.lblPresetAbsent.Size = new System.Drawing.Size(138, 22);
             this.lblPresetAbsent.TabIndex = 0;
@@ -371,7 +371,7 @@
             this.tableLog.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLog.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLog.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLog.Size = new System.Drawing.Size(849, 465);
+            this.tableLog.Size = new System.Drawing.Size(865, 465);
             this.tableLog.TabIndex = 0;
             // 
             // chkLogFilterVerbose
@@ -382,7 +382,7 @@
             this.chkLogFilterVerbose.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkLogFilterVerbose.Dock = System.Windows.Forms.DockStyle.Fill;
             this.chkLogFilterVerbose.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.chkLogFilterVerbose.Location = new System.Drawing.Point(735, 183);
+            this.chkLogFilterVerbose.Location = new System.Drawing.Point(751, 183);
             this.chkLogFilterVerbose.Margin = new System.Windows.Forms.Padding(0);
             this.chkLogFilterVerbose.Name = "chkLogFilterVerbose";
             this.chkLogFilterVerbose.Padding = new System.Windows.Forms.Padding(10, 5, 5, 5);
@@ -402,7 +402,7 @@
             this.chkLogFilterSim.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkLogFilterSim.Dock = System.Windows.Forms.DockStyle.Fill;
             this.chkLogFilterSim.ForeColor = System.Drawing.Color.SlateBlue;
-            this.chkLogFilterSim.Location = new System.Drawing.Point(735, 147);
+            this.chkLogFilterSim.Location = new System.Drawing.Point(751, 147);
             this.chkLogFilterSim.Margin = new System.Windows.Forms.Padding(0);
             this.chkLogFilterSim.Name = "chkLogFilterSim";
             this.chkLogFilterSim.Padding = new System.Windows.Forms.Padding(10, 5, 5, 5);
@@ -422,7 +422,7 @@
             this.chkLogFilterRuntime.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkLogFilterRuntime.Dock = System.Windows.Forms.DockStyle.Fill;
             this.chkLogFilterRuntime.ForeColor = System.Drawing.Color.SeaGreen;
-            this.chkLogFilterRuntime.Location = new System.Drawing.Point(735, 111);
+            this.chkLogFilterRuntime.Location = new System.Drawing.Point(751, 111);
             this.chkLogFilterRuntime.Margin = new System.Windows.Forms.Padding(0);
             this.chkLogFilterRuntime.Name = "chkLogFilterRuntime";
             this.chkLogFilterRuntime.Padding = new System.Windows.Forms.Padding(10, 5, 5, 5);
@@ -442,7 +442,7 @@
             this.chkLogWarning.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkLogWarning.Dock = System.Windows.Forms.DockStyle.Fill;
             this.chkLogWarning.ForeColor = System.Drawing.Color.SaddleBrown;
-            this.chkLogWarning.Location = new System.Drawing.Point(735, 75);
+            this.chkLogWarning.Location = new System.Drawing.Point(751, 75);
             this.chkLogWarning.Margin = new System.Windows.Forms.Padding(0);
             this.chkLogWarning.Name = "chkLogWarning";
             this.chkLogWarning.Padding = new System.Windows.Forms.Padding(10, 5, 5, 5);
@@ -462,7 +462,7 @@
             this.chkLogFilterError.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkLogFilterError.Dock = System.Windows.Forms.DockStyle.Fill;
             this.chkLogFilterError.ForeColor = System.Drawing.Color.Maroon;
-            this.chkLogFilterError.Location = new System.Drawing.Point(735, 39);
+            this.chkLogFilterError.Location = new System.Drawing.Point(751, 39);
             this.chkLogFilterError.Margin = new System.Windows.Forms.Padding(0);
             this.chkLogFilterError.Name = "chkLogFilterError";
             this.chkLogFilterError.Padding = new System.Windows.Forms.Padding(10, 5, 5, 5);
@@ -481,7 +481,7 @@
             this.chkLogFilterAll.Checked = true;
             this.chkLogFilterAll.CheckState = System.Windows.Forms.CheckState.Indeterminate;
             this.chkLogFilterAll.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.chkLogFilterAll.Location = new System.Drawing.Point(735, 3);
+            this.chkLogFilterAll.Location = new System.Drawing.Point(751, 3);
             this.chkLogFilterAll.Margin = new System.Windows.Forms.Padding(0, 3, 0, 0);
             this.chkLogFilterAll.Name = "chkLogFilterAll";
             this.chkLogFilterAll.Padding = new System.Windows.Forms.Padding(10, 5, 5, 5);
@@ -511,7 +511,7 @@
             this.btnLogSearch.AutoSize = true;
             this.btnLogSearch.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.btnLogSearch.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnLogSearch.Location = new System.Drawing.Point(750, 420);
+            this.btnLogSearch.Location = new System.Drawing.Point(766, 420);
             this.btnLogSearch.Margin = new System.Windows.Forms.Padding(15, 10, 15, 10);
             this.btnLogSearch.Name = "btnLogSearch";
             this.btnLogSearch.Size = new System.Drawing.Size(84, 35);
@@ -527,7 +527,7 @@
             this.txtLogRegex.Location = new System.Drawing.Point(107, 423);
             this.txtLogRegex.Margin = new System.Windows.Forms.Padding(3, 13, 3, 13);
             this.txtLogRegex.Name = "txtLogRegex";
-            this.txtLogRegex.Size = new System.Drawing.Size(625, 29);
+            this.txtLogRegex.Size = new System.Drawing.Size(641, 29);
             this.txtLogRegex.TabIndex = 2;
             this.txtLogRegex.TextChanged += new System.EventHandler(this.txtLogRegex_TextChanged);
             this.txtLogRegex.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtLogRegex_KeyDown);
@@ -553,7 +553,7 @@
             this.tableLog.SetRowSpan(this.dgvLog, 10);
             this.dgvLog.RowTemplate.Height = 27;
             this.dgvLog.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvLog.Size = new System.Drawing.Size(729, 404);
+            this.dgvLog.Size = new System.Drawing.Size(745, 404);
             this.dgvLog.TabIndex = 0;
             this.dgvLog.TabStop = false;
             this.dgvLog.VirtualMode = true;
