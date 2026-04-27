@@ -5,6 +5,7 @@ using Simulant.Game.ExtractedCsv;
 using Simulant.Game.ExtractedCsv.Rows;
 using Simulant.Game.FFCS.Client.Game.Character;
 using Simulant.Game.FFCS.Client.Game.Object;
+using System.Numerics;
 using System.Threading.Tasks;
 using ActionRow = Simulant.Game.ExtractedCsv.Rows.Action;
 using NativeCharacter = Simulant.Game.FFCS.Client.Game.Character.Character;
@@ -13,7 +14,6 @@ namespace Simulant.Core.Entity
 {
     public class Character : EntityBase
     {
-        private BaseTimelineState? _originalBaseTimelineState;
         private readonly PluginHost _host;
 
         protected override GameObject NativeGameObject => Native.Ptr.As<GameObject>();
@@ -23,6 +23,11 @@ namespace Simulant.Core.Entity
             Native = native;
             _host = host;
         }
+
+        /// <summary>
+        /// 用于控制假实体移动的坐标。
+        /// </summary>
+        public Vector2 TargetPos { get; set; }
 
         public uint HP
         {
@@ -92,14 +97,6 @@ namespace Simulant.Core.Entity
         {
             if (timelineId == 0) return;
 
-            if (_originalBaseTimelineState == null)
-            {
-                _originalBaseTimelineState = new BaseTimelineState(
-                    Native.Mode,
-                    Native.ModeParam,
-                    Native.Timeline.BaseOverride);
-            }
-
             Native.SetMode(CharacterModes.AnimLock, 0);
             Native.Timeline.BaseOverride.Set(timelineId);
 
@@ -107,28 +104,6 @@ namespace Simulant.Core.Entity
             
             Native.Timeline.TimelineSequencer.PlayTimeline(timelineId);
             _host.LogSim($"PlayTimeline: {timelineId}");
-        }
-
-        public void StopBaseTimeline()
-        {
-            if (_originalBaseTimelineState == null)
-                return;
-
-            var state = _originalBaseTimelineState.Value;
-
-            Native.Timeline.BaseOverride.Set(state.BaseOverride);
-            Native.Mode.Set(state.Mode);
-            Native.ModeParam.Set(state.ModeParam);
-
-            _originalBaseTimelineState = null;
-
-            Native.Timeline.TimelineSequencer.PlayTimeline(3);
-            _host.LogSim($"PlayTimeline: 3");
-        }
-
-        public void ResetBaseTimelineState()
-        {
-            _originalBaseTimelineState = null;
         }
 
         private readonly struct BaseTimelineState
@@ -164,11 +139,9 @@ namespace Simulant.Core.Entity
                 PlayOmen(action, omenDelay.Value);
 
             // 读条结束时播放对应 timeline
-            var timelineEndId = action.AnimationEndId;
-            if (timelineEndId >= 0)
-                QueueTimeline(3, (ushort)timelineEndId, action.CastTime);
+            QueueExecute(action, castTime);
 
-            _host.LogVerbose($"Casting action: {actionId} ({castTime:0.0} s); TimelineEnd: {timelineEndId}; OmenId: {omenId}");
+            _host.LogVerbose($"Casting action: {actionId} ({castTime:0.0} s)");
         }
 
         public void SetCastInfo(uint actionId, float castTime, byte actionType = 1)
@@ -229,14 +202,35 @@ namespace Simulant.Core.Entity
             TriggernometryInterop.InvokeNamedCallback("PictoACT", sb.ToString());
         }
 
-        public void QueueTimeline(ushort baseId, ushort blendId, float delay)
+        public void Execute(uint actionId)
+        {
+            var action = ResolveActionData(actionId);
+            if (action == null) return;
+
+            Execute(action);
+        }
+
+        private void Execute(ActionRow action)
+        {
+            var timelineEndId = action.AnimationEndId;
+            if (timelineEndId >= 0)
+            {
+                Native.Timeline.BaseOverride.Set(0);
+                Native.SetMode(CharacterModes.Normal, 0);
+                PlayBlendTimeline((ushort)timelineEndId);
+            }
+
+            _host.LogVerbose($"Executed action: {action.Index}; TimelineEnd: {timelineEndId}");
+        }
+
+        private void QueueExecute(ActionRow action, float delay)
         {
             Task.Run(async () =>
             {
                 if (delay > 0)
                     await Task.Delay((int)(delay * 1000));
-                PlayBaseTimeline(baseId, false);
-                PlayBlendTimeline(blendId);
+
+                Execute(action);
             });
         }
 
