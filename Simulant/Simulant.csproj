@@ -110,6 +110,7 @@
     <Compile Include="Core\Firewall\FirewallService.cs" />
     <Compile Include="Core\Environment\Attributes.cs" />
     <Compile Include="Core\Environment\PhaseData.cs" />
+    <Compile Include="Core\SimTimer.cs" />
     <Compile Include="Core\Zone\ZoneSelectionState.cs" />
     <Compile Include="Core\Zone\ZoneService.cs" />
     <Compile Include="Game\FFCS\Client\Game\Character\CharacterManager.cs" />
