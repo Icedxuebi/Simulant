@@ -10,6 +10,8 @@ namespace Simulant.Game.FFCS.Client.Game.Character
 
         public MemoryField<bool> IsCasting => Ptr.Field<bool>(0x00);
         public MemoryField<bool> Interruptible => Ptr.Field<bool>(0x01);
+
+        /// <summary> See <see cref="Simulant.Game.FFCS.Client.Game.ActionType" /> </summary>
         public MemoryField<byte> ActionType => Ptr.Field<byte>(0x02);
         public MemoryField<uint> ActionId => Ptr.Field<uint>(0x04);
         public MemoryField<uint> SourceSequence => Ptr.Field<uint>(0x08); // for player-initiated casts - monotonically increasing id of the cast

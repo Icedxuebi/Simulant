@@ -165,7 +165,7 @@ namespace Simulant.UI
                     instanceName = territory.ContentFinderCondition.Name;
                 }
             }
-            lblTerritory.Text = $"选中区域: {territoryName}\n选中副本：{instanceName}";
+            lblTerritory.Text = $"选中区域：{territoryName}\n选中副本：{instanceName}";
 
             cbxPhase.Items.Clear();
             

@@ -112,6 +112,7 @@
     <Compile Include="Core\Environment\PhaseData.cs" />
     <Compile Include="Core\Zone\ZoneSelectionState.cs" />
     <Compile Include="Core\Zone\ZoneService.cs" />
+    <Compile Include="Game\MemoryBitField.cs" />
     <Compile Include="Game\FFCS\Client\Game\ActionManager.cs" />
     <Compile Include="Game\FFCS\Client\Game\BGMSystem.cs" />
     <Compile Include="Game\FFCS\Client\Game\Character\CastInfo.cs" />

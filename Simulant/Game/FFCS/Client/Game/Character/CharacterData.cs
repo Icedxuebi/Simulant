@@ -26,6 +26,9 @@ namespace Simulant.Game.FFCS.Client.Game.Character
         public MemoryField<byte> Map => Ptr.Field<byte>(0x2F);
         public MemoryField<byte> OnlineStatus => Ptr.Field<byte>(0x30);
         public MemoryField<byte> Battalion => Ptr.Field<byte>(0x31);
+
         public MemoryField<byte> Flags => Ptr.Field<byte>(0x34);
+        public MemoryBitField IsHostile => Ptr.BitField(0x34, 0);
+        public MemoryBitField InCombat => Ptr.BitField(0x34, 1);
     }
 }

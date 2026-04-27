@@ -31,7 +31,7 @@ namespace Simulant.Core.Entity
             if (native.IsNull())
                 throw new InvalidOperationException($"生成实体失败：返回的实体索引 #{createdIndex} 对应空指针。");
 
-            var character = new Character(native);
+            var character = new Character(native, _host);
             _localEntityIndexes[character.Address] = (ushort)createdIndex;
 
             return character;
@@ -72,7 +72,9 @@ namespace Simulant.Core.Entity
             bnpc.Native.ObjectKind.Set(ObjectKind.BattleNpc);
             bnpc.Id = GetNextNonPlayerId();
             bnpc.Level = _level;
-
+            bnpc.Native.Battalion.Set(4);
+            bnpc.Native.IsHostile.Set(true);
+            bnpc.Native.InCombat.Set(true);
             return bnpc;
         }
 

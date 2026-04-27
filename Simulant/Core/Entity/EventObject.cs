@@ -10,10 +10,12 @@ namespace Simulant.Core.Entity
     {
         protected override GameObject NativeGameObject => Native.Ptr.As<GameObject>();
         internal new NativeEventObject Native { get; }
+        private readonly PluginHost _host;
 
-        public EventObject(NativeEventObject native)
+        public EventObject(NativeEventObject native, PluginHost host)
         {
             Native = native;
+            _host = host;
         }
 
         public void PlayAnimation(uint actionId, ulong unknown)

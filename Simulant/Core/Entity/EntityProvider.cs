@@ -54,7 +54,7 @@ namespace Simulant.Core.Entity
                 || kind == ObjectKind.BattleNpc;
         }
 
-        private static EntityBase WrapEntity(IntPtr nativePtr, ObjectKind kind)
+        private EntityBase WrapEntity(IntPtr nativePtr, ObjectKind kind)
         {
             if (kind == ObjectKind.EventObj)
                 return WrapEventObj(nativePtr);
@@ -65,10 +65,10 @@ namespace Simulant.Core.Entity
             return null;
         }
 
-        private static Character WrapCharacter(IntPtr nativePtr)
-            => new Character(nativePtr.As<NativeCharacter>());
+        private Character WrapCharacter(IntPtr nativePtr)
+            => new Character(nativePtr.As<NativeCharacter>(), _host);
 
-        private static EventObject WrapEventObj(IntPtr nativePtr)
-            => new EventObject(nativePtr.As<NativeEventObject>());
+        private EventObject WrapEventObj(IntPtr nativePtr)
+            => new EventObject(nativePtr.As<NativeEventObject>(), _host);
     }
 }

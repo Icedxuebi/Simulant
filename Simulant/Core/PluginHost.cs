@@ -16,6 +16,8 @@ namespace Simulant.Core
 {
     public sealed class PluginHost
     {
+        public static PluginHost Instance { get; set; } // 仅为了调试方便
+
         private readonly Label _statusLabel;
         private readonly SimulantUI _ui;
 

@@ -198,6 +198,7 @@ namespace Simulant.Core.Firewall
                 _sendHookCave = IntPtr.Zero;
             }
 
+            _sendHookOriginal = null;
             _sendHookEnabled = false;
             _host.LogRuntime("发包 Hook 已关闭，恢复正常发包。");
         }

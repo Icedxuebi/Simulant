@@ -10,11 +10,13 @@ namespace Simulant
 
         public void InitPlugin(TabPage pluginScreenSpace, Label pluginStatusText)
         {
-            _host = new PluginHost(pluginScreenSpace, pluginStatusText);
+            PluginHost.Instance = new PluginHost(pluginScreenSpace, pluginStatusText);
+            _host = PluginHost.Instance;
         }
 
         public void DeInitPlugin()
         {
+            PluginHost.Instance = null;
             if (_host != null)
             {
                 _host.Dispose();

@@ -72,6 +72,8 @@ namespace Simulant.Game.FFCS.Client.Game.Character
         public MemoryField<byte> OnlineStatus => CharacterData.OnlineStatus;
         public MemoryField<byte> Battalion => CharacterData.Battalion;
         public MemoryField<byte> Flags => CharacterData.Flags;
+        public MemoryBitField IsHostile => CharacterData.IsHostile;
+        public MemoryBitField InCombat => CharacterData.InCombat;
         #endregion
 
         public EmoteController EmoteController => Ptr.As<EmoteController>(0x630);

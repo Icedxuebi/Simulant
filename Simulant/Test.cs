@@ -3,7 +3,9 @@ using Simulant.Core.Entity;
 using Simulant.Core.Environment;
 using Simulant.Game;
 using Simulant.Game.FFCS.Client.Game.Event;
+using Simulant.Game.FFCS.Client.Game.Object;
 using Simulant.Game.FFCS.Client.System.Framework;
+using System.Linq;
 using System.Numerics;
 using System.Threading.Tasks;
 
@@ -19,7 +21,26 @@ namespace Simulant
 
         internal async Task Run()
         {
-            TestEnvManager();
+            EntityCastTest();
+        }
+
+        private async void EntityCastTest()
+        {
+            var me = _host.EntityProvider.GetMyself();
+
+            var spawner = new EntitySpawner(_host, 90);
+            var bnpc = spawner.SpawnBNpc(15717, 7636);
+
+            bnpc.Pos3D = me.Pos3D;
+            bnpc.Heading = me.Heading;
+            bnpc.SetReadyToDraw();
+            bnpc.EnableDraw();
+
+            await Task.Delay(1000);
+            bnpc.Cast(0x7B6B); // 探测式波动炮
+
+            await Task.Delay(15000);
+            spawner.Delete(bnpc);
         }
 
         private void TestEnvManager()
