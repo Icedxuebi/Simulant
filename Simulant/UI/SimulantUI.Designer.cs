@@ -258,6 +258,7 @@
             this.cbxPhase.Name = "cbxPhase";
             this.cbxPhase.Size = new System.Drawing.Size(326, 30);
             this.cbxPhase.TabIndex = 8;
+            this.cbxPhase.SelectedIndexChanged += new System.EventHandler(this.cbxPhase_SelectedIndexChanged);
             // 
             // chkToggleFirewall
             // 
@@ -282,7 +283,7 @@
             this.lblTerritoryId.Location = new System.Drawing.Point(181, 218);
             this.lblTerritoryId.Margin = new System.Windows.Forms.Padding(3, 0, 0, 0);
             this.lblTerritoryId.Name = "lblTerritoryId";
-            this.lblTerritoryId.Size = new System.Drawing.Size(76, 62);
+            this.lblTerritoryId.Size = new System.Drawing.Size(75, 62);
             this.lblTerritoryId.TabIndex = 9;
             this.lblTerritoryId.Text = "地图 ID";
             this.lblTerritoryId.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -290,7 +291,7 @@
             // numTerritoryId
             // 
             this.numTerritoryId.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.numTerritoryId.Location = new System.Drawing.Point(267, 234);
+            this.numTerritoryId.Location = new System.Drawing.Point(266, 234);
             this.numTerritoryId.Margin = new System.Windows.Forms.Padding(10, 10, 15, 10);
             this.numTerritoryId.Maximum = new decimal(new int[] {
             65535,

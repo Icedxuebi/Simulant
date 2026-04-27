@@ -3,12 +3,15 @@ using Simulant.Core;
 using Simulant.Core.Environment;
 using Simulant.Game.ExtractedCsv;
 using Simulant.Game.ExtractedCsv.Rows;
+using Simulant.Game.FFCS.Client.Game;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Simulant.UI
@@ -133,6 +136,7 @@ namespace Simulant.UI
         #region Territory
 
         private int _selectedTerritoryId;
+        private bool _updatingPhaseSelection;
 
         private void btnSelectTerritory_Click(object sender, EventArgs e)
         {
@@ -167,25 +171,73 @@ namespace Simulant.UI
             }
             lblTerritory.Text = $"选中区域：{territoryName}\n选中副本：{instanceName}";
 
-            cbxPhase.Items.Clear();
-            
-            var phases = PhaseData.GetPhases(_selectedTerritoryId);
-            cbxPhase.Items.AddRange(phases.Cast<object>().ToArray());
+            _updatingPhaseSelection = true;
+            try
+            {
+                cbxPhase.Items.Clear();
 
-            var sims = Assembly.GetExecutingAssembly().GetTypes() // 应该放在别的地方
-                .Where(type =>
-                    typeof(SimPresetBase).IsAssignableFrom(type)
-                    && !type.IsAbstract
-                    && type.GetConstructor(Type.EmptyTypes) != null)
-                .Select(type => (SimPresetBase)Activator.CreateInstance(type))
-                .Where(preset => preset.TerritoryId == _selectedTerritoryId)
-                .OrderBy(preset => preset.Name) // to-do: 用 attribute 排序
-                .ToList();
-            cbxPhase.Items.AddRange(sims.Cast<object>().ToArray());
-            cbxPhase.SelectedIndex = cbxPhase.Items.Count > 0 ? 0 : -1;
+                var phases = PhaseData.GetPhases(_selectedTerritoryId);
+                cbxPhase.Items.AddRange(phases.Cast<object>().ToArray());
+
+                var sims = Assembly.GetExecutingAssembly().GetTypes() // 应该放在别的地方
+                    .Where(type =>
+                        typeof(SimPresetBase).IsAssignableFrom(type)
+                        && !type.IsAbstract
+                        && type.GetConstructor(Type.EmptyTypes) != null)
+                    .Select(type => (SimPresetBase)Activator.CreateInstance(type))
+                    .Where(preset => preset.TerritoryId == _selectedTerritoryId)
+                    .OrderBy(preset => preset.Name) // to-do: 用 attribute 排序
+                    .ToList();
+                cbxPhase.Items.AddRange(sims.Cast<object>().ToArray());
+                cbxPhase.SelectedIndex = cbxPhase.Items.Count > 0 ? 0 : -1;
+            }
+            finally
+            {
+                _updatingPhaseSelection = false;
+            }
         }
 
-        private void btnSimEnter_Click(object sender, EventArgs e)
+        private bool TryGetSelectedPhase(out PhaseData phaseData)
+        {
+            if (cbxPhase.SelectedItem is PhaseData p)
+            {
+                phaseData = p;
+                return true;
+            }
+
+            if (cbxPhase.SelectedItem is SimPresetBase s)
+            {
+                phaseData = s.Phase;
+                return true;
+            }
+
+            phaseData = PhaseData.Empty;
+            return false;
+        }
+
+        private bool IsCurrentTerritorySelected()
+        {
+            if (_selectedTerritoryId <= 0)
+                return false;
+
+            return GameMain.Instance.CurrentTerritoryTypeId == _selectedTerritoryId;
+        }
+
+        private void cbxPhase_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (_updatingPhaseSelection)
+                return;
+
+            if (!TryGetSelectedPhase(out var phaseData))
+                return;
+
+            if (!IsCurrentTerritorySelected())
+                return;
+
+            _host.ZoneService.EnterPhase(phaseData);
+        }
+
+        private async void btnSimEnter_Click(object sender, EventArgs e)
         {
             if (_selectedTerritoryId <= 0)
             {
@@ -193,17 +245,7 @@ namespace Simulant.UI
                 return;
             }
 
-            PhaseData phaseData;
-
-            if (cbxPhase.SelectedItem is PhaseData p)
-            {
-                phaseData = p;
-            }
-            else if (cbxPhase.SelectedItem is SimPresetBase s)
-            {
-                phaseData = s.Phase;
-            }
-            else
+            if (!TryGetSelectedPhase(out var phaseData))
             {
                 _host.LogError("未选择有效的阶段或模拟预设。");
                 return;
@@ -212,6 +254,7 @@ namespace Simulant.UI
             if (!_host.ZoneService.TryEnterTerritory(_selectedTerritoryId))
                 return;
 
+            await Task.Delay(2000);
             _host.ZoneService.EnterPhase(phaseData);
         }
 

@@ -6,6 +6,7 @@ using Simulant.Game.FFCS.Client.Game;
 using Simulant.Game.FFCS.Client.Game.Event;
 using System;
 using System.Numerics;
+using System.Threading;
 
 namespace Simulant.Core.Zone
 {
@@ -144,13 +145,17 @@ namespace Simulant.Core.Zone
             _host.LogRuntime($"已恢复真实位置：{_initialPosition.Value.X}, {_initialPosition.Value.Y}, {_initialPosition.Value.Z}");
         }
 
-        private void ApplyPhaseData(PhaseData phaseData)
+        public void ApplyPhaseData(PhaseData phaseData)
         {
-            _host.LogSim($"阶段数据：Weather={phaseData.Weather}, BGM={phaseData.BGM}");
-
+            _host.LogSim($"进入阶段 {phaseData.Name}：天气 {phaseData.Weather}，BGM {phaseData.BGM}，坐标 {phaseData.Spawn?.ToString() ?? "null"}");
+            
+            var me = _host.EntityProvider.GetMyself() ?? throw new InvalidOperationException("无法获取玩家实体，不能设置出生点。");
+            if (phaseData.Spawn.HasValue)
+            {
+                me.Pos3D = phaseData.Spawn.Value;
+            }
             _host.EnvironmentService.SetWeather(phaseData.Weather);
             _host.EnvironmentService.SetBgm(phaseData.BGM);
-
             for (uint slot = 0; slot < phaseData.MapEffectFlags.Count; slot++)
             {
                 var flag = phaseData.MapEffectFlags[(int)slot];

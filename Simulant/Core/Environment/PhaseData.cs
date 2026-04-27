@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 namespace Simulant.Core.Environment
@@ -10,17 +11,19 @@ namespace Simulant.Core.Environment
         public readonly string Name;
         public readonly byte Weather;
         public readonly ushort BGM;
+        public readonly Vector3? Spawn;
         public readonly IReadOnlyList<ushort> MapEffectFlags;
 
-        public PhaseData(string name, byte weather, ushort bgm, IEnumerable<ushort> mapEffectFlags)
+        public PhaseData(string name, byte weather, ushort bgm, Vector3? spawn, IEnumerable<ushort> mapEffectFlags)
         {
             Name = name;
             Weather = weather;
             BGM = bgm;
+            Spawn = spawn;
             MapEffectFlags = mapEffectFlags.ToList();
         }
 
-        public static PhaseData Empty => new PhaseData("无数据", 0, 0, Enumerable.Empty<ushort>());
+        public static PhaseData Empty => new PhaseData("无数据", 0, 0, null, Enumerable.Empty<ushort>());
 
         public override string ToString()
             => $"[阶段] {Name}";
