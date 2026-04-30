@@ -360,7 +360,17 @@ namespace Simulant.UI
             {
                 dgvLog.ClearSelection();
                 // scroll to bottom
-                dgvLog.FirstDisplayedScrollingRowIndex = dgvLog.RowCount - 1;
+                try
+                {
+                    if (dgvLog.Visible && dgvLog.DisplayedRowCount(false) > 0)
+                        dgvLog.FirstDisplayedScrollingRowIndex = dgvLog.RowCount - 1;
+                }
+                catch (InvalidOperationException)
+                {
+                    // in case:
+                    // System.InvalidOperationException: 没有可供显示行的空间。
+                    // 在 System.Windows.Forms.DataGridView.set_FirstDisplayedScrollingRowIndex(Int32 value)
+                }
             }
         }
 
