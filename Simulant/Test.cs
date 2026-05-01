@@ -23,10 +23,10 @@ namespace Simulant
 
         internal async Task Run()
         {
-            宇宙天箭Test();
+            await 宇宙天箭Test();
         }
 
-        private async void 宇宙天箭Test()
+        private async Task 宇宙天箭Test()
         { 
             
             var spawner = new EntitySpawner(_host, 90);

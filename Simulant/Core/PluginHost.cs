@@ -74,6 +74,7 @@ namespace Simulant.Core
 
                 CsvReady = true;
                 LogRuntime("CSV 数据加载完成。");
+                LogRuntime("如需启用模拟，请先在左侧初始化插件，然后启用防火墙。");
             }
             catch (Exception ex)
             {

@@ -159,6 +159,12 @@
     <Compile Include="Packet\SpawnObjectData.cs" />
     <Compile Include="Content\U6b\Presets\屏幕探测.cs" />
     <Compile Include="Test.cs" />
+    <Compile Include="UI\LogView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\LogView.Designer.cs">
+      <DependentUpon>LogView.cs</DependentUpon>
+    </Compile>
     <Compile Include="Utils\CsvHelper.cs" />
     <Compile Include="Utils\Maths\MathParser.cs" />
     <Compile Include="Utils\Maths\EquationHelper.cs" />
@@ -224,6 +230,9 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\LogView.resx">
+      <DependentUpon>LogView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\SimulantUI.resx">
       <DependentUpon>SimulantUI.cs</DependentUpon>
