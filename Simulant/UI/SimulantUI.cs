@@ -248,6 +248,9 @@ namespace Simulant.UI
             if (_selectedTerritoryId <= 0)
                 return false;
 
+            if (!_host.PluginReady)
+                return false;
+
             return GameMain.Instance.CurrentTerritoryTypeId == _selectedTerritoryId;
         }
 
@@ -258,10 +261,9 @@ namespace Simulant.UI
 
             UpdateSelectedPresetControl();
 
-            if (!TryGetSelectedPhase(out var phaseData))
-                return;
-
-            if (!IsCurrentTerritorySelected())
+            if (!_host.PluginReady ||
+                !TryGetSelectedPhase(out var phaseData) ||
+                !IsCurrentTerritorySelected())
                 return;
 
             _host.ZoneService.EnterPhase(phaseData);
