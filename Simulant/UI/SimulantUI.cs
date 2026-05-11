@@ -4,6 +4,7 @@ using Simulant.Core.Environment;
 using Simulant.Game.ExtractedCsv;
 using Simulant.Game.ExtractedCsv.Rows;
 using Simulant.Game.FFCS.Client.Game;
+using Simulant.Simulation;
 using System;
 using System.Linq;
 using System.Reflection;

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Simulant.Content.U6b;
 using Simulant.Core;
 using Simulant.Core.Environment;
+using Simulant.Simulation;
 
 namespace Simulant.Presets
 {

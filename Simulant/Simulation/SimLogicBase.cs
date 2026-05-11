@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Simulant.Core
+namespace Simulant.Simulation
 {
     public abstract class SimLogicBase
     {

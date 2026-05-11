@@ -110,8 +110,7 @@
     <Compile Include="Core\Firewall\FirewallService.cs" />
     <Compile Include="Core\Environment\Attributes.cs" />
     <Compile Include="Core\Environment\PhaseData.cs" />
-    <Compile Include="Core\SimTimer.cs" />
-    <Compile Include="Core\Zone\ZoneSelectionState.cs" />
+    <Compile Include="Simulation\SimTimer.cs" />
     <Compile Include="Core\Zone\ZoneService.cs" />
     <Compile Include="Game\FFCS\Client\Game\Character\CharacterManager.cs" />
     <Compile Include="Game\FFCS\Client\Game\Object\EventObjectManager.cs" />
@@ -165,14 +164,20 @@
     <Compile Include="UI\LogView.Designer.cs">
       <DependentUpon>LogView.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\PresetControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\PresetControl.Designer.cs">
+      <DependentUpon>PresetControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Utils\CsvHelper.cs" />
     <Compile Include="Utils\Maths\MathParser.cs" />
     <Compile Include="Utils\Maths\EquationHelper.cs" />
     <Compile Include="Utils\Maths\MinimumMatchHelper.cs" />
     <Compile Include="Core\PluginHost.cs" />
     <Compile Include="Core\PluginLog.cs" />
-    <Compile Include="Core\SimLogicBase.cs" />
-    <Compile Include="Core\SimPresetBase.cs" />
+    <Compile Include="Simulation\SimLogicBase.cs" />
+    <Compile Include="Simulation\SimPresetBase.cs" />
     <Compile Include="Utils\ArgHelper.cs" />
     <Compile Include="Utils\DataStringHelper.cs" />
     <Compile Include="Utils\InvariantHexExtensions.cs" />
@@ -233,6 +238,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\LogView.resx">
       <DependentUpon>LogView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\PresetControl.resx">
+      <DependentUpon>PresetControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\SimulantUI.resx">
       <DependentUpon>SimulantUI.cs</DependentUpon>

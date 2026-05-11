@@ -2,8 +2,9 @@
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
+using Simulant.Core;
 
-namespace Simulant.Core
+namespace Simulant.Simulation
 {
     public sealed class SimTimer : IDisposable
     {

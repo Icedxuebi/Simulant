@@ -44,10 +44,10 @@
             this.lblTerritoryId = new System.Windows.Forms.Label();
             this.numTerritoryId = new System.Windows.Forms.NumericUpDown();
             this.splitMainH = new System.Windows.Forms.SplitContainer();
-            this.lblPresetAbsent = new System.Windows.Forms.Label();
-            this.logView = new Simulant.UI.LogView();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.presetControl = new Simulant.UI.PresetControl();
+            this.logView = new Simulant.UI.LogView();
             ((System.ComponentModel.ISupportInitialize)(this.splitMainV)).BeginInit();
             this.splitMainV.Panel1.SuspendLayout();
             this.splitMainV.Panel2.SuspendLayout();
@@ -300,7 +300,7 @@
             // splitMainH.Panel1
             // 
             this.splitMainH.Panel1.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.splitMainH.Panel1.Controls.Add(this.lblPresetAbsent);
+            this.splitMainH.Panel1.Controls.Add(this.presetControl);
             // 
             // splitMainH.Panel2
             // 
@@ -308,25 +308,6 @@
             this.splitMainH.Size = new System.Drawing.Size(865, 892);
             this.splitMainH.SplitterDistance = 423;
             this.splitMainH.TabIndex = 0;
-            // 
-            // lblPresetAbsent
-            // 
-            this.lblPresetAbsent.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.lblPresetAbsent.AutoSize = true;
-            this.lblPresetAbsent.Location = new System.Drawing.Point(352, 209);
-            this.lblPresetAbsent.Name = "lblPresetAbsent";
-            this.lblPresetAbsent.Size = new System.Drawing.Size(138, 22);
-            this.lblPresetAbsent.TabIndex = 0;
-            this.lblPresetAbsent.Text = "请在左侧选择预设";
-            this.lblPresetAbsent.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // logView
-            // 
-            this.logView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.logView.Location = new System.Drawing.Point(0, 0);
-            this.logView.Name = "logView";
-            this.logView.Size = new System.Drawing.Size(865, 465);
-            this.logView.TabIndex = 0;
             // 
             // contextMenuStrip1
             // 
@@ -341,6 +322,27 @@
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
             this.toolStripMenuItem2.Size = new System.Drawing.Size(105, 24);
             this.toolStripMenuItem2.Text = "111";
+            // 
+            // presetControl
+            // 
+            this.presetControl.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.presetControl.BackColor = System.Drawing.SystemColors.Control;
+            this.presetControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.presetControl.Font = new System.Drawing.Font("等距更纱黑体 SC", 10.2F);
+            this.presetControl.Location = new System.Drawing.Point(0, 0);
+            this.presetControl.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.presetControl.Name = "presetControl";
+            this.presetControl.Size = new System.Drawing.Size(865, 423);
+            this.presetControl.TabIndex = 0;
+            this.presetControl.TabStop = false;
+            // 
+            // logView
+            // 
+            this.logView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.logView.Location = new System.Drawing.Point(0, 0);
+            this.logView.Name = "logView";
+            this.logView.Size = new System.Drawing.Size(865, 465);
+            this.logView.TabIndex = 0;
             // 
             // SimulantUI
             // 
@@ -359,7 +361,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.picLogo)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numTerritoryId)).EndInit();
             this.splitMainH.Panel1.ResumeLayout(false);
-            this.splitMainH.Panel1.PerformLayout();
             this.splitMainH.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitMainH)).EndInit();
             this.splitMainH.ResumeLayout(false);
@@ -380,7 +381,6 @@
         private System.Windows.Forms.Button btnSimExit;
         private System.Windows.Forms.Button btnInitPlugin;
         private System.Windows.Forms.Button btnSelectTerritory;
-        private System.Windows.Forms.Label lblPresetAbsent;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
         private System.Windows.Forms.PictureBox picLogo;
         private System.Windows.Forms.Button btnDebug;
@@ -388,5 +388,6 @@
         private System.Windows.Forms.ComboBox cbxPhase;
         private System.Windows.Forms.Label lblTerritoryId;
         private System.Windows.Forms.NumericUpDown numTerritoryId;
+        internal PresetControl presetControl;
     }
 }
