@@ -107,7 +107,7 @@ namespace Simulant.Game.FFCS.Client.Game.Character
             => IsJumpingFuncPtr.Call<bool>(Ptr);
 
         public StatusManager GetStatusManager() 
-            => Ptr.CallVFunc<IntPtr>(77).As<StatusManager>(); // StatusManager* VFunc(77)
+            => Ptr.CallVFunc<IntPtr>(78).As<StatusManager>(); // StatusManager* VFunc(78)
 
         // from Kodakku
         [SigPattern("E8 * * * * 48 8D 0D ? ? ? ? E8 ? ? ? ? FF C6")]

@@ -46,6 +46,9 @@ namespace Simulant.Game.FFCS.Client.Game.InstanceContent
         UnrealTrial = 17,
         TripleTriad = 18,
         VariantDungeon = 19,
-        CriterionDungeon = 20
+        CriterionDungeon = 20,
+        AdvancedVariantDungeon = 21,
+        Unk22 = 22, // related to XBM
+        Unk23 = 23,
     }
 }

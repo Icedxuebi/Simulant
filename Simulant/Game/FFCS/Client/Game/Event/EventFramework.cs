@@ -24,7 +24,7 @@ namespace Simulant.Game.FFCS.Client.Game.Event
         public ContentDirector ContentDirector => Ptr.ReadPtr(0x158).As<ContentDirector>();
 
         // [FieldOffset(0x160)] public LuaActorModule LuaActorModule;
-        public MemoryField<int> LoadState => Ptr.Field<int>(0x3BF8); //0=Exd, 1=EventHandler, 2=Director, 3=LuaActor, 4=EventScene, 5=Idle?, 6=Ready?
+        public MemoryField<int> LoadState => Ptr.Field<int>(0x3F18); //0=Exd, 1=EventHandler, 2=Director, 3=LuaActor, 4=EventScene, 5=Idle?, 6=Ready?
 
         [SigPattern("E8 * * * * 33 D2 48 8B D8 48 85 C0 0F 84")]
         public static IntPtr GetContentDirectorFuncPtr { get; set; }

@@ -20,7 +20,7 @@ namespace Simulant.Game.FFCS.Client.Game
         public IntPtr LoadZone(uint territoryId, int storyProgress = 0, byte a4 = 0, byte a5 = 0, byte a6 = 1)
             => LoadZoneFuncPtr.Call<IntPtr>(Ptr, territoryId, storyProgress, a4, a5, a6);
 
-        [SigPattern("E8 * * * * 8D 46 0A")]
+        [SigPattern("E8 * * * * 66 41 89 B7")]
         public static IntPtr ExecuteCommandFuncPtr { get; set; }
         public static bool ExecuteCommand(int command, int param1 = 0, int param2 = 0, int param3 = 0, int param4 = 0)
             => ExecuteCommandFuncPtr.Call<bool>(command, param1, param2, param3, param4);
