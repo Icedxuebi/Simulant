@@ -22,7 +22,7 @@ namespace Simulant.Simulation.Options
             var comboBox = new ComboBox();
             presetControl.ApplyComboBoxStyle(comboBox);
 
-            comboBox.Items.AddRange(_options.Values.ToArray());
+            comboBox.Items.AddRange(_options.Values.Select(s => $" {s}").ToArray());
 
             if (_options.TryGetIndex((T)_default, out int index))
                 comboBox.SelectedIndex = index;

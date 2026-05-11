@@ -64,7 +64,7 @@ namespace Simulant.UI
                 option?.CreateUI(this, toolTip);
             }
 
-            AddOptionFillerRow();
+            AddBottomOptionFillerRow();
             tableOptions.PerformLayout();
         }
 
@@ -76,6 +76,7 @@ namespace Simulant.UI
                 tableOptions.Controls.Clear();
                 tableOptions.RowStyles.Clear();
                 tableOptions.RowCount = 0;
+                AddTopOptionFillerRow();
             }
             finally
             {
@@ -83,10 +84,15 @@ namespace Simulant.UI
             }
         }
 
-        /// <summary>
-        /// 在选项列表末尾添加一个占位行，占满剩余空间。
-        /// </summary>
-        private void AddOptionFillerRow()
+        /// <summary>在选项列表顶部添加一个占位行补充 Margin。 </summary>
+        private void AddTopOptionFillerRow()
+        {
+            tableOptions.RowCount += 1;
+            tableOptions.RowStyles.Add(new RowStyle(SizeType.Absolute, 5F));
+        }
+
+        /// <summary>在选项列表末尾添加一个占位行，占满剩余空间。 </summary>
+        private void AddBottomOptionFillerRow()
         {
             tableOptions.RowCount += 1;
             tableOptions.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
@@ -139,10 +145,9 @@ namespace Simulant.UI
             target.Dock = source.Dock;
             target.Margin = source.Margin;
             target.Padding = source.Padding;
-            target.Font = source.Font;
-            target.ForeColor = source.ForeColor;
-            target.BackColor = source.BackColor;
-            target.Cursor = source.Cursor;
+            target.ResetFont();
+            target.ResetForeColor();
+            target.ResetBackColor();
         }
 
         #endregion Copy Style from dummy controls

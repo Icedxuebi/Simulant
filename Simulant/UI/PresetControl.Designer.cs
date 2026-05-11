@@ -243,8 +243,8 @@
             this.dummyLbl.Location = new System.Drawing.Point(0, 0);
             this.dummyLbl.Margin = new System.Windows.Forms.Padding(0);
             this.dummyLbl.Name = "dummyLbl";
-            this.dummyLbl.Padding = new System.Windows.Forms.Padding(5, 10, 5, 10);
-            this.dummyLbl.Size = new System.Drawing.Size(451, 64);
+            this.dummyLbl.Padding = new System.Windows.Forms.Padding(15, 10, 5, 10);
+            this.dummyLbl.Size = new System.Drawing.Size(461, 64);
             this.dummyLbl.TabIndex = 11;
             this.dummyLbl.Text = "跨两列的完整 Label 示例，用于显示说明文本，文本可换行\r\n跨两列的完整 Label 示例，用于显示说明文本，文本可换行";
             // 
@@ -252,11 +252,11 @@
             // 
             this.label6.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(0, 213);
+            this.label6.Location = new System.Drawing.Point(0, 208);
             this.label6.Margin = new System.Windows.Forms.Padding(0);
             this.label6.Name = "label6";
-            this.label6.Padding = new System.Windows.Forms.Padding(5);
-            this.label6.Size = new System.Drawing.Size(180, 32);
+            this.label6.Padding = new System.Windows.Forms.Padding(15, 10, 5, 10);
+            this.label6.Size = new System.Drawing.Size(190, 42);
             this.label6.TabIndex = 6;
             this.label6.Text = "数值文本框的标签说明";
             // 
@@ -267,8 +267,8 @@
             this.dummyLblTxt.Location = new System.Drawing.Point(0, 109);
             this.dummyLblTxt.Margin = new System.Windows.Forms.Padding(0);
             this.dummyLblTxt.Name = "dummyLblTxt";
-            this.dummyLblTxt.Padding = new System.Windows.Forms.Padding(5, 10, 5, 10);
-            this.dummyLblTxt.Size = new System.Drawing.Size(148, 42);
+            this.dummyLblTxt.Padding = new System.Windows.Forms.Padding(15, 10, 5, 10);
+            this.dummyLblTxt.Size = new System.Drawing.Size(158, 42);
             this.dummyLblTxt.TabIndex = 2;
             this.dummyLblTxt.Text = "文本框的标签说明";
             // 
@@ -279,8 +279,8 @@
             this.dummyLblChk.Location = new System.Drawing.Point(0, 64);
             this.dummyLblChk.Margin = new System.Windows.Forms.Padding(0);
             this.dummyLblChk.Name = "dummyLblChk";
-            this.dummyLblChk.Padding = new System.Windows.Forms.Padding(5, 10, 5, 10);
-            this.dummyLblChk.Size = new System.Drawing.Size(148, 42);
+            this.dummyLblChk.Padding = new System.Windows.Forms.Padding(15, 10, 5, 10);
+            this.dummyLblChk.Size = new System.Drawing.Size(158, 42);
             this.dummyLblChk.TabIndex = 0;
             this.dummyLblChk.Text = "选项框的标签说明";
             // 
@@ -288,11 +288,11 @@
             // 
             this.dummyChk.AutoSize = true;
             this.dummyChk.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dummyChk.Location = new System.Drawing.Point(180, 64);
+            this.dummyChk.Location = new System.Drawing.Point(190, 64);
             this.dummyChk.Margin = new System.Windows.Forms.Padding(0);
             this.dummyChk.Name = "dummyChk";
             this.dummyChk.Padding = new System.Windows.Forms.Padding(30, 10, 5, 10);
-            this.dummyChk.Size = new System.Drawing.Size(426, 42);
+            this.dummyChk.Size = new System.Drawing.Size(416, 42);
             this.dummyChk.TabIndex = 7;
             this.dummyChk.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.dummyChk.UseVisualStyleBackColor = true;
@@ -300,10 +300,10 @@
             // dummyTxt
             // 
             this.dummyTxt.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dummyTxt.Location = new System.Drawing.Point(210, 116);
-            this.dummyTxt.Margin = new System.Windows.Forms.Padding(30, 10, 5, 10);
+            this.dummyTxt.Location = new System.Drawing.Point(220, 116);
+            this.dummyTxt.Margin = new System.Windows.Forms.Padding(30, 10, 20, 10);
             this.dummyTxt.Name = "dummyTxt";
-            this.dummyTxt.Size = new System.Drawing.Size(391, 29);
+            this.dummyTxt.Size = new System.Drawing.Size(366, 29);
             this.dummyTxt.TabIndex = 8;
             this.dummyTxt.Text = "示例文本";
             // 
@@ -318,20 +318,20 @@
             "测试选项1",
             "测试选项2",
             "测试选项3"});
-            this.dummyCbx.Location = new System.Drawing.Point(210, 165);
-            this.dummyCbx.Margin = new System.Windows.Forms.Padding(30, 10, 5, 10);
+            this.dummyCbx.Location = new System.Drawing.Point(220, 165);
+            this.dummyCbx.Margin = new System.Windows.Forms.Padding(30, 10, 20, 10);
             this.dummyCbx.Name = "dummyCbx";
-            this.dummyCbx.Size = new System.Drawing.Size(391, 30);
+            this.dummyCbx.Size = new System.Drawing.Size(366, 30);
             this.dummyCbx.TabIndex = 0;
             this.dummyCbx.TabStop = false;
             // 
             // dummyNud
             // 
             this.dummyNud.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dummyNud.Location = new System.Drawing.Point(210, 215);
-            this.dummyNud.Margin = new System.Windows.Forms.Padding(30, 10, 5, 10);
+            this.dummyNud.Location = new System.Drawing.Point(220, 215);
+            this.dummyNud.Margin = new System.Windows.Forms.Padding(30, 10, 20, 10);
             this.dummyNud.Name = "dummyNud";
-            this.dummyNud.Size = new System.Drawing.Size(391, 29);
+            this.dummyNud.Size = new System.Drawing.Size(366, 29);
             this.dummyNud.TabIndex = 10;
             // 
             // dummyLblCbx
@@ -341,8 +341,8 @@
             this.dummyLblCbx.Location = new System.Drawing.Point(0, 159);
             this.dummyLblCbx.Margin = new System.Windows.Forms.Padding(0);
             this.dummyLblCbx.Name = "dummyLblCbx";
-            this.dummyLblCbx.Padding = new System.Windows.Forms.Padding(5, 10, 5, 10);
-            this.dummyLblCbx.Size = new System.Drawing.Size(180, 42);
+            this.dummyLblCbx.Padding = new System.Windows.Forms.Padding(15, 10, 5, 10);
+            this.dummyLblCbx.Size = new System.Drawing.Size(190, 42);
             this.dummyLblCbx.TabIndex = 4;
             this.dummyLblCbx.Text = "下拉选项框的标签说明";
             // 
