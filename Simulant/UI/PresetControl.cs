@@ -1,20 +1,95 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Simulant.Simulation;
+using System;
 using System.Windows.Forms;
 
 namespace Simulant.UI
 {
     public partial class PresetControl : UserControl
     {
+        private SimPresetBase _preset;
+
+        public SimPresetBase Preset
+        {
+            get { return _preset; }
+        }
+
         public PresetControl()
         {
             InitializeComponent();
+            ClearPreset();
+        }
+
+        internal void LoadPreset(SimPresetBase preset)
+        {
+            _preset = preset;
+
+            if (preset == null)
+            {
+                ClearPreset();
+                return;
+            }
+
+            lblPreset.Text = "预设：" + preset.Name;
+            lblAuthor.Text = "作者：" + preset.Author;
+            lblLastChanged.Text = "更新时间：" + preset.LastUpdated.ToString("yyyy-MM-dd");
+            rtbInfo.Text = preset.Description ?? "（无）";
+
+            RebuildOptions(preset);
+
+            btnStart.Enabled = true;
+            btnEnd.Enabled = true;
+        }
+
+        internal void ClearPreset()
+        {
+            _preset = null;
+
+            lblPreset.Text = "预设：";
+            lblAuthor.Text = "作者：";
+            lblLastChanged.Text = "更新时间：";
+            rtbInfo.Text = "请先在左侧选择预设。";
+
+            ClearOptions();
+
+            btnStart.Enabled = false;
+            btnEnd.Enabled = false;
+        }
+
+        private void RebuildOptions(SimPresetBase preset)
+        {
+            ClearOptions();
+
+            foreach (var option in preset.Options)
+            {
+                option?.CreateUI(this, toolTip);
+            }
+
+            AddOptionFillerRow();
+            tableOptions.PerformLayout();
+        }
+
+        private void ClearOptions()
+        {
+            tableOptions.SuspendLayout();
+            try
+            {
+                tableOptions.Controls.Clear();
+                tableOptions.RowStyles.Clear();
+                tableOptions.RowCount = 0;
+            }
+            finally
+            {
+                tableOptions.ResumeLayout();
+            }
+        }
+
+        /// <summary>
+        /// 在选项列表末尾添加一个占位行，占满剩余空间。
+        /// </summary>
+        private void AddOptionFillerRow()
+        {
+            tableOptions.RowCount += 1;
+            tableOptions.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
         }
 
         #region Copy Style from dummy controls

@@ -183,6 +183,8 @@ namespace Simulant.UI
             }
             lblTerritory.Text = $"选中区域：{territoryName}\n选中副本：{instanceName}";
 
+            presetControl.ClearPreset();
+
             _updatingPhaseSelection = true;
             try
             {
@@ -206,6 +208,20 @@ namespace Simulant.UI
             finally
             {
                 _updatingPhaseSelection = false;
+            }
+
+            UpdateSelectedPresetControl();
+        }
+
+        private void UpdateSelectedPresetControl()
+        {
+            if (cbxPhase.SelectedItem is SimPresetBase preset)
+            {
+                presetControl.LoadPreset(preset);
+            }
+            else
+            {
+                presetControl.ClearPreset();
             }
         }
 
@@ -240,6 +256,8 @@ namespace Simulant.UI
             if (_updatingPhaseSelection)
                 return;
 
+            UpdateSelectedPresetControl();
+
             if (!TryGetSelectedPhase(out var phaseData))
                 return;
 
@@ -268,6 +286,12 @@ namespace Simulant.UI
 
             await Task.Delay(2000);
             _host.ZoneService.EnterPhase(phaseData);
+
+            if (cbxPhase.SelectedItem is SimPresetBase preset)
+            {
+                preset.ApplyOptions();
+                _host.LogSim("已加载模拟预设：" + preset.Name);
+            }
         }
 
         private void btnSimExit_Click(object sender, EventArgs e)
