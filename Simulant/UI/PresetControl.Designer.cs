@@ -28,26 +28,28 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PresetControl));
             this.splitContainer = new System.Windows.Forms.SplitContainer();
             this.tableMetaData = new System.Windows.Forms.TableLayoutPanel();
+            this.lblInfo = new System.Windows.Forms.Label();
             this.lblPreset = new System.Windows.Forms.Label();
             this.lblAuthor = new System.Windows.Forms.Label();
-            this.lblLastChanged = new System.Windows.Forms.Label();
             this.btnStart = new System.Windows.Forms.Button();
             this.btnEnd = new System.Windows.Forms.Button();
-            this.lblInfo = new System.Windows.Forms.Label();
+            this.lblLastChanged = new System.Windows.Forms.Label();
             this.rtbInfo = new System.Windows.Forms.RichTextBox();
             this.tableOptions = new System.Windows.Forms.TableLayoutPanel();
+            this.dummyLbl = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
-            this.dummyLblCbx = new System.Windows.Forms.Label();
             this.dummyLblTxt = new System.Windows.Forms.Label();
             this.dummyLblChk = new System.Windows.Forms.Label();
             this.dummyChk = new System.Windows.Forms.CheckBox();
             this.dummyTxt = new System.Windows.Forms.TextBox();
             this.dummyCbx = new System.Windows.Forms.ComboBox();
             this.dummyNud = new System.Windows.Forms.NumericUpDown();
-            this.dummyLbl = new System.Windows.Forms.Label();
+            this.dummyLblCbx = new System.Windows.Forms.Label();
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
             this.splitContainer.Panel1.SuspendLayout();
             this.splitContainer.Panel2.SuspendLayout();
@@ -107,6 +109,19 @@
             this.tableMetaData.Size = new System.Drawing.Size(316, 427);
             this.tableMetaData.TabIndex = 0;
             // 
+            // lblInfo
+            // 
+            this.lblInfo.AutoSize = true;
+            this.tableMetaData.SetColumnSpan(this.lblInfo, 2);
+            this.lblInfo.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblInfo.Location = new System.Drawing.Point(0, 106);
+            this.lblInfo.Margin = new System.Windows.Forms.Padding(0);
+            this.lblInfo.Name = "lblInfo";
+            this.lblInfo.Padding = new System.Windows.Forms.Padding(5);
+            this.lblInfo.Size = new System.Drawing.Size(316, 32);
+            this.lblInfo.TabIndex = 10;
+            this.lblInfo.Text = "说明：";
+            // 
             // lblPreset
             // 
             this.lblPreset.AutoSize = true;
@@ -132,19 +147,6 @@
             this.lblAuthor.Size = new System.Drawing.Size(316, 32);
             this.lblAuthor.TabIndex = 1;
             this.lblAuthor.Text = "作者：";
-            // 
-            // lblLastChanged
-            // 
-            this.lblLastChanged.AutoSize = true;
-            this.tableMetaData.SetColumnSpan(this.lblLastChanged, 2);
-            this.lblLastChanged.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblLastChanged.Location = new System.Drawing.Point(0, 74);
-            this.lblLastChanged.Margin = new System.Windows.Forms.Padding(0);
-            this.lblLastChanged.Name = "lblLastChanged";
-            this.lblLastChanged.Padding = new System.Windows.Forms.Padding(5);
-            this.lblLastChanged.Size = new System.Drawing.Size(316, 32);
-            this.lblLastChanged.TabIndex = 2;
-            this.lblLastChanged.Text = "更新时间：";
             // 
             // btnStart
             // 
@@ -178,18 +180,18 @@
             this.btnEnd.Text = "停止模拟";
             this.btnEnd.UseVisualStyleBackColor = false;
             // 
-            // lblInfo
+            // lblLastChanged
             // 
-            this.lblInfo.AutoSize = true;
-            this.tableMetaData.SetColumnSpan(this.lblInfo, 2);
-            this.lblInfo.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblInfo.Location = new System.Drawing.Point(0, 106);
-            this.lblInfo.Margin = new System.Windows.Forms.Padding(0);
-            this.lblInfo.Name = "lblInfo";
-            this.lblInfo.Padding = new System.Windows.Forms.Padding(5);
-            this.lblInfo.Size = new System.Drawing.Size(316, 32);
-            this.lblInfo.TabIndex = 10;
-            this.lblInfo.Text = "说明：";
+            this.lblLastChanged.AutoSize = true;
+            this.tableMetaData.SetColumnSpan(this.lblLastChanged, 2);
+            this.lblLastChanged.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblLastChanged.Location = new System.Drawing.Point(0, 74);
+            this.lblLastChanged.Margin = new System.Windows.Forms.Padding(0);
+            this.lblLastChanged.Name = "lblLastChanged";
+            this.lblLastChanged.Padding = new System.Windows.Forms.Padding(5);
+            this.lblLastChanged.Size = new System.Drawing.Size(316, 32);
+            this.lblLastChanged.TabIndex = 2;
+            this.lblLastChanged.Text = "更新时间：";
             // 
             // rtbInfo
             // 
@@ -233,6 +235,19 @@
             this.tableOptions.Size = new System.Drawing.Size(606, 427);
             this.tableOptions.TabIndex = 2;
             // 
+            // dummyLbl
+            // 
+            this.dummyLbl.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.dummyLbl.AutoSize = true;
+            this.tableOptions.SetColumnSpan(this.dummyLbl, 2);
+            this.dummyLbl.Location = new System.Drawing.Point(0, 0);
+            this.dummyLbl.Margin = new System.Windows.Forms.Padding(0);
+            this.dummyLbl.Name = "dummyLbl";
+            this.dummyLbl.Padding = new System.Windows.Forms.Padding(5, 10, 5, 10);
+            this.dummyLbl.Size = new System.Drawing.Size(451, 64);
+            this.dummyLbl.TabIndex = 11;
+            this.dummyLbl.Text = "跨两列的完整 Label 示例，用于显示说明文本，文本可换行\r\n跨两列的完整 Label 示例，用于显示说明文本，文本可换行";
+            // 
             // label6
             // 
             this.label6.Anchor = System.Windows.Forms.AnchorStyles.Left;
@@ -244,18 +259,6 @@
             this.label6.Size = new System.Drawing.Size(180, 32);
             this.label6.TabIndex = 6;
             this.label6.Text = "数值文本框的标签说明";
-            // 
-            // dummyLblCbx
-            // 
-            this.dummyLblCbx.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.dummyLblCbx.AutoSize = true;
-            this.dummyLblCbx.Location = new System.Drawing.Point(0, 159);
-            this.dummyLblCbx.Margin = new System.Windows.Forms.Padding(0);
-            this.dummyLblCbx.Name = "dummyLblCbx";
-            this.dummyLblCbx.Padding = new System.Windows.Forms.Padding(5, 10, 5, 10);
-            this.dummyLblCbx.Size = new System.Drawing.Size(180, 42);
-            this.dummyLblCbx.TabIndex = 4;
-            this.dummyLblCbx.Text = "下拉选项框的标签说明";
             // 
             // dummyLblTxt
             // 
@@ -331,18 +334,26 @@
             this.dummyNud.Size = new System.Drawing.Size(391, 29);
             this.dummyNud.TabIndex = 10;
             // 
-            // dummyLbl
+            // dummyLblCbx
             // 
-            this.dummyLbl.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.dummyLbl.AutoSize = true;
-            this.tableOptions.SetColumnSpan(this.dummyLbl, 2);
-            this.dummyLbl.Location = new System.Drawing.Point(0, 0);
-            this.dummyLbl.Margin = new System.Windows.Forms.Padding(0);
-            this.dummyLbl.Name = "dummyLbl";
-            this.dummyLbl.Padding = new System.Windows.Forms.Padding(5, 10, 5, 10);
-            this.dummyLbl.Size = new System.Drawing.Size(451, 64);
-            this.dummyLbl.TabIndex = 11;
-            this.dummyLbl.Text = "跨两列的完整 Label 示例，用于显示说明文本，文本可换行\r\n跨两列的完整 Label 示例，用于显示说明文本，文本可换行";
+            this.dummyLblCbx.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.dummyLblCbx.AutoSize = true;
+            this.dummyLblCbx.Location = new System.Drawing.Point(0, 159);
+            this.dummyLblCbx.Margin = new System.Windows.Forms.Padding(0);
+            this.dummyLblCbx.Name = "dummyLblCbx";
+            this.dummyLblCbx.Padding = new System.Windows.Forms.Padding(5, 10, 5, 10);
+            this.dummyLblCbx.Size = new System.Drawing.Size(180, 42);
+            this.dummyLblCbx.TabIndex = 4;
+            this.dummyLblCbx.Text = "下拉选项框的标签说明";
+            // 
+            // toolTip
+            // 
+            this.toolTip.AutoPopDelay = 60000;
+            this.toolTip.InitialDelay = 500;
+            this.toolTip.IsBalloon = true;
+            this.toolTip.ReshowDelay = 100;
+            this.toolTip.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
+            this.toolTip.ToolTipTitle = "说明";
             // 
             // PresetControl
             // 
@@ -377,7 +388,6 @@
         private System.Windows.Forms.Button btnEnd;
         private System.Windows.Forms.Label lblInfo;
         private System.Windows.Forms.RichTextBox rtbInfo;
-        private System.Windows.Forms.TableLayoutPanel tableOptions;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label dummyLblTxt;
         private System.Windows.Forms.Label dummyLblChk;
@@ -387,5 +397,7 @@
         private System.Windows.Forms.NumericUpDown dummyNud;
         private System.Windows.Forms.Label dummyLblCbx;
         private System.Windows.Forms.Label dummyLbl;
+        private System.Windows.Forms.ToolTip toolTip;
+        internal System.Windows.Forms.TableLayoutPanel tableOptions;
     }
 }

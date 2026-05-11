@@ -16,12 +16,21 @@ namespace Simulant.Simulation
         public abstract PhaseData Phase { get; }
         public abstract Type SimLogicType { get; }
         public abstract string Description { get; }
+        public virtual IEnumerable<SimOptionBase> Options => Enumerable.Empty<SimOptionBase>();
 
         public override string ToString() => $"[模拟] {Name}";
         public SimLogicBase CreateSimLogic()
         {
             // TODO: Add error handling for invalid SimLogicType
             return SimLogicType == null ? null : (SimLogicBase)Activator.CreateInstance(SimLogicType);
+        }
+
+        protected void ApplyOptions()
+        { 
+            foreach (var option in Options)
+            {
+                option.ApplyTo(this);
+            }
         }
     }
 }
