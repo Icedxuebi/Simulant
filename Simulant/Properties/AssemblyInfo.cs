@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // 有关程序集的一般信息由以下
 // 控制。更改这些特性值可修改
 // 与程序集关联的信息。
-[assembly: AssemblyTitle("MyACTPlugin")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("")]
+[assembly: AssemblyDescription("\n　　FFXIV 副本原生模拟器 ACT 插件。\n　　Native-rendered FFXIV Raid Simulator on ACT.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("示例插件")]
+[assembly: AssemblyCompany("亚历山德里亚 保全院雷转质研究所")]
+[assembly: AssemblyProduct("仿生石 Simulant")]
 [assembly: AssemblyCopyright("Copyright © 2026 洛可利亚奏鸣曲")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

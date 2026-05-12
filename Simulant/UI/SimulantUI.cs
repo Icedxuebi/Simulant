@@ -58,8 +58,8 @@ namespace Simulant.UI
             btnDebug.Enabled = pluginReady;
 
             // 防火墙开启：允许加载区域、退出模拟
-            btnSimEnter.Enabled = firewallReady;
-            btnSimExit.Enabled = firewallReady;
+            btnSimEnter.Enabled = firewallReady && !_switchingTerritory;
+            btnSimExit.Enabled = firewallReady && !_switchingTerritory;
         }
 
         #region Firewall
@@ -131,6 +131,7 @@ namespace Simulant.UI
 
         #region Territory
 
+        private bool _switchingTerritory;
         private int _selectedTerritoryId;
         private bool _updatingTerritoryIdInput;
         private bool _updatingPhaseSelection;
@@ -256,7 +257,7 @@ namespace Simulant.UI
 
         private async void cbxPhase_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (_updatingPhaseSelection)
+            if (_updatingPhaseSelection || _switchingTerritory)
                 return;
 
             UpdateSelectedPresetControl();
@@ -271,27 +272,44 @@ namespace Simulant.UI
 
         private async void btnSimEnter_Click(object sender, EventArgs e)
         {
-            if (_selectedTerritoryId <= 0)
+            if (_switchingTerritory)
             {
-                _host.LogError("未选择有效的区域。");
+                _host.LogWarning("正在切换区域，跳过重复操作。");
                 return;
             }
 
-            if (!TryGetSelectedPhase(out var phaseData))
+            _switchingTerritory = true;
+            UpdateControlStates();
+
+            try
             {
-                _host.LogError("未选择有效的阶段或模拟预设。");
-                return;
+                if (_selectedTerritoryId <= 0)
+                {
+                    _host.LogError("未选择有效的区域。");
+                    return;
+                }
+
+                if (!TryGetSelectedPhase(out var phaseData))
+                {
+                    _host.LogError("未选择有效的阶段或模拟预设。");
+                    return;
+                }
+
+                if (!_host.ZoneService.TryEnterTerritory(_selectedTerritoryId))
+                    return;
+
+                await _host.ZoneService.EnterPhase(phaseData, true);
+
+                if (cbxPhase.SelectedItem is SimPresetBase preset)
+                {
+                    preset.ApplyOptions();
+                    _host.LogSim("已加载模拟预设：" + preset.Name);
+                }
             }
-
-            if (!_host.ZoneService.TryEnterTerritory(_selectedTerritoryId))
-                return;
-
-            await _host.ZoneService.EnterPhase(phaseData, true);
-
-            if (cbxPhase.SelectedItem is SimPresetBase preset)
+            finally
             {
-                preset.ApplyOptions();
-                _host.LogSim("已加载模拟预设：" + preset.Name);
+                _switchingTerritory = false;
+                UpdateControlStates();
             }
         }
 
