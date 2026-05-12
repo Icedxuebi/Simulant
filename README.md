@@ -24,3 +24,7 @@ An ACT plugin for local FFXIV raid simulation using native in-game rendering.
 
 开发中。  
 Work in progress.
+
+<img width="1342" height="831" alt="2LSE}LO{~4W2J2JV{YNVD0D" src="https://github.com/user-attachments/assets/cdca18c5-b3aa-4a42-8a01-42d831806814" />
+
+<img width="2222" height="1170" alt="image" src="https://github.com/user-attachments/assets/87dc9104-2b5c-417f-8415-e783bc945b87" />
