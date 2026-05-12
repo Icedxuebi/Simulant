@@ -7,6 +7,7 @@ using Simulant.Game.FFCS.Client.Game.Event;
 using System;
 using System.Numerics;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace Simulant.Core.Zone
 {
@@ -61,14 +62,14 @@ namespace Simulant.Core.Zone
             }
         }
 
-        public bool EnterPhase(PhaseData phaseData)
+        public async Task<bool> EnterPhase(PhaseData phaseData, bool waitForZoneInit)
         {
             try
             {
                 if (!_isInSimulatedTerritory)
                     throw new InvalidOperationException("当前不在模拟区域中，无法进入阶段。");
 
-                ApplyPhaseData(phaseData);
+                await ApplyPhaseData(phaseData, waitForZoneInit);
                 return true;
             }
             catch (Exception ex)
@@ -145,7 +146,7 @@ namespace Simulant.Core.Zone
             _host.LogRuntime($"已恢复真实位置：{_initialPosition.Value.X}, {_initialPosition.Value.Y}, {_initialPosition.Value.Z}");
         }
 
-        public void ApplyPhaseData(PhaseData phaseData)
+        public async Task ApplyPhaseData(PhaseData phaseData, bool waitForZoneInit)
         {
             _host.LogSim($"进入阶段 {phaseData.Name}：天气 {phaseData.Weather}，BGM {phaseData.BGM}，坐标 {phaseData.Spawn?.ToString() ?? "null"}");
             
@@ -154,12 +155,28 @@ namespace Simulant.Core.Zone
             {
                 me.Pos3D = phaseData.Spawn.Value;
             }
-            _host.EnvironmentService.SetWeather(phaseData.Weather);
-            _host.EnvironmentService.SetBgm(phaseData.BGM);
-            for (uint slot = 0; slot < phaseData.MapEffectFlags.Count; slot++)
+            
+            void Apply() // 这些在区域没完全加载时设置无效
             {
-                var flag = phaseData.MapEffectFlags[(int)slot];
-                _host.EnvironmentService.PlayMapEffect(slot, flag);
+                _host.EnvironmentService.SetWeather(phaseData.Weather);
+                _host.EnvironmentService.SetBgm(phaseData.BGM);
+                for (uint slot = 0; slot < phaseData.MapEffectFlags.Count; slot++)
+                {
+                    var flag = phaseData.MapEffectFlags[(int)slot];
+                    _host.EnvironmentService.PlayMapEffect(slot, flag);
+                }
+            }
+
+            if (waitForZoneInit)
+            {
+                await Task.Delay(3000);
+                Apply();
+                await Task.Delay(2000);
+                Apply();
+            }
+            else
+            {
+                Apply();
             }
         }
 

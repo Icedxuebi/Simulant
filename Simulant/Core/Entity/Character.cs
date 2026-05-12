@@ -1,8 +1,6 @@
-﻿using FFXIV_ACT_Plugin.Resource;
-using Simulant.ACT;
+﻿using Simulant.ACT;
 using Simulant.Game;
 using Simulant.Game.ExtractedCsv;
-using Simulant.Game.ExtractedCsv.Rows;
 using Simulant.Game.FFCS.Client.Game.Character;
 using Simulant.Game.FFCS.Client.Game.Object;
 using System.Numerics;
@@ -90,7 +88,7 @@ namespace Simulant.Core.Entity
         {
             if (timelineId == 0) return;
             Native.Timeline.TimelineSequencer.PlayTimeline(timelineId);
-            _host.LogSim($"PlayTimeline: {timelineId}");
+            _host.LogVerbose($"PlayTimeline: {timelineId}");
         }
 
         public void PlayBaseTimeline(ushort timelineId, bool interrupt = true)
@@ -103,7 +101,7 @@ namespace Simulant.Core.Entity
             if (!interrupt) return;
             
             Native.Timeline.TimelineSequencer.PlayTimeline(timelineId);
-            _host.LogSim($"PlayTimeline: {timelineId}");
+            _host.LogVerbose($"PlayTimeline: {timelineId}");
         }
 
         private readonly struct BaseTimelineState

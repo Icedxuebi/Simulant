@@ -254,7 +254,7 @@ namespace Simulant.UI
             return GameMain.Instance.CurrentTerritoryTypeId == _selectedTerritoryId;
         }
 
-        private void cbxPhase_SelectedIndexChanged(object sender, EventArgs e)
+        private async void cbxPhase_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (_updatingPhaseSelection)
                 return;
@@ -266,7 +266,7 @@ namespace Simulant.UI
                 !IsCurrentTerritorySelected())
                 return;
 
-            _host.ZoneService.EnterPhase(phaseData);
+            await _host.ZoneService.EnterPhase(phaseData, false);
         }
 
         private async void btnSimEnter_Click(object sender, EventArgs e)
@@ -286,8 +286,7 @@ namespace Simulant.UI
             if (!_host.ZoneService.TryEnterTerritory(_selectedTerritoryId))
                 return;
 
-            await Task.Delay(2000);
-            _host.ZoneService.EnterPhase(phaseData);
+            await _host.ZoneService.EnterPhase(phaseData, true);
 
             if (cbxPhase.SelectedItem is SimPresetBase preset)
             {
