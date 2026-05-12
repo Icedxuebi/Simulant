@@ -14,11 +14,11 @@ namespace Simulant.Game.FFCS.Client.Game
         public MemoryField<uint> CurrentTerritoryTypeId => Ptr.Field<uint>(0x4108);
         public MemoryField<ushort> CurrentContentFinderConditionId => Ptr.Field<ushort>(0x4114);
 
-        // from Hyperborea
+        // from Hyperborea, 对照 IDA 修改了参数
         [SigPattern("40 55 56 41 54 41 56 41 57 48 81 EC ? ? ? ? 48 8B 05 ? ? ? ? 48 33 C4 48 89 44 24")]
         public static IntPtr LoadZoneFuncPtr { get; set; }
-        public IntPtr LoadZone(uint territoryId, int storyProgress = 0, byte a4 = 0, byte a5 = 0, byte a6 = 1)
-            => LoadZoneFuncPtr.Call<IntPtr>(Ptr, territoryId, storyProgress, a4, a5, a6);
+        public IntPtr LoadZone(uint territoryId, int storyProgress = 0, byte unused = 0, bool triggerSomething = true)
+            => LoadZoneFuncPtr.Call<IntPtr>(Ptr, territoryId, storyProgress, unused, (byte)(triggerSomething ? 1 : 0));
 
         [SigPattern("E8 * * * * 66 41 89 B7")]
         public static IntPtr ExecuteCommandFuncPtr { get; set; }

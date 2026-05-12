@@ -29,7 +29,7 @@ namespace Simulant.Core.Zone
         private bool _isInSimulatedTerritory;
         public bool IsInSimulatedTerritory => _isInSimulatedTerritory;
 
-        public bool TryEnterTerritory(int territoryId, int storyProgress = 0, byte a4 = 0, byte a5 = 0)
+        public bool TryEnterTerritory(int territoryId, int storyProgress = 0)
         {
             try
             {
@@ -45,7 +45,7 @@ namespace Simulant.Core.Zone
 
                 _ = CsvManager.Instance.Get<TerritoryType>().TryGetValue(territoryId, out TerritoryType territory);
 
-                LoadTerritoryInternal(territoryId, territory, storyProgress, a4, a5);
+                LoadTerritoryInternal(territoryId, territory, storyProgress);
 
                 _isInSimulatedTerritory = true;
 
@@ -180,7 +180,7 @@ namespace Simulant.Core.Zone
             }
         }
 
-        private void LoadTerritoryInternal(int territoryId, TerritoryType territory, int storyProgress = 0, byte a4 = 0, byte a5 = 0)
+        private void LoadTerritoryInternal(int territoryId, TerritoryType territory, int storyProgress = 0)
         {
             var eventFramework = EventFramework.Instance;
             if (eventFramework.IsNull())
@@ -192,6 +192,8 @@ namespace Simulant.Core.Zone
                 _loadedInstanceContentId = null;
             }
 
+            DisableCurrentObjects();
+
             var nextContentId = ResolveInstanceContentId(territory);
             if (nextContentId != 0)
             {
@@ -199,8 +201,29 @@ namespace Simulant.Core.Zone
                 _loadedInstanceContentId = nextContentId;
             }
 
-            GameMain.Instance.LoadZone((uint)territoryId, storyProgress, a4, a5);
+            _host.LogVerbose($"开始 LoadZone：{territoryId}");
+            GameMain.Instance.LoadZone((uint)territoryId, storyProgress);
+            _host.LogVerbose($"LoadZone 返回：{territoryId}");
+
+            eventFramework = EventFramework.Instance;
+            if (eventFramework.IsNull())
+                throw new InvalidOperationException("EventFramework.Instance 为空。");
             eventFramework.SetTerritoryTypeId((ushort)territoryId);
+        }
+
+        private void DisableCurrentObjects()
+        {
+            foreach (var entity in _host.EntityProvider.GetEntities())
+            {
+                try
+                {
+                    entity.DisableDraw();
+                }
+                catch (Exception ex)
+                {
+                    _host.LogWarning("DisableDraw 失败：" + ex.Message);
+                }
+            }
         }
 
         public void SetupInstanceContent(ushort contentId)
