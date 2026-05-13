@@ -299,12 +299,6 @@ namespace Simulant.UI
                     return;
 
                 await _host.ZoneService.EnterPhase(phaseData, true);
-
-                if (cbxPhase.SelectedItem is SimPresetBase preset)
-                {
-                    preset.ApplyOptions();
-                    _host.LogSim("已加载模拟预设：" + preset.Name);
-                }
             }
             finally
             {

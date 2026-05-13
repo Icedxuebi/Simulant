@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Simulant.Simulation
+namespace Simulant.Simulation.Options
 {
     public class Map<TKey> : IEnumerable<KeyValuePair<TKey, string>>
     {
