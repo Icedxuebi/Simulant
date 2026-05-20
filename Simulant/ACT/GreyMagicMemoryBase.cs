@@ -160,5 +160,25 @@ namespace Simulant.ACT
         {
             return _memory.GetRelative(absolute);
         }
+
+        public GreyMagicFrameLock AcquireFrame(bool hardLock)
+        {
+            return new GreyMagicFrameLock(_memory.AcquireFrame(hardLock));
+        }
+
+        public GreyMagicFrameLock AcquireFrame()
+        {
+            return new GreyMagicFrameLock(_memory.AcquireFrame());
+        }
+
+        public GreyMagicFrameLockRelease ReleaseFrame(bool reacquireAsHardLock)
+        {
+            return new GreyMagicFrameLockRelease(_memory.ReleaseFrame(reacquireAsHardLock));
+        }
+
+        public GreyMagicFrameLockRelease ReleaseFrame()
+        {
+            return new GreyMagicFrameLockRelease(_memory.ReleaseFrame());
+        }
     }
 }

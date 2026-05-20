@@ -11,6 +11,7 @@ using System.Linq;
 using System.Numerics;
 using System.Threading.Tasks;
 using Simulant.Simulation;
+using Simulant.ACT;
 
 namespace Simulant
 {
@@ -24,7 +25,58 @@ namespace Simulant
 
         internal async Task Run()
         {
-            await 宇宙天箭Test();
+            FrameLockTest();
+        }
+
+        private async void FrameLockTest()
+        {
+            var me = _host.EntityProvider.GetMyself();
+
+            var spawner = new EntitySpawner(_host, 100);
+            var spawned = new List<dynamic>();
+
+            try
+            {
+                using (NamazuInterop.Plugin.Memory.AcquireFrame(true))
+                {
+                    var count = 20;
+                    var radius = 5f;
+                    var basePos = me.Pos3D;
+                    var heading = me.Heading;
+
+                    for (var i = 0; i < count; i++)
+                    {
+                        var angle = Math.PI * 2.0 * i / count;
+                        var offset = new Vector3(
+                            (float)Math.Cos(angle) * radius,
+                            0,
+                            (float)Math.Sin(angle) * radius);
+
+                        var bnpc = spawner.SpawnBNpc(4909, 3765);
+                        spawned.Add(bnpc);
+
+                        bnpc.Pos3D = basePos + offset;
+                        bnpc.Heading = heading;
+                        bnpc.SetReadyToDraw();
+                        bnpc.EnableDraw();
+                    }
+                }
+
+                await Task.Delay(3000);
+            }
+            finally
+            {
+                foreach (var bnpc in spawned)
+                {
+                    try
+                    {
+                        spawner.Delete(bnpc);
+                    }
+                    catch
+                    {
+                    }
+                }
+            }
         }
 
         private async Task 宇宙天箭Test()
