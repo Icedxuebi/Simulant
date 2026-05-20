@@ -1,8 +1,11 @@
 ﻿using Simulant.Content.U6b;
 using Simulant.Core;
 using Simulant.Core.Environment;
-using System;
 using Simulant.Simulation;
+using Simulant.Simulation.Options;
+using System;
+using System.Collections.Generic;
+using System.Data;
 
 namespace Simulant.Presets
 {
@@ -15,11 +18,19 @@ namespace Simulant.Presets
         public override PhaseData Phase { get; } = U6b.P3;
         public override Type SimLogicType { get; } = typeof(U6b3_屏幕探测Logic);
         public override string Description { get; } = "占位符";
+
+        public override List<SimOptionBase> Options { get; } = new List<SimOptionBase>
+        {
+        };
     }
 
     internal class U6b3_屏幕探测Logic : SimLogicBase
     {
-        public override void Start()
+        public override int DummyCount => throw new NotImplementedException();
+        public U6b3_屏幕探测Logic(SimPresetBase preset) : base(preset)
+        {
+        }
+        public override void SimLogic()
         {
             throw new NotImplementedException();
         }

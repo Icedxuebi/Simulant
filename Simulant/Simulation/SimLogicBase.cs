@@ -12,8 +12,9 @@ namespace Simulant.Simulation
 
         /// <summary> 需要使用的不可见假实体数量，用于产生技能特效。</summary>
         public abstract int DummyCount { get; }
-        public SimEntityManager EntityManager { get; set; }
+        public SimEntityManager EntityManager { get; set; } // 或者不持有 manager，用 delegate 处理实体？
 
+        // 如果修改构造函数传参，需要同步修改 SimSession 构造函数中的 CreateInstance 调用参数
         public SimLogicBase(SimPresetBase preset)
         {
             _preset = preset;

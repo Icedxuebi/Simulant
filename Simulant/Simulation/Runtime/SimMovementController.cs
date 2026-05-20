@@ -131,21 +131,20 @@ namespace Simulant.Simulation.Runtime
 
         private static void MoveCharacter(SimCharacter character, float delta)
         {
-            if (character == null || character.Entity == null)
+            if (character == null)
                 return;
 
-            var entity = character.Entity;
-            if (entity.Native.IsNull())
+            if (character.Native.IsNull())
                 return;
-
-            var current = entity.Pos;
+            /*
+            var current = character.Pos;
             var target = character.TargetPos;
             var diff = target - current;
-            var distance = diff.Length();
+            var distance = diff?.Length();
 
             if (distance <= StopDistance)
             {
-                entity.Pos = target;
+                character.Pos = target.Value;
                 return;
             }
 
@@ -156,11 +155,12 @@ namespace Simulant.Simulation.Runtime
             var step = speed * delta;
             if (step >= distance)
             {
-                entity.Pos = target;
+                character.Pos = target;
                 return;
             }
 
-            entity.Pos = current + diff / distance * step;
+            character.Pos = current + diff / distance * step;
+            */
         }
 
         public void Dispose()

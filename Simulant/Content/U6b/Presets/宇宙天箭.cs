@@ -4,6 +4,7 @@ using Simulant.Core.Environment;
 using Simulant.Simulation;
 using Simulant.Simulation.Options;
 using System;
+using System.Collections.Generic;
 
 namespace Simulant.Presets
 {
@@ -17,14 +18,10 @@ namespace Simulant.Presets
         public override Type SimLogicType { get; } = typeof(U6b6_宇宙天箭Logic);
         public override string Description { get; } = null;
 
-        internal int Role { get; set; }
-        internal ArrowMode ArrowMode { get; set; }
-        internal bool IsSecondRound { get; set; }
-
-        public 宇宙天箭()
+        public override List<SimOptionBase> Options { get; } = new List<SimOptionBase>
         {
-            AddOption(new ComboBoxOption<int>( 
-                nameof(Role), "自身职能", 1, 
+            new ComboBoxOption<int>(
+                nameof(Role), "自身职能", 1,
                 new Map<int> // to-do: Role8Option : ComboBoxOption, enum Role8，IsT(this Role8 role) ...
                 {
                     [1] = "MT",
@@ -35,24 +32,32 @@ namespace Simulant.Presets
                     [6] = "D2",
                     [7] = "D3",
                     [8] = "D4",
-                }));
+                }),
 
-            AddOption(new ComboBoxOption<ArrowMode>(
+            new ComboBoxOption<ArrowMode>(
                 nameof(ArrowMode), "宇宙天箭模式", ArrowMode.Random,
                 new Map<ArrowMode>
                 {
                     [ArrowMode.Random] = "随机",
                     [ArrowMode.OutsideFirst] = "先外侧",
                     [ArrowMode.InsideFirst] = "先内侧",
-                }));
+                }),
 
-            AddOption(new ComboBoxOption<bool>(
+            new ComboBoxOption<bool>(
                 nameof(IsSecondRound), "轮次", false,
                 new Map<bool>
                 {
                     [false] = "第一轮（116 死刑 / 分摊）",
                     [true] = "第二轮（八方分散 + 挡枪）",
-                }));
+                }),
+        };
+
+        internal int Role { get; set; }
+        internal ArrowMode ArrowMode { get; set; }
+        internal bool IsSecondRound { get; set; }
+
+        public 宇宙天箭()
+        {
         }
 
     }
@@ -66,7 +71,13 @@ namespace Simulant.Presets
 
     internal class U6b6_宇宙天箭Logic : SimLogicBase
     {
-        public override void Start()
+        public override int DummyCount => 20;
+
+        public U6b6_宇宙天箭Logic(SimPresetBase preset) : base(preset)
+        {
+        }
+
+        public override void SimLogic()
         {
             throw new NotImplementedException();
         }

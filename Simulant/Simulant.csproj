@@ -93,6 +93,8 @@
   <ItemGroup>
     <Compile Include="ACT\ActInterop.cs" />
     <Compile Include="ACT\GreyMagicExternalProcessMemory.cs" />
+    <Compile Include="ACT\GreyMagicFrameLockRelease.cs" />
+    <Compile Include="ACT\GreyMagicFrameLock.cs" />
     <Compile Include="ACT\GreyMagicMemoryBase.cs" />
     <Compile Include="ACT\TriggernometryInterop.cs" />
     <Compile Include="ACT\NamazuInterop.cs" />

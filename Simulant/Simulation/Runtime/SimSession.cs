@@ -7,13 +7,21 @@ namespace Simulant.Simulation.Runtime
     {
         private readonly PluginHost _host;
         private readonly SimLogicBase _logic;
+        private readonly SimEntityManager _entityManager = new SimEntityManager();
 
         public bool IsRunning { get; private set; }
 
         internal SimSession(PluginHost host, SimPresetBase preset)
         {
-            _host = host;
-            _logic = (SimLogicBase)Activator.CreateInstance(preset.SimLogicType);
+            _host = host ?? throw new ArgumentNullException(nameof(host));
+            _ = preset ?? throw new ArgumentNullException(nameof(preset));
+            _ = preset.SimLogicType ?? throw new NullReferenceException($"{preset.GetType().Name} 预设类型未定义 SimLogicType，或 SimLogicType 为 null。");
+
+            if (!typeof(SimLogicBase).IsAssignableFrom(preset.SimLogicType))
+                throw new InvalidOperationException($"{preset.GetType().Name} 预设的逻辑类型 {preset.SimLogicType.Name} 不继承自 SimLogicBase。");
+
+            _logic = (SimLogicBase)Activator.CreateInstance(preset.SimLogicType, preset);
+            _logic.EntityManager = _entityManager;
         }
 
         public void Start()

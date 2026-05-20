@@ -11,7 +11,7 @@ namespace Simulant.Game
         internal MemoryBitField(IntPtr basePtr, int offset, int bit)
         {
             if (bit < 0 || bit > 7)
-                throw new ArgumentOutOfRangeException(nameof(bit), "byte bit index must be 0..7.");
+                throw new ArgumentOutOfRangeException(nameof(bit), "byte bit index must be 0-7.");
 
             _basePtr = basePtr;
             _offset = offset;

@@ -22,11 +22,6 @@ namespace Simulant.Core.Entity
             _host = host;
         }
 
-        /// <summary>
-        /// 用于控制假实体移动的坐标。
-        /// </summary>
-        public Vector2 TargetPos { get; set; }
-
         public uint HP
         {
             get => Native.Health;
