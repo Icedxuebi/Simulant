@@ -1,17 +1,19 @@
-﻿using Simulant.Core;
+﻿using Simulant.ACT;
+using Simulant.Core;
 using Simulant.Core.Entity;
 using Simulant.Core.Environment;
 using Simulant.Game;
 using Simulant.Game.FFCS.Client.Game.Event;
 using Simulant.Game.FFCS.Client.Game.Object;
 using Simulant.Game.FFCS.Client.System.Framework;
+using Simulant.Simulation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
-using Simulant.Simulation;
-using Simulant.ACT;
 
 namespace Simulant
 {
@@ -25,8 +27,38 @@ namespace Simulant
 
         internal async Task Run()
         {
-            FrameLockTest();
+            LogObjectArrays();
         }
+
+        public void LogObjectArrays()
+        {
+            var objects = GameObjectManager.Instance().Objects;
+            LogGameObjects("IndexSorted", objects.IndexSorted);
+            LogGameObjects("GameObjectIdSorted", objects.GameObjectIdSorted);
+            LogGameObjects("EntityIdSorted", objects.EntityIdSorted);
+
+            void LogGameObjects(string name, GameObjectPtrs ptrs)
+            {
+                var sb = new StringBuilder();
+                sb.AppendLine().AppendLine("== " + name + " ==");
+
+                int i = 0;
+                foreach (var obj in ptrs.GameObjects)
+                {
+                    if (!obj.IsNull())
+                        sb.Append('#').Append(i)
+                            .Append(" @ ").Append(obj.Ptr.Hex())
+                            .Append(", Id=").Append(((uint)obj.EntityId).ToString("X8"))
+                            .Append(", Index=").Append((ushort)obj.ObjectIndex)
+                            .Append(", Type=").Append((ObjectKind)obj.ObjectKind)
+                            .AppendLine();
+                    i++;
+                }
+                _host.LogVerbose(sb.ToString());
+            }
+        }
+
+
 
         private async void FrameLockTest()
         {
@@ -35,10 +67,14 @@ namespace Simulant
             var spawner = new EntitySpawner(_host, 100);
             var spawned = new List<dynamic>();
 
+            await Task.Delay(3000);
+
             try
             {
                 using (NamazuInterop.Plugin.Memory.AcquireFrame(true))
                 {
+                    await Task.Delay(900);
+
                     var count = 20;
                     var radius = 5f;
                     var basePos = me.Pos3D;
@@ -48,9 +84,9 @@ namespace Simulant
                     {
                         var angle = Math.PI * 2.0 * i / count;
                         var offset = new Vector3(
-                            (float)Math.Cos(angle) * radius,
-                            0,
-                            (float)Math.Sin(angle) * radius);
+                            (float)Math.Sin(angle) * radius,
+                            (float)Math.Cos(angle) * radius, 
+                            0);
 
                         var bnpc = spawner.SpawnBNpc(4909, 3765);
                         spawned.Add(bnpc);
@@ -60,8 +96,8 @@ namespace Simulant
                         bnpc.SetReadyToDraw();
                         bnpc.EnableDraw();
                     }
-                }
 
+                }
                 await Task.Delay(3000);
             }
             finally

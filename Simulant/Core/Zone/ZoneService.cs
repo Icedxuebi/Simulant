@@ -4,9 +4,9 @@ using Simulant.Game.ExtractedCsv;
 using Simulant.Game.ExtractedCsv.Rows;
 using Simulant.Game.FFCS.Client.Game;
 using Simulant.Game.FFCS.Client.Game.Event;
+using Simulant.Game.FFCS.Client.Game.Object;
 using System;
 using System.Numerics;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace Simulant.Core.Zone
@@ -57,7 +57,7 @@ namespace Simulant.Core.Zone
             }
             catch (Exception ex)
             {
-                _host.LogError("进入区域失败：" + ex.Message);
+                _host.LogError("进入区域失败：" + ex.ToString());
                 return false;
             }
         }
@@ -74,7 +74,7 @@ namespace Simulant.Core.Zone
             }
             catch (Exception ex)
             {
-                _host.LogError("进入阶段失败：" + ex.Message);
+                _host.LogError("进入阶段失败：" + ex.ToString());
                 return false;
             }
         }
@@ -119,7 +119,7 @@ namespace Simulant.Core.Zone
 
         private void RecordInitialState(GameMain gameMain)
         {
-            var currentTerritoryId = gameMain.CurrentTerritoryTypeId.Get();
+            var currentTerritoryId = gameMain.CurrentTerritoryTypeId.Get(); // CurrentTerritoryTypeId 切地图后更新有一定延迟，考虑换为 EventFramework 或 LayoutWorld.Active 中的来源
             if (currentTerritoryId != 0)
             {
                 _initialTerritoryId = currentTerritoryId;
@@ -182,12 +182,9 @@ namespace Simulant.Core.Zone
 
         private void LoadTerritoryInternal(int territoryId, TerritoryType territory, int storyProgress = 0)
         {
-            var eventFramework = EventFramework.Instance;
-            if (eventFramework.IsNull())
-                throw new InvalidOperationException("EventFramework.Instance 为空。");
-
             if (_loadedInstanceContentId.HasValue && _loadedInstanceContentId.Value != 0)
             {
+                _host.LogVerbose($"FinalizeInstanceContent: {_loadedInstanceContentId.Value}");
                 FinalizeInstanceContent(_loadedInstanceContentId.Value);
                 _loadedInstanceContentId = null;
             }
@@ -197,24 +194,27 @@ namespace Simulant.Core.Zone
             var nextContentId = ResolveInstanceContentId(territory);
             if (nextContentId != 0)
             {
+                _host.LogVerbose($"SetupInstanceContent: {nextContentId}");
                 SetupInstanceContent(nextContentId);
                 _loadedInstanceContentId = nextContentId;
             }
 
-            _host.LogVerbose($"开始 LoadZone：{territoryId}");
-            GameMain.Instance.LoadZone((uint)territoryId, storyProgress);
-            _host.LogVerbose($"LoadZone 返回：{territoryId}");
+            _host.LogVerbose($"LoadZone: {territoryId}");
+            GameMain.Instance.ThrowIfNull().LoadZone((uint)territoryId, storyProgress);
 
-            eventFramework = EventFramework.Instance;
-            if (eventFramework.IsNull())
-                throw new InvalidOperationException("EventFramework.Instance 为空。");
-            eventFramework.SetTerritoryTypeId((ushort)territoryId);
+            _host.LogVerbose($"SetTerritoryTypeId: {territoryId}");
+            EventFramework.Instance.ThrowIfNull().SetTerritoryTypeId((ushort)territoryId);
         }
 
-        private void DisableCurrentObjects()
+        // 需要扫描全部实体（含本地实体），似乎有实体模型的时候游戏有概率会炸
+        // to-do: EntityProvider
+        private void DisableCurrentObjects() 
         {
-            foreach (var entity in _host.EntityProvider.GetEntities())
+            var count = 0;
+            foreach (var entity in GameObjectManager.Instance().Objects.IndexSorted.GameObjects)
             {
+                if (entity.IsNull()) continue;
+
                 try
                 {
                     entity.DisableDraw();
@@ -223,7 +223,9 @@ namespace Simulant.Core.Zone
                 {
                     _host.LogWarning("DisableDraw 失败：" + ex.Message);
                 }
+                count++;
             }
+            _host.LogVerbose($"DisableDraw 时实体总数：{count}");
         }
 
         public void SetupInstanceContent(ushort contentId)

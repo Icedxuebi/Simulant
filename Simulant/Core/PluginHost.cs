@@ -18,6 +18,8 @@ namespace Simulant.Core
     {
         public static PluginHost Instance { get; set; } // 仅为了调试方便
 
+        public GreyMagicExternalProcessMemory Memory => NamazuInterop.Plugin.Memory;
+
         private readonly Label _statusLabel;
         private readonly SimulantUI _ui;
 
@@ -35,6 +37,7 @@ namespace Simulant.Core
         internal ZoneService ZoneService;
         internal Environment.EnvironmentService EnvironmentService;
         internal EntityProvider EntityProvider;
+
         public PluginHost(TabPage pluginScreenSpace, Label pluginStatusText)
         {
             _statusLabel = pluginStatusText;
