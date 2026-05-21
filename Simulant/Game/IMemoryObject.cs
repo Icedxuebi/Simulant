@@ -15,5 +15,13 @@ namespace Simulant.Game
         {
             return obj.Ptr == IntPtr.Zero;
         }
+
+        public static TMemoryObject ThrowIfNull<TMemoryObject>(this TMemoryObject obj, string error = null)
+           where TMemoryObject : struct, IMemoryObject
+        {
+            if (obj.Ptr == IntPtr.Zero)
+                throw new InvalidOperationException(error ?? $"MemoryObject {typeof(TMemoryObject).Name} is null.");
+            return obj;
+        }
     }
 }

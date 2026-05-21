@@ -16,6 +16,8 @@ namespace Simulant.Game
             return ptr;
         }
 
+        public static string Hex(this IntPtr ptr) => $"{(ulong)ptr:X}";
+
         public static T Read<T>(this IntPtr ptr, int offset = 0, 
             [CallerMemberName] string callerName = "") where T : struct
         {
