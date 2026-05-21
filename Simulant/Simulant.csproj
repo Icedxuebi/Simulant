@@ -112,6 +112,8 @@
     <Compile Include="Core\Firewall\FirewallService.cs" />
     <Compile Include="Core\Environment\Attributes.cs" />
     <Compile Include="Core\Environment\PhaseData.cs" />
+    <Compile Include="Game\FFCS\Client\LayoutEngine\LayoutManager.cs" />
+    <Compile Include="Game\FFCS\Client\LayoutEngine\LayoutWorld.cs" />
     <Compile Include="Simulation\Options\DecimalOption.cs" />
     <Compile Include="Simulation\Options\IntegerOption.cs" />
     <Compile Include="Simulation\Options\TextBoxOption.cs" />

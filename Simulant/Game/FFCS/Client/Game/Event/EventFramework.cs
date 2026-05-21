@@ -77,7 +77,7 @@ namespace Simulant.Game.FFCS.Client.Game.Event
         [SigPattern("E8 * * * * 8B D8 EB ? 0F B7 DF")]
         public static IntPtr GetContentFinderConditionFuncPtr { get; set; }
         public static ushort GetContentFinderCondition(ContentType contentType, uint contentId)
-            => GetContentFinderConditionFuncPtr.Call<ushort>(contentType, contentId);
+            => GetContentFinderConditionFuncPtr.Call<ushort>((byte)contentType, contentId);
 
         [SigPattern("48 83 EC 28 48 8B 05 ? ? ? ? 48 85 C0 74 2C")]
         public static IntPtr CanLeaveCurrentContentFuncPtr { get; set; }
