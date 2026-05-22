@@ -27,7 +27,7 @@ namespace Simulant
 
         internal async Task Run()
         {
-            LogObjectArrays();
+            NoFrameLockTest();
         }
 
         public void LogObjectArrays()
@@ -58,7 +58,54 @@ namespace Simulant
             }
         }
 
+        private async void NoFrameLockTest()
+        {
+            var me = _host.EntityProvider.GetMyself();
 
+            var spawner = new EntitySpawner(_host, 100);
+            var spawned = new List<dynamic>();
+
+            await Task.Delay(3000);
+
+            try
+            {
+                var count = 20;
+                var radius = 5f;
+                var basePos = me.Pos3D;
+                var heading = me.Heading;
+
+                for (var i = 0; i < count; i++)
+                {
+                    var angle = Math.PI * 2.0 * i / count;
+                    var offset = new Vector3(
+                        (float)Math.Sin(angle) * radius,
+                        (float)Math.Cos(angle) * radius,
+                        0);
+
+                    var bnpc = spawner.SpawnBNpc(4909, 3765);
+                    spawned.Add(bnpc);
+
+                    bnpc.Pos3D = basePos + offset;
+                    bnpc.Heading = heading;
+                    bnpc.SetReadyToDraw();
+                    bnpc.EnableDraw();
+                }
+                await Task.Delay(3000);
+            }
+            finally
+            {
+                foreach (var bnpc in spawned)
+                {
+                    try
+                    {
+                        spawner.Delete(bnpc);
+                    }
+                    catch
+                    {
+                    }
+                }
+            }
+        }
 
         private async void FrameLockTest()
         {
@@ -73,8 +120,6 @@ namespace Simulant
             {
                 using (NamazuInterop.Plugin.Memory.AcquireFrame(true))
                 {
-                    await Task.Delay(900);
-
                     var count = 20;
                     var radius = 5f;
                     var basePos = me.Pos3D;

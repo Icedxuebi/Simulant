@@ -68,15 +68,36 @@ namespace Simulant.Game
             NamazuInterop.Plugin.Memory.WriteBytes(ptr + offset, data);
         }
 
-        public static void Call(this IntPtr ptr, params object[] args)
+        /// <summary> 直接通过 GreyMagic 在指定的函数地址调用 CallInjected64。</summary>
+        public static void DirectCall(this IntPtr ptr, params object[] args)
         {
+            ptr.ThrowIfZero("Call", 0, "调用函数");
             NamazuInterop.Plugin.Memory.CallInjected64(ptr, args);
         }
 
-        public static T Call<T>(this IntPtr ptr, params object[] args) where T : struct
+        /// <summary> 直接通过 GreyMagic 在指定的函数地址调用 CallInjected64。</summary>
+        public static T DirectCall<T>(this IntPtr ptr, params object[] args) where T : struct
         {
             ptr.ThrowIfZero("Call", 0, "调用函数");
             return NamazuInterop.Plugin.Memory.CallInjected64<T>(ptr, args);
+        }
+
+        /// <summary> 使用自动复用的 FrameLock 窗口，在指定的函数地址调用 CallInjected64。</summary>
+        public static void Call(this IntPtr ptr, params object[] args)
+        {
+            ptr.ThrowIfZero("Call", 0, "调用函数");
+
+            var memory = NamazuInterop.Plugin.Memory;
+            NamazuInterop.ExecuteInFrameLock(() => memory.CallInjected64(ptr, args));
+        }
+
+        /// <summary> 使用自动复用的 FrameLock 窗口，在指定的函数地址调用 CallInjected64。</summary>
+        public static T Call<T>(this IntPtr ptr, params object[] args) where T : struct
+        {
+            ptr.ThrowIfZero("Call", 0, "调用函数");
+
+            var memory = NamazuInterop.Plugin.Memory;
+            return NamazuInterop.ExecuteInFrameLock(() => memory.CallInjected64<T>(ptr, args));
         }
 
         public static IntPtr GetVFuncPtr(this IntPtr objectPtr, int idx, [CallerMemberName] string callerName = "")

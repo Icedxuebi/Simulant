@@ -92,6 +92,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ACT\ActInterop.cs" />
+    <Compile Include="ACT\GreyMagicCallScheduler.cs" />
     <Compile Include="ACT\GreyMagicExternalProcessMemory.cs" />
     <Compile Include="ACT\GreyMagicFrameLockRelease.cs" />
     <Compile Include="ACT\GreyMagicFrameLock.cs" />
