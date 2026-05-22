@@ -27,7 +27,7 @@ namespace Simulant
 
         internal async Task Run()
         {
-            NoFrameLockTest();
+            await 宇宙天箭Test();
         }
 
         public void LogObjectArrays()
@@ -94,69 +94,7 @@ namespace Simulant
             }
             finally
             {
-                foreach (var bnpc in spawned)
-                {
-                    try
-                    {
-                        spawner.Delete(bnpc);
-                    }
-                    catch
-                    {
-                    }
-                }
-            }
-        }
-
-        private async void FrameLockTest()
-        {
-            var me = _host.EntityProvider.GetMyself();
-
-            var spawner = new EntitySpawner(_host, 100);
-            var spawned = new List<dynamic>();
-
-            await Task.Delay(3000);
-
-            try
-            {
-                using (NamazuInterop.Plugin.Memory.AcquireFrame(true))
-                {
-                    var count = 20;
-                    var radius = 5f;
-                    var basePos = me.Pos3D;
-                    var heading = me.Heading;
-
-                    for (var i = 0; i < count; i++)
-                    {
-                        var angle = Math.PI * 2.0 * i / count;
-                        var offset = new Vector3(
-                            (float)Math.Sin(angle) * radius,
-                            (float)Math.Cos(angle) * radius, 
-                            0);
-
-                        var bnpc = spawner.SpawnBNpc(4909, 3765);
-                        spawned.Add(bnpc);
-
-                        bnpc.Pos3D = basePos + offset;
-                        bnpc.Heading = heading;
-                        bnpc.SetReadyToDraw();
-                        bnpc.EnableDraw();
-                    }
-
-                }
-                await Task.Delay(3000);
-            }
-            finally
-            {
-                foreach (var bnpc in spawned)
-                {
-                    try
-                    {
-                        spawner.Delete(bnpc);
-                    }
-                    catch
-                    {
-                    }
-                }
+                spawned.ForEach(bnpc => spawner.Delete(bnpc));
             }
         }
 
@@ -170,8 +108,10 @@ namespace Simulant
                 var dummy = spawner.SpawnBNpc(9020);
                 dummy.Pos3D = pos;
                 dummy.Heading = heading;
+                // 不可见，但是可以绘制技能特效
+                // Native.SetReadyToDraw 就是在设置这个 flag
+                dummy.Native.TargetableStatus.Set(ObjectTargetableFlags.ReadyToDraw);
                 dummy.EnableDraw();
-                dummy.Native.TargetableStatus.Set(0);
                 return dummy;
             }
 
@@ -190,11 +130,7 @@ namespace Simulant
             {
                 using (var _timer = new SimTimer(_host))
                 {
-                    var dummy = spawner.SpawnBNpc(9020);
-                    dummy.Pos3D = pos;
-                    dummy.Heading = heading;
-                    dummy.Native.TargetableStatus.Set(0);
-                    dummy.EnableDraw();
+                    var dummy = Dummy(pos, heading);
                     await _timer.WaitUntil(1);
                     dummy.Execute(0x7BA4);
                     await _timer.WaitUntil(4);
