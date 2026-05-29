@@ -123,6 +123,7 @@
     <Compile Include="Simulation\Options\CheckBoxOption.cs" />
     <Compile Include="Simulation\Options\LabelOption.cs" />
     <Compile Include="Simulation\Options\Map.cs" />
+    <Compile Include="Simulation\Runtime\SimEntityState.cs" />
     <Compile Include="Simulation\SimOptionGeneric.cs" />
     <Compile Include="Simulation\SimOptionBase.cs" />
     <Compile Include="Simulation\SimTimer.cs" />
@@ -194,7 +195,6 @@
     <Compile Include="Simulation\SimLogicBase.cs" />
     <Compile Include="Simulation\SimPresetBase.cs" />
     <Compile Include="Simulation\Runtime\SimSession.cs" />
-    <Compile Include="Simulation\Runtime\SimCharacter.cs" />
     <Compile Include="Simulation\Runtime\SimEntityManager.cs" />
     <Compile Include="Simulation\Runtime\SimMovementController.cs" />
     <Compile Include="Utils\ArgHelper.cs" />

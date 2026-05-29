@@ -11,7 +11,7 @@ namespace Simulant.Simulation.Runtime
     internal sealed class SimMovementController : IDisposable
     {
         private readonly object _lock = new object();
-        private readonly List<SimCharacter> _characters = new List<SimCharacter>();
+        private readonly List<Character> _characters = new List<Character>();
 
         private readonly Thread _thread;
         private volatile bool _running;
@@ -32,7 +32,7 @@ namespace Simulant.Simulation.Runtime
             _thread.Start();
         }
 
-        public void Register(SimCharacter character)
+        public void Register(Character character)
         {
             if (character == null)
                 throw new ArgumentNullException(nameof(character));
@@ -44,7 +44,7 @@ namespace Simulant.Simulation.Runtime
             }
         }
 
-        public void RegisterRange(IEnumerable<SimCharacter> characters)
+        public void RegisterRange(IEnumerable<Character> characters)
         {
             if (characters == null)
                 throw new ArgumentNullException(nameof(characters));
@@ -53,7 +53,7 @@ namespace Simulant.Simulation.Runtime
                 Register(character);
         }
 
-        public void Unregister(SimCharacter character)
+        public void Unregister(Character character)
         {
             if (character == null)
                 return;
@@ -72,15 +72,15 @@ namespace Simulant.Simulation.Runtime
             }
         }
 
-        public void SetTarget(SimCharacter character, Vector2 targetPos)
+        public void SetTarget(Character character, Vector2 targetPos)
         {
             if (character == null)
                 throw new ArgumentNullException(nameof(character));
 
-            character.TargetPos = targetPos;
+            character.SimState.MoveTarget = targetPos;
         }
 
-        public void SetTarget(SimCharacter character, Vector2 targetPos, float speed)
+        public void SetTarget(Character character, Vector2 targetPos, float speed)
         {
             if (character == null)
                 throw new ArgumentNullException(nameof(character));
@@ -88,8 +88,8 @@ namespace Simulant.Simulation.Runtime
             if (speed < 0)
                 throw new ArgumentOutOfRangeException(nameof(speed), "Speed cannot be negative.");
 
-            character.TargetPos = targetPos;
-            character.Speed = speed;
+            character.SimState.MoveTarget = targetPos;
+            character.SimState.MoveSpeed = speed;
         }
 
         private void Loop()
@@ -118,7 +118,7 @@ namespace Simulant.Simulation.Runtime
 
         private void Tick(float delta)
         {
-            SimCharacter[] characters;
+            Character[] characters;
 
             lock (_lock)
             {
@@ -129,7 +129,7 @@ namespace Simulant.Simulation.Runtime
                 MoveCharacter(character, delta);
         }
 
-        private static void MoveCharacter(SimCharacter character, float delta)
+        private static void MoveCharacter(Character character, float delta)
         {
             if (character == null)
                 return;

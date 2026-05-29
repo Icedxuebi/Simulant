@@ -1,7 +1,8 @@
-﻿using System;
-using System.Numerics;
-using Simulant.Game;
+﻿using Simulant.Game;
 using Simulant.Game.FFCS.Client.Game.Object;
+using Simulant.Simulation.Runtime;
+using System;
+using System.Numerics;
 
 namespace Simulant.Core.Entity
 {
@@ -9,6 +10,8 @@ namespace Simulant.Core.Entity
     {
         protected abstract GameObject NativeGameObject { get; }
         public GameObject Native => NativeGameObject;
+
+        public SimEntityState SimState { get; set; }
 
         public IntPtr Address => NativeGameObject.Ptr;
 
@@ -21,40 +24,62 @@ namespace Simulant.Core.Entity
         public float X
         {
             get => Native.Position.Ptr.Read<float>(0x0);
-            set => Native.Position.Ptr.Write(value, 0x0);
+            set
+            {
+                Native.Position.Ptr.Write(value, 0x0);
+                Native.PositionModified();
+            }
         }
 
         // Flip Y and Z to match the ACT coord system
         public float Y
         {
             get => Native.Position.Ptr.Read<float>(0x8);
-            set => Native.Position.Ptr.Write(value, 0x8);
+            set
+            {
+                Native.Position.Ptr.Write(value, 0x8);
+                Native.PositionModified();
+            }
         }
 
         public float Z
         {
             get => Native.Position.Ptr.Read<float>(0x4);
-            set => Native.Position.Ptr.Write(value, 0x4);
-        }
-
-        public Vector2 Pos
-        {
-            get => new Vector2(X, Y);
             set
             {
-                X = value.X;
-                Y = value.Y;
+                Native.Position.Ptr.Write(value, 0x4);
+                Native.PositionModified();
             }
         }
 
-        public Vector3 Pos3D
+        // 尽量降低读写次数
+        public Vector2 Pos
         {
-            get => new Vector3(X, Y, Z);
+            get
+            {
+                Vector3 rawPos = Native.Position;
+                return new Vector2(rawPos.X, rawPos.Z);
+            }
             set
             {
-                X = value.X;
-                Y = value.Y;
-                Z = value.Z;
+                Vector3 rawPos = Native.Position;
+                Native.Position.Set(new Vector3(value.X, rawPos.Y, value.Y));
+                Native.PositionModified();
+            }
+        }
+
+        // 尽量降低读写次数
+        public Vector3 Pos3D
+        {
+            get
+            {
+                Vector3 rawPos = Native.Position;
+                return new Vector3(rawPos.X, rawPos.Z, rawPos.Y);
+            }
+            set
+            {
+                Native.Position.Set(new Vector3(value.X, value.Z, value.Y));
+                Native.PositionModified();
             }
         }
 
