@@ -7,7 +7,7 @@ namespace Simulant.Simulation.Runtime
     {
         private readonly PluginHost _host;
         private readonly SimLogicBase _logic;
-        private readonly SimEntityManager _entityManager = new SimEntityManager();
+        private readonly SimEntityManager _entityManager;
 
         public bool IsRunning { get; private set; }
 
@@ -20,7 +20,10 @@ namespace Simulant.Simulation.Runtime
             if (!typeof(SimLogicBase).IsAssignableFrom(preset.SimLogicType))
                 throw new InvalidOperationException($"{preset.GetType().Name} 预设的逻辑类型 {preset.SimLogicType.Name} 不继承自 SimLogicBase。");
 
-            _logic = (SimLogicBase)Activator.CreateInstance(preset.SimLogicType, preset);
+            var spawner = new Core.Entity.EntitySpawner(_host, 100); // to do
+            _entityManager = new SimEntityManager(spawner);
+
+            _logic = (SimLogicBase)Activator.CreateInstance(preset.SimLogicType, _host, preset);
             _logic.EntityManager = _entityManager;
         }
 
@@ -36,8 +39,8 @@ namespace Simulant.Simulation.Runtime
         public void Stop()
         {
             if (!IsRunning) return;
-
             IsRunning = false;
+            _logic.Stop();
         }
 
         public void Dispose()

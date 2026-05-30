@@ -1,73 +1,78 @@
-﻿using Simulant.Core.Entity;
+﻿using Simulant.Core;
+using Simulant.Core.Entity;
 using Simulant.Game;
 using System;
 using System.Collections.Generic;
+using Job = Simulant.Game.FFCS.Client.Game.Character.Job;
 
 namespace Simulant.Simulation.Runtime
 {
-    public sealed class SimEntityManager // 后续注意线程安全！
+    public sealed class SimEntityManager
     {
         private readonly EntitySpawner _spawner;
-        private readonly List<Character> _fakePlayers = new List<Character>();
-        private readonly List<Character> _dummies = new List<Character>();
-        private readonly List<EntityBase> _entities = new List<EntityBase>();
+        private readonly List<EntityBase> _localEntities = new List<EntityBase>();
+        internal List<Character> Party = new List<Character>();
 
-        public IReadOnlyList<Character> FakePlayers => _fakePlayers;
+        public SimEntityManager(EntitySpawner spawner)
+        { 
+            _spawner = spawner ?? throw new ArgumentNullException(nameof(spawner));
+        }
 
-        public Character SpawnPlayer(byte job)
+        public Character SpawnPlayer(Job job)
         {
             var player = _spawner.SpawnPlayer(job);
-            _fakePlayers.Add(player);
-            _entities.Add(player);
+            lock (_localEntities)
+            {
+                _localEntities.Add(player);
+            }
             return player;
         }
 
         public Character SpawnBNpc(uint bNpcBaseId, uint bNpcNameId = 0)
         {
             var bnpc = _spawner.SpawnBNpc(bNpcBaseId, bNpcNameId);
-            _entities.Add(bnpc);
+            lock (_localEntities)
+            {
+                _localEntities.Add(bnpc);
+            }
             return bnpc;
         }
 
         public void Delete(EntityBase entity)
         {
             _spawner.Delete(entity);
-            _entities.Remove(entity);
-            // ...
-        }
-
-        internal void CreateDummies(int dummyCount)
-        {
-            for (int i = 0; i < dummyCount; i++)
+            lock (_localEntities)
             {
-                var dummy = _spawner.SpawnBNpc(9020);
-                _dummies.Add(dummy);
+                _localEntities.Remove(entity);
             }
-        }
-
-        /// <summary> 自动获取首个空闲的假实体。</summary>
-        public Character IdleDummy()
-        {
-            throw new NotImplementedException();
+            // ...
         }
 
         public void Clear()
         {
-            foreach (var entity in _entities.ToArray())
+            lock (_localEntities)
             {
-                try
+                foreach (var entity in _localEntities.ToArray())
                 {
-                    Delete(entity);
+                    try
+                    {
+                        Delete(entity);
+                    }
+                    catch
+                    {
+                        // ...
+                    }
                 }
-                catch
-                {
-                    // ...
-                }
+                _localEntities.Clear();
             }
+        }
 
-            _fakePlayers.Clear();
-            _entities.Clear();
-            _dummies.Clear();
+        internal Character GetPartyMember(int partyIndex)
+        { 
+            if (partyIndex < 1 || partyIndex > Party.Count)
+                throw new ArgumentOutOfRangeException(nameof(partyIndex), $"小队成员索引必须在范围内（1-{Party.Count}）。");
+
+            return Party[partyIndex - 1];
         }
     }
 }

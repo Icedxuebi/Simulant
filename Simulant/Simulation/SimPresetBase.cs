@@ -21,6 +21,7 @@ namespace Simulant.Simulation
 
         /// <summary> 全部 Option，包括纯 Label 这种仅用于显示 UI 的假 Option。</summary>
         public abstract List<SimOptionBase> Options { get; }
+        public abstract int Level { get; }
         public abstract Type SimLogicType { get; }
 
         public override string ToString() => $"[模拟] {Name}";

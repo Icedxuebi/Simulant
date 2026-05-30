@@ -63,7 +63,7 @@ namespace Simulant.Game.FFCS.Client.Game.Character
         public MemoryField<short> TransformationId => CharacterData.TransformationId;
         public MemoryField<ushort> TitleId => CharacterData.TitleId;
         public MemoryField<ushort> StatusLoopVfxId => CharacterData.StatusLoopVfxId;
-        public MemoryField<byte> ClassJob => CharacterData.ClassJob;
+        public MemoryField<Job> ClassJob => CharacterData.ClassJob;
         public MemoryField<byte> Level => CharacterData.Level;
         public MemoryField<byte> Icon => CharacterData.Icon;
         public MemoryField<byte> SEPack => CharacterData.SEPack;

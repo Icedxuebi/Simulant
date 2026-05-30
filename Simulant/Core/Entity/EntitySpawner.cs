@@ -12,7 +12,7 @@ namespace Simulant.Core.Entity
         private readonly PluginHost _host;
         private readonly byte _level;
 
-        public EntitySpawner(PluginHost host, byte level)
+        public EntitySpawner(PluginHost host, byte level) // 非模拟层，不应该带 level
         {
             _host = host ?? throw new ArgumentNullException(nameof(host));
             _level = level;
@@ -43,7 +43,7 @@ namespace Simulant.Core.Entity
             CharacterSetupContainer.CopyFlags.Name;
 
         public Character SpawnPlayer(
-            byte job,
+            Job job,
             Character source = null,
             CharacterSetupContainer.CopyFlags copyFlags = DefaultPlayerCopyFlags)
         {
@@ -59,7 +59,7 @@ namespace Simulant.Core.Entity
             player.Native.ObjectKind.Set(ObjectKind.Pc);
             player.Id = GetNextPlayerId();
             player.Level = _level;
-            player.ClassJob = job;
+            player.Job = job;
 
             return player;
         }

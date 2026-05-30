@@ -7,7 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 
-namespace Simulant.Presets
+namespace Simulant.Content.U6b.Presets
 {
     internal class 屏幕探测 : SimPresetBase
     {
@@ -16,6 +16,7 @@ namespace Simulant.Presets
         public override string Author { get; } = "Simulant";
         public override DateTime LastUpdated { get; } = new DateTime(2026, 4, 21);
         public override PhaseData Phase { get; } = U6b.P3;
+        public override int Level => 100;
         public override Type SimLogicType { get; } = typeof(U6b3_屏幕探测Logic);
         public override string Description { get; } = "占位符";
 
@@ -26,11 +27,16 @@ namespace Simulant.Presets
 
     internal class U6b3_屏幕探测Logic : SimLogicBase
     {
-        public override int DummyCount => throw new NotImplementedException();
-        public U6b3_屏幕探测Logic(SimPresetBase preset) : base(preset)
+        public U6b3_屏幕探测Logic(PluginHost host, SimPresetBase preset) : base(host, preset)
         {
         }
-        public override void SimLogic()
+
+        protected override void OnStart()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void OnStop()
         {
             throw new NotImplementedException();
         }

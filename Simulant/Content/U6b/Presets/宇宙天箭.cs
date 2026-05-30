@@ -6,7 +6,7 @@ using Simulant.Simulation.Options;
 using System;
 using System.Collections.Generic;
 
-namespace Simulant.Presets
+namespace Simulant.Content.U6b.Presets
 {
     internal class 宇宙天箭 : SimPresetBase
     {
@@ -15,13 +15,14 @@ namespace Simulant.Presets
         public override string Author { get; } = "阿洛";
         public override DateTime LastUpdated { get; } = new DateTime(2026, 5, 12);
         public override PhaseData Phase { get; } = U6b.P6;
+        public override int Level => 100;
         public override Type SimLogicType { get; } = typeof(U6b6_宇宙天箭Logic);
         public override string Description { get; } = null;
 
         public override List<SimOptionBase> Options { get; } = new List<SimOptionBase>
         {
             new ComboBoxOption<int>(
-                nameof(Role), "自身职能", 1,
+                nameof(MyPartyIndex), "自身职能", 1,
                 new Map<int> // to-do: Role8Option : ComboBoxOption, enum Role8，IsT(this Role8 role) ...
                 {
                     [1] = "MT",
@@ -52,7 +53,7 @@ namespace Simulant.Presets
                 }),
         };
 
-        internal int Role { get; set; }
+        internal int MyPartyIndex { get; set; }
         internal ArrowMode ArrowMode { get; set; }
         internal bool IsSecondRound { get; set; }
 
@@ -71,13 +72,17 @@ namespace Simulant.Presets
 
     internal class U6b6_宇宙天箭Logic : SimLogicBase
     {
-        public override int DummyCount => 20;
 
-        public U6b6_宇宙天箭Logic(SimPresetBase preset) : base(preset)
+        public U6b6_宇宙天箭Logic(PluginHost host, SimPresetBase preset) : base(host, preset)
         {
         }
 
-        public override void SimLogic()
+        protected override void OnStart()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void OnStop()
         {
             throw new NotImplementedException();
         }

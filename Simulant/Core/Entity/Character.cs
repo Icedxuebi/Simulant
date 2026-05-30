@@ -52,7 +52,7 @@ namespace Simulant.Core.Entity
             set => Native.Level.Set(value);
         }
 
-        public byte ClassJob
+        public Job Job
         {
             get => Native.ClassJob;
             set => Native.ClassJob.Set(value);
