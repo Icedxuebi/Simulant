@@ -28,7 +28,7 @@ namespace Simulant.Simulation
 
         public SimSession CreateSimSession(PluginHost host)
         {
-            throw new NotImplementedException();
+            return new SimSession(host, this);
         }
 
     }

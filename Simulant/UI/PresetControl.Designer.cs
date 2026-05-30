@@ -163,6 +163,7 @@
             this.btnStart.TabIndex = 5;
             this.btnStart.Text = "开始模拟";
             this.btnStart.UseVisualStyleBackColor = false;
+            this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
             // 
             // btnEnd
             // 
@@ -179,6 +180,7 @@
             this.btnEnd.TabIndex = 6;
             this.btnEnd.Text = "停止模拟";
             this.btnEnd.UseVisualStyleBackColor = false;
+            this.btnEnd.Click += new System.EventHandler(this.btnEnd_Click);
             // 
             // lblLastChanged
             // 

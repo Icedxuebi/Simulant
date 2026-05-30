@@ -22,6 +22,7 @@ namespace Simulant.UI
             _host = host;
             InitializeComponent();
             logView.Bind(_host); // would RefreshLogView
+            presetControl.Bind(_host);
             UpdateTerritoryData(0);
             UpdateControlStates();
         }

@@ -1,4 +1,6 @@
-﻿using Simulant.Simulation;
+﻿using Simulant.Core;
+using Simulant.Simulation;
+using Simulant.Simulation.Runtime;
 using System;
 using System.Windows.Forms;
 
@@ -6,23 +8,27 @@ namespace Simulant.UI
 {
     public partial class PresetControl : UserControl
     {
+        private PluginHost _host;
         private SimPresetBase _preset;
-
-        public SimPresetBase Preset
-        {
-            get { return _preset; }
-        }
+        private SimSession _session;
 
         public PresetControl()
         {
             InitializeComponent();
+            Disposed += (sender, e) => StopCurrentSession();
             ClearPreset();
+        }
+
+        internal void Bind(PluginHost host)
+        {
+            _host = host ?? throw new ArgumentNullException(nameof(host));
+            UpdateButtons();
         }
 
         internal void LoadPreset(SimPresetBase preset)
         {
+            StopCurrentSession();
             _preset = preset;
-
             if (preset == null)
             {
                 ClearPreset();
@@ -35,13 +41,13 @@ namespace Simulant.UI
             rtbInfo.Text = preset.Description ?? "（无）";
 
             RebuildOptions(preset);
-
-            btnStart.Enabled = true;
-            btnEnd.Enabled = true;
+            UpdateButtons();
         }
 
         internal void ClearPreset()
         {
+            StopCurrentSession();
+
             _preset = null;
 
             lblPreset.Text = "预设：";
@@ -50,9 +56,7 @@ namespace Simulant.UI
             rtbInfo.Text = "请先在左侧选择预设。";
 
             ClearOptions();
-
-            btnStart.Enabled = false;
-            btnEnd.Enabled = false;
+            UpdateButtons();
         }
 
         private void RebuildOptions(SimPresetBase preset)
@@ -73,7 +77,13 @@ namespace Simulant.UI
             tableOptions.SuspendLayout();
             try
             {
+                var controls = new Control[tableOptions.Controls.Count];
+                tableOptions.Controls.CopyTo(controls, 0);
                 tableOptions.Controls.Clear();
+
+                foreach (var control in controls)
+                    control.Dispose();
+
                 tableOptions.RowStyles.Clear();
                 tableOptions.RowCount = 0;
                 AddTopOptionFillerRow();
@@ -96,6 +106,46 @@ namespace Simulant.UI
         {
             tableOptions.RowCount += 1;
             tableOptions.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+        }
+
+        private void btnStart_Click(object sender, EventArgs e)
+        {
+            if (_host == null)
+                throw new InvalidOperationException("PresetControl 尚未初始化 PluginHost。");
+
+            _host?.LogVerbose("点击 btnStart");
+
+            if (_preset == null) return;
+
+            StopCurrentSession();
+            _session = _preset.CreateSimSession(_host);
+            _session.Start();
+
+            UpdateButtons();
+        }
+
+        private void btnEnd_Click(object sender, EventArgs e)
+        {
+            _host?.LogVerbose("点击 btnEnd");
+            StopCurrentSession();
+            UpdateButtons();
+        }
+
+        private void StopCurrentSession()
+        {
+            _session?.Dispose();
+            _session = null;
+        }
+
+        private void UpdateButtons()
+        {
+            var hasHost = _host != null;
+            var hasPreset = _preset != null;
+            var isRunning = _session?.IsRunning == true;
+
+            _host?.LogVerbose($"UpdateButtons: hasHost = {hasHost}, hasPreset = {hasPreset}, isRunning = {isRunning}");
+            btnStart.Enabled = hasHost && hasPreset && !isRunning;
+            btnEnd.Enabled = hasPreset && isRunning;
         }
 
         #region Copy Style from dummy controls

@@ -11,8 +11,8 @@ namespace Simulant.Simulation
 {
     public abstract class SimLogicBase
     {
-        private readonly PluginHost _host;
-        private readonly SimPresetBase _preset;
+        protected readonly PluginHost _host;
+        protected readonly SimPresetBase _preset;
 
         internal SimEntityManager EntityManager { get; set; }
 
@@ -24,15 +24,34 @@ namespace Simulant.Simulation
         }
 
         public void Start()
-        { 
-            LoadOptionsFrom(_preset.Options);
-            OnStart();
+        {
+            try
+            {
+                _host.LogSim($"正在开始模拟：{_preset.Name}（{_preset.Phase.Name}）");
+                LoadOptionsFrom(_preset.Options);
+                EntityManager.Clear();
+                _host.LogSim($"模拟已开始。");
+                OnStart();
+            }
+            catch (Exception ex)
+            {
+                _host.LogError($"模拟启动失败：{ex}");
+            }
         }
 
         public void Stop()
         {
-            OnStop();
-            EntityManager.Clear();
+            try
+            {
+                _host.LogSim($"正在停止模拟：{_preset.Name}（{_preset.Phase.Name}）");
+                OnStop();
+                EntityManager.Clear();
+                _host.LogSim($"模拟已停止。");
+            }
+            catch (Exception ex)
+            {
+                _host.LogError($"模拟停止失败：{ex}");
+            }
         }
 
         protected abstract void OnStart();
@@ -46,16 +65,19 @@ namespace Simulant.Simulation
                 .ToDictionary(o => o.PropertyName);
 
             // 当前 SimLogicBase 子类中所有标记 SimOptionAttribute 的属性
-            var props = GetType()
+            var simOptionProps = GetType()
                 .GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
                 .Where(p => p.GetCustomAttribute<SimOptionAttribute>() != null);
 
-            foreach (var prop in props)
+            foreach (var prop in simOptionProps)
             {
                 if (!dict.TryGetValue(prop.Name, out var option))
                     throw new InvalidOperationException($"配置选项 {GetType().Name} 的标记属性 {prop.Name} 在界面中未找到对应选项。");
 
                 option.ApplyTo(this);
+
+                var optionValue = prop.GetValue(this);
+                _host.LogSim($"应用当前模拟选项：{prop.Name} = {optionValue}");
             }
         }
 
