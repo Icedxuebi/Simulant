@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Simulant.Simulation.Options;
+using System;
 using System.Reflection;
-using System.Windows.Forms;
 
 namespace Simulant.Simulation
 {
@@ -27,7 +27,13 @@ namespace Simulant.Simulation
             if (property.PropertyType != typeof(T))
                 throw new InvalidOperationException($"Option type mismatch: Option type = SimOption<{typeof(T).Name}>, {PropertyName} type = {property.PropertyType.Name}.");
 
-            property.SetValue(target, GetValue(), null);
+            var value = GetValue();
+
+            if (typeof(T).IsEnum)
+                value = value.TryResolveRandom();
+
+            property.SetValue(target, value, null);
         }
     }
+
 }

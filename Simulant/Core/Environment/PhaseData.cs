@@ -54,7 +54,7 @@ namespace Simulant.Core.Environment
                         Attr = phaseField.GetCustomAttribute<PhaseAttribute>()
                     })
                     .Where(x => x.Attr != null)
-                    .OrderBy(x => x.Attr.Index)
+                    .OrderBy(x => x.Attr.SortIndex)
                     .Select(x => (PhaseData)x.Field.GetValue(null))
                 );
             }

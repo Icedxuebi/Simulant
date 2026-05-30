@@ -65,9 +65,10 @@ namespace Simulant.Content.U6b.Presets
 
     internal enum ArrowMode
     {
-        Random = 0,
-        OutsideFirst = 1,
-        InsideFirst = 2,
+        [RandomEnum(OutsideFirst, InsideFirst)]
+        Random,
+        OutsideFirst,
+        InsideFirst,
     }
 
     internal class U6b6_宇宙天箭Logic : SimLogicBase

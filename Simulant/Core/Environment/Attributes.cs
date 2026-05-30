@@ -16,11 +16,11 @@ namespace Simulant.Core.Environment
     [AttributeUsage(AttributeTargets.Field, AllowMultiple = false, Inherited = false)]
     public sealed class PhaseAttribute : Attribute
     {
-        public int Index { get; }
+        public int SortIndex { get; }
 
-        public PhaseAttribute(int index)
+        public PhaseAttribute(int sortIndex)
         {
-            Index = index;
+            SortIndex = sortIndex;
         }
     }
 }
