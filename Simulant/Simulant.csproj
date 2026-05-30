@@ -1,279 +1,176 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
-  <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{BD1DE001-BA1C-42FF-9A63-32D45E84EA04}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Simulant</RootNamespace>
-    <AssemblyName>Simulant</AssemblyName>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <Deterministic>true</Deterministic>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-  </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="Advanced Combat Tracker">
-      <HintPath>..\DLibs\Advanced Combat Tracker.dll</HintPath>
-    </Reference>
-    <Reference Include="FFXIV_ACT_Plugin">
-      <HintPath>..\FFXIV_ACT_Plugin_CN\SDK\Latest\FFXIV_ACT_Plugin.dll</HintPath>
-    </Reference>
-    <Reference Include="FFXIV_ACT_Plugin.Common">
-      <HintPath>..\FFXIV_ACT_Plugin_CN\SDK\Latest\FFXIV_ACT_Plugin.Common.dll</HintPath>
-    </Reference>
-    <Reference Include="FFXIV_ACT_Plugin.Config">
-      <HintPath>..\FFXIV_ACT_Plugin_CN\SDK\Latest\FFXIV_ACT_Plugin.Config.dll</HintPath>
-    </Reference>
-    <Reference Include="FFXIV_ACT_Plugin.Logfile">
-      <HintPath>..\FFXIV_ACT_Plugin_CN\SDK\Latest\FFXIV_ACT_Plugin.Logfile.dll</HintPath>
-    </Reference>
-    <Reference Include="FFXIV_ACT_Plugin.Memory">
-      <HintPath>..\FFXIV_ACT_Plugin_CN\SDK\Latest\FFXIV_ACT_Plugin.Memory.dll</HintPath>
-    </Reference>
-    <Reference Include="FFXIV_ACT_Plugin.Network">
-      <HintPath>..\FFXIV_ACT_Plugin_CN\SDK\Latest\FFXIV_ACT_Plugin.Network.dll</HintPath>
-    </Reference>
-    <Reference Include="FFXIV_ACT_Plugin.Parse">
-      <HintPath>..\FFXIV_ACT_Plugin_CN\SDK\Latest\FFXIV_ACT_Plugin.Parse.dll</HintPath>
-    </Reference>
-    <Reference Include="FFXIV_ACT_Plugin.Resource">
-      <HintPath>..\FFXIV_ACT_Plugin_CN\SDK\Latest\FFXIV_ACT_Plugin.Resource.dll</HintPath>
-    </Reference>
-    <Reference Include="Machina">
-      <HintPath>..\FFXIV_ACT_Plugin_CN\SDK\Latest\Machina.dll</HintPath>
-    </Reference>
-    <Reference Include="Machina.FFXIV">
-      <HintPath>..\FFXIV_ACT_Plugin_CN\SDK\Latest\Machina.FFXIV.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Buffers, Version=4.0.5.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Buffers.4.6.1\lib\net462\System.Buffers.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Memory, Version=4.0.5.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Memory.4.6.3\lib\net462\System.Memory.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Numerics" />
-    <Reference Include="System.Numerics.Vectors, Version=4.1.6.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Numerics.Vectors.4.6.1\lib\net462\System.Numerics.Vectors.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.6.1.2\lib\net462\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="ACT\ActInterop.cs" />
-    <Compile Include="ACT\GreyMagicCallScheduler.cs" />
-    <Compile Include="ACT\GreyMagicExternalProcessMemory.cs" />
-    <Compile Include="ACT\GreyMagicFrameLockRelease.cs" />
-    <Compile Include="ACT\GreyMagicFrameLock.cs" />
-    <Compile Include="ACT\GreyMagicMemoryBase.cs" />
-    <Compile Include="ACT\TriggernometryInterop.cs" />
-    <Compile Include="ACT\NamazuInterop.cs" />
-    <Compile Include="ACT\NamazuPlugin.cs" />
-    <Compile Include="ACT\NamazuScanner.cs" />
-    <Compile Include="ACT\XivPluginInterop.cs" />
-    <Compile Include="Content\U6b\U6b.cs" />
-    <Compile Include="Core\Entity\Character.cs" />
-    <Compile Include="Core\Entity\CharacterData.cs" />
-    <Compile Include="Core\Entity\EntityProvider.cs" />
-    <Compile Include="Core\Entity\EntitySpawner.cs" />
-    <Compile Include="Core\Entity\EventObject.cs" />
-    <Compile Include="Core\Entity\EntityBase.cs" />
-    <Compile Include="Core\Environment\EnvironmentService.cs" />
-    <Compile Include="Core\Firewall\FirewallService.cs" />
-    <Compile Include="Core\Environment\Attributes.cs" />
-    <Compile Include="Core\Environment\PhaseData.cs" />
-    <Compile Include="Game\FFCS\Client\Game\Object\GameObjectManager.cs" />
-    <Compile Include="Game\FFCS\Client\LayoutEngine\LayoutManager.cs" />
-    <Compile Include="Game\FFCS\Client\LayoutEngine\LayoutWorld.cs" />
-    <Compile Include="Simulation\Options\DecimalOption.cs" />
-    <Compile Include="Simulation\Options\IntegerOption.cs" />
-    <Compile Include="Simulation\Options\TextBoxOption.cs" />
-    <Compile Include="Simulation\Options\ComboBoxOption.cs" />
-    <Compile Include="Simulation\Options\CheckBoxOption.cs" />
-    <Compile Include="Simulation\Options\LabelOption.cs" />
-    <Compile Include="Simulation\Options\Map.cs" />
-    <Compile Include="Simulation\Runtime\SimEntityState.cs" />
-    <Compile Include="Simulation\SimOptionGeneric.cs" />
-    <Compile Include="Simulation\SimOptionBase.cs" />
-    <Compile Include="Simulation\SimTimer.cs" />
-    <Compile Include="Core\Zone\ZoneService.cs" />
-    <Compile Include="Game\FFCS\Client\Game\Character\CharacterManager.cs" />
-    <Compile Include="Game\FFCS\Client\Game\Object\EventObjectManager.cs" />
-    <Compile Include="Game\MemoryBitField.cs" />
-    <Compile Include="Game\FFCS\Client\Game\ActionManager.cs" />
-    <Compile Include="Game\FFCS\Client\Game\BGMSystem.cs" />
-    <Compile Include="Game\FFCS\Client\Game\Character\CastInfo.cs" />
-    <Compile Include="Game\FFCS\Client\Game\Character\Character.cs" />
-    <Compile Include="Game\FFCS\Client\Game\Character\CharacterData.cs" />
-    <Compile Include="Game\FFCS\Client\Game\Character\CharacterSetupContainer.cs" />
-    <Compile Include="Game\FFCS\Client\Game\Character\ContainerInterface.cs" />
-    <Compile Include="Game\FFCS\Client\Game\Character\ModelContainer.cs" />
-    <Compile Include="Game\FFCS\Client\Game\Character\VfxContainer.cs" />
-    <Compile Include="Game\FFCS\Client\Game\Character\TimelineContainer.cs" />
-    <Compile Include="Game\FFCS\Client\Game\Control\ActionTimelineSequencer.cs" />
-    <Compile Include="Game\FFCS\Client\Game\Control\EmoteController.cs" />
-    <Compile Include="Game\FFCS\Client\Game\Event\DirectorModule.cs" />
-    <Compile Include="Game\FFCS\Client\Game\Event\EventFramework.cs" />
-    <Compile Include="Game\FFCS\Client\Game\Event\EventHandler.cs" />
-    <Compile Include="Game\FFCS\Client\Game\GameMain.cs" />
-    <Compile Include="Game\FFCS\Client\Game\InstanceContent\PublicContentDirector.cs" />
-    <Compile Include="Game\FFCS\Client\Game\InstanceContent\InstanceContentDirector.cs" />
-    <Compile Include="Game\FFCS\Client\Game\InstanceContent\ContentDirector.cs" />
-    <Compile Include="Game\FFCS\Client\Game\Network\ActorMovePacket.cs" />
-    <Compile Include="Game\FFCS\Client\Game\Network\SpawnPackets.cs" />
-    <Compile Include="Game\FFCS\Client\Game\Object\ClientObjectManager.cs" />
-    <Compile Include="Game\FFCS\Client\Game\Object\EventObject.cs" />
-    <Compile Include="Game\FFCS\Client\Game\Object\GameObject.cs" />
-    <Compile Include="Game\FFCS\Client\Game\StatusManager.cs" />
-    <Compile Include="Game\FFCS\Client\Graphics\Environment\EnvManager.cs" />
-    <Compile Include="Game\FFCS\Client\Graphics\Scene\Object.cs" />
-    <Compile Include="Game\FFCS\Client\Graphics\Scene\DrawObject.cs" />
-    <Compile Include="Game\FFCS\Client\Network\NetworkModule.cs" />
-    <Compile Include="Game\FFCS\Client\Network\NetworkModulePacketReceiverCallback.cs" />
-    <Compile Include="Game\FFCS\Client\Network\NetworkModuleProxy.cs" />
-    <Compile Include="Game\FFCS\Client\Network\PacketDispatcher.cs" />
-    <Compile Include="Game\FFCS\Client\System\Framework\Framework.cs" />
-    <Compile Include="Game\IMemoryObject.cs" />
-    <Compile Include="Game\IntPtrExtensions.cs" />
-    <Compile Include="Game\MemoryField.cs" />
-    <Compile Include="Packet\PacketCodec.cs" />
-    <Compile Include="Packet\PacketInvoker.cs" />
-    <Compile Include="Game\SigAddressScanner.cs" />
-    <Compile Include="Game\VTable.cs" />
-    <Compile Include="Packet\SpawnObjectData.cs" />
-    <Compile Include="Content\U6b\Presets\屏幕探测.cs" />
-    <Compile Include="Test.cs" />
-    <Compile Include="UI\LogView.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="UI\LogView.Designer.cs">
-      <DependentUpon>LogView.cs</DependentUpon>
-    </Compile>
-    <Compile Include="UI\PresetControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="UI\PresetControl.Designer.cs">
-      <DependentUpon>PresetControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Utils\CsvHelper.cs" />
-    <Compile Include="Utils\Maths\MathParser.cs" />
-    <Compile Include="Utils\Maths\EquationHelper.cs" />
-    <Compile Include="Utils\Maths\MinimumMatchHelper.cs" />
-    <Compile Include="Core\PluginHost.cs" />
-    <Compile Include="Core\PluginLog.cs" />
-    <Compile Include="Simulation\SimLogicBase.cs" />
-    <Compile Include="Simulation\SimPresetBase.cs" />
-    <Compile Include="Simulation\Runtime\SimSession.cs" />
-    <Compile Include="Simulation\Runtime\SimEntityManager.cs" />
-    <Compile Include="Simulation\Runtime\SimMovementController.cs" />
-    <Compile Include="Utils\ArgHelper.cs" />
-    <Compile Include="Utils\DataStringHelper.cs" />
-    <Compile Include="Utils\InvariantHexExtensions.cs" />
-    <Compile Include="Utils\InvariantNumericExtensions.cs" />
-    <Compile Include="Game\ExtractedCsv\CsvManager.cs" />
-    <Compile Include="Game\ExtractedCsv\CsvRow.cs" />
-    <Compile Include="Game\ExtractedCsv\CsvTable.cs" />
-    <Compile Include="Game\ExtractedCsv\RowIndexKey.cs" />
-    <Compile Include="Game\ExtractedCsv\Rows\Action.cs" />
-    <Compile Include="Game\ExtractedCsv\Rows\ActionCastTimeline.cs" />
-    <Compile Include="Game\ExtractedCsv\Rows\ActionCastVfx.cs" />
-    <Compile Include="Game\ExtractedCsv\Rows\ActionTimeline.cs" />
-    <Compile Include="Game\ExtractedCsv\Rows\BNpcBase.cs" />
-    <Compile Include="Game\ExtractedCsv\Rows\BNpcName.cs" />
-    <Compile Include="Game\ExtractedCsv\Rows\Channeling.cs" />
-    <Compile Include="Game\ExtractedCsv\Rows\ContentFinderCondition.cs" />
-    <Compile Include="Game\ExtractedCsv\Rows\ContentType.cs" />
-    <Compile Include="Game\ExtractedCsv\Rows\EObj.cs" />
-    <Compile Include="Game\ExtractedCsv\Rows\EObjName.cs" />
-    <Compile Include="Game\ExtractedCsv\Rows\Level.cs" />
-    <Compile Include="Game\ExtractedCsv\Rows\LockOn.cs" />
-    <Compile Include="Game\ExtractedCsv\Rows\Map.cs" />
-    <Compile Include="Game\ExtractedCsv\Rows\Omen.cs" />
-    <Compile Include="Game\ExtractedCsv\Rows\PlaceName.cs" />
-    <Compile Include="Game\ExtractedCsv\Rows\Status.cs" />
-    <Compile Include="Game\ExtractedCsv\Rows\StatusLoopVfx.cs" />
-    <Compile Include="Game\ExtractedCsv\Rows\TerritoryType.cs" />
-    <Compile Include="Game\ExtractedCsv\Rows\Vfx.cs" />
-    <Compile Include="Game\ExtractedCsv\TypedCsvRow.cs" />
-    <Compile Include="Game\GameFunctions.cs" />
-    <Compile Include="Game\AddressStore.cs" />
-    <Compile Include="PluginMain.cs" />
-    <Compile Include="Content\U6b\Presets\宇宙天箭.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <Compile Include="UI\TerritoryForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UI\TerritoryForm.Designer.cs">
-      <DependentUpon>TerritoryForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="UI\SimulantUI.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="UI\SimulantUI.Designer.cs">
-      <DependentUpon>SimulantUI.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Utils\ControlExtensions.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\LogView.resx">
-      <DependentUpon>LogView.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\PresetControl.resx">
-      <DependentUpon>PresetControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\SimulantUI.resx">
-      <DependentUpon>SimulantUI.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\TerritoryForm.resx">
-      <DependentUpon>TerritoryForm.cs</DependentUpon>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup />
-  <ItemGroup>
-    <EmbeddedResource Include="Game\ExtractedCsv\RawExd\**\*.csv" />
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<ProjectGuid>{BD1DE001-BA1C-42FF-9A63-32D45E84EA04}</ProjectGuid>
+
+		<OutputType>Library</OutputType>
+		<TargetFramework>net48</TargetFramework>
+
+		<RootNamespace>Simulant</RootNamespace>
+		<AssemblyName>Simulant</AssemblyName>
+		<AppDesignerFolder>Properties</AppDesignerFolder>
+
+		<UseWindowsForms>true</UseWindowsForms>
+		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+
+		<LangVersion>7.3</LangVersion>
+		<ImplicitUsings>false</ImplicitUsings>
+
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+		<Deterministic>true</Deterministic>
+		<FileAlignment>512</FileAlignment>
+
+		<PlatformTarget>AnyCPU</PlatformTarget>
+		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+		<AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
+
+		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+		<DebugSymbols>true</DebugSymbols>
+		<DebugType>full</DebugType>
+		<Optimize>false</Optimize>
+		<OutputPath>bin\Debug\</OutputPath>
+		<DefineConstants>DEBUG;TRACE</DefineConstants>
+		<ErrorReport>prompt</ErrorReport>
+		<WarningLevel>4</WarningLevel>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+		<DebugType>pdbonly</DebugType>
+		<Optimize>true</Optimize>
+		<OutputPath>bin\Release\</OutputPath>
+		<DefineConstants>TRACE</DefineConstants>
+		<ErrorReport>prompt</ErrorReport>
+		<WarningLevel>4</WarningLevel>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<Reference Include="Advanced Combat Tracker">
+			<HintPath>..\DLibs\Advanced Combat Tracker.dll</HintPath>
+		</Reference>
+
+		<Reference Include="FFXIV_ACT_Plugin">
+			<HintPath>..\FFXIV_ACT_Plugin_CN\SDK\Latest\FFXIV_ACT_Plugin.dll</HintPath>
+		</Reference>
+
+		<Reference Include="FFXIV_ACT_Plugin.Common">
+			<HintPath>..\FFXIV_ACT_Plugin_CN\SDK\Latest\FFXIV_ACT_Plugin.Common.dll</HintPath>
+		</Reference>
+
+		<Reference Include="FFXIV_ACT_Plugin.Config">
+			<HintPath>..\FFXIV_ACT_Plugin_CN\SDK\Latest\FFXIV_ACT_Plugin.Config.dll</HintPath>
+		</Reference>
+
+		<Reference Include="FFXIV_ACT_Plugin.Logfile">
+			<HintPath>..\FFXIV_ACT_Plugin_CN\SDK\Latest\FFXIV_ACT_Plugin.Logfile.dll</HintPath>
+		</Reference>
+
+		<Reference Include="FFXIV_ACT_Plugin.Memory">
+			<HintPath>..\FFXIV_ACT_Plugin_CN\SDK\Latest\FFXIV_ACT_Plugin.Memory.dll</HintPath>
+		</Reference>
+
+		<Reference Include="FFXIV_ACT_Plugin.Network">
+			<HintPath>..\FFXIV_ACT_Plugin_CN\SDK\Latest\FFXIV_ACT_Plugin.Network.dll</HintPath>
+		</Reference>
+
+		<Reference Include="FFXIV_ACT_Plugin.Parse">
+			<HintPath>..\FFXIV_ACT_Plugin_CN\SDK\Latest\FFXIV_ACT_Plugin.Parse.dll</HintPath>
+		</Reference>
+
+		<Reference Include="FFXIV_ACT_Plugin.Resource">
+			<HintPath>..\FFXIV_ACT_Plugin_CN\SDK\Latest\FFXIV_ACT_Plugin.Resource.dll</HintPath>
+		</Reference>
+
+		<Reference Include="Machina">
+			<HintPath>..\FFXIV_ACT_Plugin_CN\SDK\Latest\Machina.dll</HintPath>
+		</Reference>
+
+		<Reference Include="Machina.FFXIV">
+			<HintPath>..\FFXIV_ACT_Plugin_CN\SDK\Latest\Machina.FFXIV.dll</HintPath>
+		</Reference>
+
+		<Reference Include="System.Core" />
+		<Reference Include="System.Drawing" />
+		<Reference Include="System.Windows.Forms" />
+		<Reference Include="System.Xml.Linq" />
+		<Reference Include="System.Data.DataSetExtensions" />
+		<Reference Include="Microsoft.CSharp" />
+		<Reference Include="System.Data" />
+		<Reference Include="System.Net.Http" />
+		<Reference Include="System.Xml" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="System.Buffers" Version="4.6.1" />
+		<PackageReference Include="System.Memory" Version="4.6.3" />
+		<PackageReference Include="System.Numerics.Vectors" Version="4.6.1" />
+		<PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="6.1.2" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Compile Update="Properties\Resources.Designer.cs">
+			<AutoGen>True</AutoGen>
+			<DesignTime>True</DesignTime>
+			<DependentUpon>Resources.resx</DependentUpon>
+		</Compile>
+
+		<Compile Update="UI\LogView.cs">
+			<SubType>UserControl</SubType>
+		</Compile>
+		<Compile Update="UI\LogView.Designer.cs">
+			<DependentUpon>LogView.cs</DependentUpon>
+		</Compile>
+
+		<Compile Update="UI\PresetControl.cs">
+			<SubType>UserControl</SubType>
+		</Compile>
+		<Compile Update="UI\PresetControl.Designer.cs">
+			<DependentUpon>PresetControl.cs</DependentUpon>
+		</Compile>
+
+		<Compile Update="UI\TerritoryForm.cs">
+			<SubType>Form</SubType>
+		</Compile>
+		<Compile Update="UI\TerritoryForm.Designer.cs">
+			<DependentUpon>TerritoryForm.cs</DependentUpon>
+		</Compile>
+
+		<Compile Update="UI\SimulantUI.cs">
+			<SubType>UserControl</SubType>
+		</Compile>
+		<Compile Update="UI\SimulantUI.Designer.cs">
+			<DependentUpon>SimulantUI.cs</DependentUpon>
+		</Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+		<EmbeddedResource Update="Properties\Resources.resx">
+			<Generator>ResXFileCodeGenerator</Generator>
+			<LastGenOutput>Resources.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+
+		<EmbeddedResource Update="UI\LogView.resx">
+			<DependentUpon>LogView.cs</DependentUpon>
+		</EmbeddedResource>
+
+		<EmbeddedResource Update="UI\PresetControl.resx">
+			<DependentUpon>PresetControl.cs</DependentUpon>
+		</EmbeddedResource>
+
+		<EmbeddedResource Update="UI\SimulantUI.resx">
+			<DependentUpon>SimulantUI.cs</DependentUpon>
+		</EmbeddedResource>
+
+		<EmbeddedResource Update="UI\TerritoryForm.resx">
+			<DependentUpon>TerritoryForm.cs</DependentUpon>
+		</EmbeddedResource>
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Remove="Game\ExtractedCsv\RawExd\**\*.csv" />
+		<EmbeddedResource Include="Game\ExtractedCsv\RawExd\**\*.csv" />
+	</ItemGroup>
+
 </Project>
