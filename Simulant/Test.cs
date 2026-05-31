@@ -62,7 +62,7 @@ namespace Simulant
         {
             var me = _host.EntityProvider.GetMyself();
 
-            var spawner = new EntitySpawner(_host, 100);
+            var spawner = _host.EntitySpawner;
             var spawned = new List<dynamic>();
 
             await Task.Delay(3000);
@@ -82,7 +82,7 @@ namespace Simulant
                         (float)Math.Cos(angle) * radius,
                         0);
 
-                    var bnpc = spawner.SpawnBNpc(4909, 3765);
+                    var bnpc = spawner.SpawnBNpc(4909, 3765, 90);
                     spawned.Add(bnpc);
 
                     bnpc.Pos3D = basePos + offset;
@@ -98,13 +98,11 @@ namespace Simulant
             }
         }
 
-        EntitySpawner _spawner;
         private void EntityCastTest()
         {
             var me = _host.EntityProvider.GetMyself();
 
-            _spawner = _spawner ?? new EntitySpawner(_host, 90);
-            var bnpc = _spawner.SpawnBNpc(15725, 12256);
+            var bnpc = _host.EntitySpawner.SpawnBNpc(15725, 12256, 90);
 
             bnpc.Pos3D = me.Pos3D;
             bnpc.Heading = me.Heading;
@@ -143,9 +141,7 @@ namespace Simulant
         private async void EntityTimelineTest()
         {
             var me = _host.EntityProvider.GetMyself();
-
-            var spawner = new EntitySpawner(_host, 100);
-            var bnpc = spawner.SpawnBNpc(4909, 3765);
+            var bnpc = _host.EntitySpawner.SpawnBNpc(4909, 3765, 90);
 
             bnpc.Pos3D = me.Pos3D + new Vector3(1, 0, 0);
             bnpc.Heading = me.Heading;
@@ -169,7 +165,7 @@ namespace Simulant
             bnpc.PlayBlendTimeline(3201);
             await Task.Delay(3000);
 
-            spawner.Delete(bnpc);
+            _host.EntitySpawner.Delete(bnpc);
         }
 
 

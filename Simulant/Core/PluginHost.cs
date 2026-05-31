@@ -37,6 +37,7 @@ namespace Simulant.Core
         internal ZoneService ZoneService;
         internal Environment.EnvironmentService EnvironmentService;
         internal EntityProvider EntityProvider;
+        internal EntitySpawner EntitySpawner;
 
         public PluginHost(TabPage pluginScreenSpace, Label pluginStatusText)
         {
@@ -50,6 +51,7 @@ namespace Simulant.Core
             ZoneService = new ZoneService(this);
             EnvironmentService = new Environment.EnvironmentService(this);
             EntityProvider = new EntityProvider(this);
+            EntitySpawner = new EntitySpawner(this);
 
             Attach();
 

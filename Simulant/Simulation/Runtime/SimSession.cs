@@ -20,8 +20,7 @@ namespace Simulant.Simulation.Runtime
             if (!typeof(SimLogicBase).IsAssignableFrom(preset.SimLogicType))
                 throw new InvalidOperationException($"{preset.GetType().Name} 预设的逻辑类型 {preset.SimLogicType.Name} 不继承自 SimLogicBase。");
 
-            var spawner = new Core.Entity.EntitySpawner(_host, 100); // to do
-            _entityManager = new SimEntityManager(spawner);
+            _entityManager = new SimEntityManager(_host.EntitySpawner);
 
             _logic = (SimLogicBase)Activator.CreateInstance(preset.SimLogicType, _host, preset);
             _logic.EntityManager = _entityManager;

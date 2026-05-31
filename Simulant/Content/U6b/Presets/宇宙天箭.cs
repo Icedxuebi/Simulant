@@ -89,16 +89,12 @@ namespace Simulant.Content.U6b.Presets
         [SimOption]
         internal bool IsSecondRound { get; set; }
 
-        private EntitySpawner _spawner; // to-do: SimEntityManager 统一管理实体的生成和删除
-
         public U6b6_宇宙天箭Logic(PluginHost host, SimPresetBase preset) : base(host, preset)
         {
         }
 
         protected override void OnStart()
         {
-            _spawner = new EntitySpawner(_host, 90);
-
             Timeline().ContinueWith(t =>
             {
                 if (t.Exception != null)
@@ -112,7 +108,7 @@ namespace Simulant.Content.U6b.Presets
 
         private async Task Timeline()
         {
-            var boss = _spawner.SpawnBNpc(15725, 12256); // alpha omega
+            var boss = _host.EntitySpawner.SpawnBNpc(15725, 12256, 90); // alpha omega
             boss.Pos3D = new Vector3(100, 100, 0);
             boss.Heading = (float)Math.PI;
             boss.SetReadyToDraw();
@@ -137,7 +133,7 @@ namespace Simulant.Content.U6b.Presets
             }
 
             await timer.WaitUntil(25);
-            _spawner.Delete(boss);
+            _host.EntitySpawner.Delete(boss);
             timer.Dispose();
         }
 
@@ -191,7 +187,7 @@ namespace Simulant.Content.U6b.Presets
 
         Character Dummy(Vector3 pos, float heading)
         {
-            var dummy = _spawner.SpawnBNpc(9020);
+            var dummy = _host.EntitySpawner.SpawnBNpc(9020, 0, 100);
             dummy.Pos3D = pos;
             dummy.Heading = heading;
             // 不可见，但是可以绘制技能特效
@@ -206,7 +202,7 @@ namespace Simulant.Content.U6b.Presets
             var dummy = Dummy(pos, heading);
             dummy.Cast(abilityId);
             await Task.Delay(TimeSpan.FromSeconds(despawnSeconds));
-            _spawner.Delete(dummy);
+            _host.EntitySpawner.Delete(dummy);
         }
 
         async Task DummyExecute(Vector3 pos, float heading, uint abilityId, float despawnSeconds)
@@ -214,7 +210,7 @@ namespace Simulant.Content.U6b.Presets
             var dummy = Dummy(pos, heading);
             dummy.Execute(abilityId);
             await Task.Delay(TimeSpan.FromSeconds(despawnSeconds));
-            _spawner.Delete(dummy);
+            _host.EntitySpawner.Delete(dummy);
         }
 
         private void WideArrow(Vector3 pos, float heading)

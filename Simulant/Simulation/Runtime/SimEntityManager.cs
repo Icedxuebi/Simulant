@@ -28,9 +28,9 @@ namespace Simulant.Simulation.Runtime
             return player;
         }
 
-        public Character SpawnBNpc(uint bNpcBaseId, uint bNpcNameId = 0)
+        public Character SpawnBNpc(uint bNpcBaseId, uint bNpcNameId = 0, byte level = 0)
         {
-            var bnpc = _spawner.SpawnBNpc(bNpcBaseId, bNpcNameId);
+            var bnpc = _spawner.SpawnBNpc(bNpcBaseId, bNpcNameId, level);
             lock (_localEntities)
             {
                 _localEntities.Add(bnpc);
