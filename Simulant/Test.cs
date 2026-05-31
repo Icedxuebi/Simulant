@@ -27,7 +27,7 @@ namespace Simulant
 
         internal async Task Run()
         {
-            await 宇宙天箭Test();
+            EntityCastTest();
         }
 
         public void LogObjectArrays()
@@ -98,119 +98,23 @@ namespace Simulant
             }
         }
 
-        private async Task 宇宙天箭Test()
-        { 
-            
-            var spawner = new EntitySpawner(_host, 90);
-
-            Character Dummy(Vector3 pos, float heading)
-            {
-                var dummy = spawner.SpawnBNpc(9020);
-                dummy.Pos3D = pos;
-                dummy.Heading = heading;
-                // 不可见，但是可以绘制技能特效
-                // Native.SetReadyToDraw 就是在设置这个 flag
-                dummy.Native.TargetableStatus.Set(ObjectTargetableFlags.ReadyToDraw);
-                dummy.EnableDraw();
-                return dummy;
-            }
-
-            async void Cast宽直条(Vector3 pos, float heading)
-            {
-                var dummy1 = Dummy(pos, heading);
-                var dummy2 = Dummy(pos, heading);
-                dummy1.Cast(0x7BA3); // omen only?
-                dummy2.Cast(0x7E51); // arrows vfx only?
-                await Task.Delay(10000);
-                spawner.Delete(dummy1);
-                spawner.Delete(dummy2);
-            }
-
-            async void Execute窄直条(Vector3 pos, float heading)
-            {
-                using (var _timer = new SimTimer(_host))
-                {
-                    var dummy = Dummy(pos, heading);
-                    await _timer.WaitUntil(1);
-                    dummy.Execute(0x7BA4);
-                    await _timer.WaitUntil(4);
-                    spawner.Delete(dummy);
-                }
-            }
-
-            var boss = spawner.SpawnBNpc(15725, 12256); // alpha omega
-            boss.Pos3D = new Vector3(100, 100, 0);
-            boss.Heading = (float)Math.PI;
-            boss.SetReadyToDraw();
-            boss.EnableDraw();
-
-            await Task.Delay(2000);
-
-            // 时间轴开始
-            var timer = new SimTimer(_host);
-            boss.Cast(0x7BA2); // 射手天箭 本体读条
-            Cast宽直条(new Vector3(80, 100, 0), (float)Math.PI / 2);
-            Cast宽直条(new Vector3(100, 80, 0), 0f);
-
-            await timer.WaitUntil(2);
-            Cast宽直条(new Vector3(80, 85, 0), (float)Math.PI / 2);
-            Cast宽直条(new Vector3(80, 115, 0), (float)Math.PI / 2);
-            Cast宽直条(new Vector3(85, 80, 0), 0f);
-            Cast宽直条(new Vector3(115, 80, 0), 0f);
-
-            var Δt = 2.005;
-            var Δpos = 5;
-
-            var t0 = 10.6;
-            for (int i = 0; i < 3; i++)
-            {
-                var idx = i; // 防止闭包捕获
-                var t = t0 + idx * Δt - 1; // 提前一秒防止函数调用延迟
-                timer.Schedule(t, () =>
-                {
-                    Execute窄直条(new Vector3(80, 107.5f + Δpos * idx, 0), (float)Math.PI / 2);
-                    Execute窄直条(new Vector3(80,  92.5f - Δpos * idx, 0), (float)Math.PI / 2);
-                    Execute窄直条(new Vector3(107.5f + Δpos * idx, 80, 0), 0f);
-                    Execute窄直条(new Vector3(92.5f  - Δpos * idx, 80, 0), 0f);
-                });
-            }
-
-            t0 = 12.6;
-            for (int i = 0; i < 5; i++)
-            {
-                var idx = i;
-                var t = t0 + idx * Δt - 1;
-                timer.Schedule(t, () =>
-                {
-                    Execute窄直条(new Vector3(80, 107.5f - Δpos * idx, 0), (float)Math.PI / 2);
-                    Execute窄直条(new Vector3(80, 92.5f + Δpos * idx, 0), (float)Math.PI / 2);
-                    Execute窄直条(new Vector3(107.5f - Δpos * idx, 80, 0), 0f);
-                    Execute窄直条(new Vector3(92.5f + Δpos * idx, 80, 0), 0f);
-                });
-            }
-
-            await timer.WaitUntil(25);
-            spawner.Delete(boss);
-            timer.Dispose();
-        }
-
-        private async void EntityCastTest()
+        EntitySpawner _spawner;
+        private void EntityCastTest()
         {
             var me = _host.EntityProvider.GetMyself();
 
-            var spawner = new EntitySpawner(_host, 90);
-            var bnpc = spawner.SpawnBNpc(15717, 7636);
+            _spawner = _spawner ?? new EntitySpawner(_host, 90);
+            var bnpc = _spawner.SpawnBNpc(15725, 12256);
 
             bnpc.Pos3D = me.Pos3D;
             bnpc.Heading = me.Heading;
             bnpc.SetReadyToDraw();
             bnpc.EnableDraw();
 
-            await Task.Delay(1000);
-            bnpc.Cast(0x7B6B); // 探测式波动炮
+            bnpc.Cast(0x7BA2); // 宇宙天箭
 
-            await Task.Delay(15000);
-            spawner.Delete(bnpc);
+            _host.LogVerbose($"CastInfo @ {bnpc.Native.CastInfo.Ptr.Hex()}");
+            _host.LogVerbose($"VFunc #81 Ret @ {bnpc.Native.Ptr.CallVFunc<IntPtr>(81).Hex()}");
         }
 
         private void TestEnvManager()

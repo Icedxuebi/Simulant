@@ -106,9 +106,6 @@ namespace Simulant.Game.FFCS.Client.Game.Character
         public bool IsJumping() 
             => IsJumpingFuncPtr.Call<bool>(Ptr);
 
-        public StatusManager GetStatusManager() 
-            => Ptr.CallVFunc<IntPtr>(78).As<StatusManager>(); // StatusManager* VFunc(78)
-
         // from Kodakku
         [SigPattern("E8 * * * * 48 8D 0D ? ? ? ? E8 ? ? ? ? FF C6")]
         public static IntPtr KnockbackFuncPtr { get; set; }
@@ -116,6 +113,16 @@ namespace Simulant.Game.FFCS.Client.Game.Character
         {
             return KnockbackFuncPtr.Call<IntPtr>(Ptr, angle, distance, duration, a5, a6);
         }
+
+        // Clear cast animation / cast state / related VFX slots.
+        // sub_1409097A0(actor, actionType, actionId, withExtraStopEffect)
+        [SigPattern("48 89 6C 24 18 48 89 74 24 20 41 54 41 56 41 57 48 83 EC 30 48 8B 01 45 0F B6 E1 45 8B F8 44 8B F2 48 8B F1 48 8B E9 FF 50 10 83 F8 02")]
+        public static IntPtr ClearCastAnimationAndStateFuncPtr { get; set; }
+        public IntPtr ClearCastAnimationAndState(byte actionType, uint actionId, byte withExtraStopEffect = 0)
+        {
+            return ClearCastAnimationAndStateFuncPtr.Call<IntPtr>(Ptr, (uint)actionType, actionId, withExtraStopEffect);
+        }
+
     }
 
     // LogMessages for errors starting at 7700

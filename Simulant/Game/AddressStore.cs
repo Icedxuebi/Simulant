@@ -12,6 +12,8 @@ namespace Simulant.Game
         [SigPattern("C7 44 24 ? ? ? ? ? 48 F7 F1")]
         public static IntPtr HeartBeatOpcodeLocatePtr { get; set; }
         public static ushort HeartBeatOpcode => HeartBeatOpcodeLocatePtr.Read<ushort>(0x4);
+
+
     }
 
 }

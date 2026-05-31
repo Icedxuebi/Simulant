@@ -23,7 +23,8 @@ namespace Simulant.Game.FFCS.Client.Game.Character
         public MemoryField<float> BaseCastTime => Ptr.Field<float>(0x38);
         public MemoryField<float> TotalCastTime => Ptr.Field<float>(0x3C);
 
-        /*
+        /* 模拟器不需要 Response 相关字段
+        
         // fields below (Response*) are set when ActionEffect is received - at this point cast can't be cancelled - this is the start of the slidecast window
         [FieldOffset(0x40)] public uint ResponseSpellId;
         [FieldOffset(0x44)] public ActionType ResponseActionType;
@@ -33,6 +34,7 @@ namespace Simulant.Game.FFCS.Client.Game.Character
         [FieldOffset(0x58), FixedSizeArray] internal FixedSizeArray32<GameObjectId> _responseTargetIds;
         [FieldOffset(0x158)] public byte ResponseTargetCount;
         [FieldOffset(0x159)] public byte ResponseFlags; // see ActionEffectHandler.Header.Flags
+
         */
     }
 }

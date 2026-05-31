@@ -149,6 +149,29 @@ namespace Simulant.Core.Entity
             castInfo.TotalCastTime.Set(castTime);
         }
 
+        private bool FinalizeCast()
+        {
+            var native = Native;
+            if (native.IsNull())
+                return false;
+
+            var castInfo = native.CastInfo;
+            if (castInfo.IsNull())
+                return false;
+
+            bool isCasting = castInfo.IsCasting;
+            byte actionType = castInfo.ActionType;
+            uint actionId = castInfo.ActionId;
+
+            if (isCasting && actionId != 0)
+            {
+                native.ClearCastAnimationAndState(actionType, actionId);
+                return true;
+            }
+
+            return false;
+        }
+
         public void PlayOmen(ActionRow action, float omenDelay)
         {
             omenDelay = System.Math.Max(0, omenDelay);
@@ -224,6 +247,7 @@ namespace Simulant.Core.Entity
                     await Task.Delay((int)(delay * 1000));
 
                 Execute(action);
+                FinalizeCast();
             });
         }
 
