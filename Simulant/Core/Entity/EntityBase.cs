@@ -1,5 +1,6 @@
 ﻿using Simulant.Game;
 using Simulant.Game.FFCS.Client.Game.Object;
+using Simulant.Game.FFCS.Client.Network;
 using Simulant.Simulation.Runtime;
 using System;
 using System.Numerics;
@@ -107,5 +108,12 @@ namespace Simulant.Core.Entity
             DisableDraw();
             EnableDraw();
         }
+
+        // 仅写入值 + 脏状态 flag
+        public void SetEventState(byte eventState)
+            => ActorControl(0x006A, eventState);
+
+        public IntPtr ActorControl(ushort category, uint a1 = 0, uint a2 = 0, uint a3 = 0, uint a4 = 0)
+            => PacketDispatcher.HandleActorControl(Native.EntityId, category, a1, a2, a3, a4, a5: 0, a6: 0, a7: 0, a8: 0, 0xE0000000, 0);
     }
 }

@@ -135,21 +135,22 @@ namespace Simulant.Game.FFCS.Client.Game.Network
         /// <remarks> Used for <see cref="ObjectKind.EventObj"/> or <see cref="ObjectKind.GatheringPoint"/>. </remarks>
         [FieldOffset(0x0C)] public uint LayoutId;
         /// <remarks> Used for <see cref="ObjectKind.EventObj"/>, or for <see cref="ObjectKind.HousingEventObject"/> as bool to decide whether it is a <see cref="HousingCombinedObject"/> (true) or a <see cref="HousingEventObject"/> (false). </remarks>
-        // [FieldOffset(0x10)] public EventId EventId;
+        [FieldOffset(0x10)] public uint EventId; // Type: EventId
         [FieldOffset(0x14)] public uint OwnerId;
         /// <remarks> Used for <see cref="ObjectKind.EventObj"/>. </remarks>
         [FieldOffset(0x18)] public uint GimmickId;
         [FieldOffset(0x1C)] public float Radius;
-        [FieldOffset(0x20)] private ushort Unk20; // SharedGroupTimelineState?
+        [FieldOffset(0x20)] public ushort Unk20; // SharedGroupTimelineState?
         [FieldOffset(0x22)] public ushort Rotation;
         /// <remarks> Used for <see cref="ObjectKind.EventObj"/>. </remarks>
         [FieldOffset(0x24)] public ushort FateId;
         /// <remarks> Used for <see cref="ObjectKind.EventObj"/>. </remarks>
         [FieldOffset(0x26)] public byte EventState;
-        [FieldOffset(0x27)] private byte Unk27;
-        [FieldOffset(0x28)] private uint Unk28;
-        [FieldOffset(0x2C)] private uint Unk2C;
-        [FieldOffset(0x30)] private uint Unk30;
+        [FieldOffset(0x27)] public byte Unk27;
+        [FieldOffset(0x28)] public uint Unk28;
+        [FieldOffset(0x2C)] public ushort SharedTimelineState;
+        [FieldOffset(0x2E)] public ushort Unk2E;
+        [FieldOffset(0x30)] public uint SharedGroupState;
         [FieldOffset(0x34)] public float PositionX;
         [FieldOffset(0x38)] public float PositionY;
         [FieldOffset(0x3C)] public float PositionZ;

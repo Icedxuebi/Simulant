@@ -2,8 +2,13 @@
 using Simulant.Game;
 using Simulant.Game.ExtractedCsv;
 using Simulant.Game.FFCS.Client.Game.Character;
+using Simulant.Game.FFCS.Client.Game.Network;
 using Simulant.Game.FFCS.Client.Game.Object;
+using Simulant.Game.FFCS.Client.Graphics.Scene;
+using Simulant.Game.FFCS.Client.Network;
+using System;
 using System.Numerics;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using ActionRow = Simulant.Game.ExtractedCsv.Rows.Action;
 using NativeCharacter = Simulant.Game.FFCS.Client.Game.Character.Character;
@@ -174,7 +179,7 @@ namespace Simulant.Core.Entity
 
         public void PlayOmen(ActionRow action, float omenDelay)
         {
-            omenDelay = System.Math.Max(0, omenDelay);
+            omenDelay = Math.Max(0, omenDelay);
             var sustain = action.CastTime - omenDelay; // 实际游戏考虑到网络延迟，会统一缩短 0.3 s，但这里本地判定逻辑所以不延迟
             if (sustain < 0) return;
 
@@ -251,5 +256,18 @@ namespace Simulant.Core.Entity
             });
         }
 
+        public void ActorMove(Vector3 pos, float heading, byte speedParam = 20)
+        {
+            var payload = new ActorMovePacket
+            {
+                RawX = PacketCodec.EncodeUShortCoord(pos.X),
+                RawY = PacketCodec.EncodeUShortCoord(pos.Z), // y ↔ z
+                RawZ = PacketCodec.EncodeUShortCoord(pos.Y),
+                RawHeading = PacketCodec.EncodeUShortHeading(heading),
+                SpeedParam = speedParam
+            };
+
+            PacketDispatcher.HandleActorMovePacket(Native.EntityId, payload);
+        }
     }
 }

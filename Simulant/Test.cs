@@ -4,7 +4,9 @@ using Simulant.Core.Entity;
 using Simulant.Core.Environment;
 using Simulant.Game;
 using Simulant.Game.FFCS.Client.Game.Event;
+using Simulant.Game.FFCS.Client.Game.Network;
 using Simulant.Game.FFCS.Client.Game.Object;
+using Simulant.Game.FFCS.Client.Network;
 using Simulant.Game.FFCS.Client.System.Framework;
 using Simulant.Simulation;
 using System;
@@ -27,7 +29,32 @@ namespace Simulant
 
         internal async Task Run()
         {
-            EntityCastTest();
+            await EObjTest();
+        }
+
+        public async Task EObjTest()
+        {
+            var data = new EObjData
+            {
+                Index = 7,
+                TargetableFlags = 5,
+                Visible = false,
+                BaseId = 2009610,
+                LayoutId = 7597525,
+                EventId = 2147710331,
+                GimmickId = 0,
+                SharedTimelineState = 17,
+                SharedGroupState = 4194307,
+                Pos = new Vector3(100.0f, 84.0f, 0.0f)
+            };
+
+            var eobj = _host.EntitySpawner.SpawnEObj(data);
+            await Task.Delay(3000);
+            eobj.SetSharedTimelineState(0x11);
+            await Task.Delay(3000);
+            eobj.SetSharedTimelineState(0x21);
+            await Task.Delay(3000);
+            eobj.SetSharedTimelineState(0x11);
         }
 
         public void LogObjectArrays()

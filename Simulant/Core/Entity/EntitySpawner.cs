@@ -1,21 +1,22 @@
 ﻿using Simulant.Game;
 using Simulant.Game.FFCS.Client.Game.Character;
+using Simulant.Game.FFCS.Client.Game.Network;
 using Simulant.Game.FFCS.Client.Game.Object;
+using Simulant.Game.FFCS.Client.Network;
 using System;
 using System.Collections.Concurrent;
 using System.Linq;
+using System.Numerics;
 
 namespace Simulant.Core.Entity
 {
     public sealed class EntitySpawner
     {
         private readonly PluginHost _host;
-        private readonly byte _level;
 
-        public EntitySpawner(PluginHost host, byte level) // 非模拟层，不应该带 level
+        public EntitySpawner(PluginHost host)
         {
             _host = host ?? throw new ArgumentNullException(nameof(host));
-            _level = level;
         }
 
         private readonly ConcurrentDictionary<IntPtr, ushort> _localEntityIndexes =
@@ -58,20 +59,19 @@ namespace Simulant.Core.Entity
             player.Native.CharacterSetup.CopyFromCharacter(source.Native, copyFlags);
             player.Native.ObjectKind.Set(ObjectKind.Pc);
             player.Id = GetNextPlayerId();
-            player.Level = _level;
             player.Job = job;
 
             return player;
         }
 
-        public Character SpawnBNpc(uint bNpcBaseId, uint bNpcNameId = 0)
+        public Character SpawnBNpc(uint bNpcBaseId, uint bNpcNameId, byte level)
         {
             var bnpc = CreateBattleCharacter();
 
             bnpc.Native.CharacterSetup.SetupBNpc(bNpcBaseId, bNpcNameId);
             bnpc.Native.ObjectKind.Set(ObjectKind.BattleNpc);
             bnpc.Id = GetNextNonPlayerId();
-            bnpc.Level = _level;
+            bnpc.Level = level;
             bnpc.Native.Battalion.Set(4);
             bnpc.Native.IsHostile.Set(true);
             bnpc.Native.InCombat.Set(true);
@@ -112,6 +112,60 @@ namespace Simulant.Core.Entity
                 return;
 
             ClientObjectManager.Instance.DeleteObjectByIndex(createdIndex, 0);
+        }
+
+        public EventObject SpawnEObj(EObjData data)
+        {
+            var packet = (SpawnObjectPacket)data;
+            packet.EntityId = GetNextNonPlayerId();
+            _ = PacketDispatcher.HandleSpawnObjectPacket(packet.EntityId, packet);
+
+            // 可以用 Index 优化，避免遍历查找
+            return _host.EntityProvider.GetEventObjs().FirstOrDefault(e => e.Native.EntityId == packet.EntityId) 
+                ?? throw new InvalidOperationException($"生成实体失败：未找到 EntityId={packet.EntityId:X8} 的 EObj 实体。");
+        }
+    }
+
+    public class EObjData
+    {
+        public byte Index;
+        public byte TargetableFlags;
+        public bool Visible;
+        public uint BaseId;
+        public uint LayoutId;
+        public uint EventId;
+        public uint GimmickId;
+        public float Radius = 1f;
+        public ushort FateId;
+        public byte EventState;
+        public ushort SharedTimelineState;
+        public uint SharedGroupState;
+        public Vector3 Pos;
+        public float Heading;
+
+        public static explicit operator SpawnObjectPacket(EObjData data)
+        {
+            return new SpawnObjectPacket
+            {
+                ObjectIndex = data.Index,
+                ObjectKind = (byte)ObjectKind.EventObj,
+                TargetableStatus = data.TargetableFlags,
+                Visibility = (byte)(data.Visible ? 1 : 0),
+                BaseId = data.BaseId,
+                LayoutId = data.LayoutId,
+                EventId = data.EventId,
+                OwnerId = 0xE0000000,
+                GimmickId = data.GimmickId,
+                Radius = data.Radius,
+                Rotation = PacketCodec.EncodeUShortCoord(data.Heading),
+                FateId = data.FateId,
+                EventState = data.EventState,
+                SharedTimelineState = data.SharedTimelineState,
+                SharedGroupState = data.SharedGroupState,
+                PositionX = data.Pos.X,
+                PositionY = data.Pos.Z, // flip
+                PositionZ = data.Pos.Y
+            };
         }
     }
 }
