@@ -22,9 +22,51 @@ An ACT plugin for local FFXIV raid simulation using native in-game rendering.
 
 ## 状态 · Status
 
-开发中。  
+开发中，欢迎合作。  
 Work in progress.
 
-<img width="1342" height="831" alt="2LSE}LO{~4W2J2JV{YNVD0D" src="https://github.com/user-attachments/assets/cdca18c5-b3aa-4a42-8a01-42d831806814" />
-
 <img width="2222" height="1170" alt="image" src="https://github.com/user-attachments/assets/87dc9104-2b5c-417f-8415-e783bc945b87" />
+
+
+## 使用说明 · Instruction
+
+项目仍处于早期开发阶段，出现报错、闪退等现象均不属于意外情况。
+
+尚未加装完整的校验流程，请严格遵循下述步骤使用。
+
+- 目前依赖以下 ACT 插件：
+
+  - FFXIV 解析插件
+  - [OverlayPlugin](https://github.com/OverlayPlugin/OverlayPlugin)
+  - [Triggernometry](https://github.com/MnFeN/Triggernometry) (v2.0 以上)
+  - [PostNamazu](https://github.com/Natsukage/PostNamazu)
+
+  前两者为任意整合版本 ACT 自带的插件，后两者的安装说明见[此链接](https://www.bilibili.com/opus/998425290402168834)。
+
+  如果你安装过我的 Triggernometry 整合，可以跳过此步骤。
+
+- 将此插件 dll 加载至 ACT 的插件列表即可完成加载，可置于列表中比较靠后的位置。
+
+<img width="800" alt="image" src="https://github.com/user-attachments/assets/b2fde36d-dde1-47d1-9f7c-857ea61c9b9f" />
+
+- 插件加载后，在游戏开启状态下，点击“初始化插件”。
+
+- 初始化完成后，进入任意旅馆地图，勾选“启用防火墙”。此功能与卫月插件 [Hyperborea](https://github.com/kawaii/Hyperborea) 类似。
+
+  这会拦截除了心跳包以外的所有收发包，进入本地模式。
+
+  目前此模式下请勿与场景实体交互（如旅馆的门），否则会卡住。
+
+- 在左侧选择地图，或输入地图 ID；如果此地图有阶段/模拟的话可以在下拉列表中选择。
+
+  目前仅实现了两个模拟 demo：
+
+  - 绝欧米茄 宇宙天箭（地图 ID 1122）
+  - O8s 凯夫卡 异三角（地图 ID 755）
+
+- 点击“加载区域”，等待地图加载结束后在右侧预设界面点击“开始模拟”，等待每次模拟完全结束后方可点击“停止模拟”（尚未实现打断式结束）。
+
+- 结束后，取消勾选“启用防火墙”，即可返回旅馆中的原位置。
+
+- 如果此过程中有任何一步导致游戏崩溃，请记录问题并重启 ACT。
+
