@@ -180,7 +180,7 @@ namespace Simulant.Core.Entity
         public void PlayOmen(ActionRow action, float omenDelay)
         {
             omenDelay = Math.Max(0, omenDelay);
-            var sustain = action.CastTime - omenDelay; // 实际游戏考虑到网络延迟，会统一缩短 0.3 s，但这里本地判定逻辑所以不延迟
+            var sustain = action.CastTime - omenDelay - 0.3; // 实际读条比表里短 0.3 s
             if (sustain < 0) return;
 
             var rawX = action.ScaleX;

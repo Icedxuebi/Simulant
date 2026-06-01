@@ -87,8 +87,7 @@ namespace Simulant.Content.S4b.Presets
                 FireAndForget(SingleTriangleTimeline());
             }
         }
-
-        /// <summary> 每个初始宇宙天箭宽读条及后续扩散窄直条的完整时间轴。 </summary>
+        
         private async Task SingleTriangleTimeline()
         {
             var timer = new SimTimer(_host);
@@ -113,44 +112,6 @@ namespace Simulant.Content.S4b.Presets
             }
 
             timer.Dispose();
-        }
-
-        Character Dummy(Vector3 pos, float heading)
-        {
-            var dummy = _host.EntitySpawner.SpawnBNpc(9020, 0, 100);
-            dummy.Pos3D = pos;
-            dummy.Heading = heading;
-            // 不可见，但是可以绘制技能特效
-            // Native.SetReadyToDraw 就是在设置这个 flag
-            dummy.Native.TargetableStatus.Set(ObjectTargetableFlags.ReadyToDraw);
-            dummy.EnableDraw();
-            return dummy;
-        }
-
-        async Task DummyCast(Vector3 pos, float heading, uint abilityId, float despawnSeconds)
-        {
-            var dummy = Dummy(pos, heading);
-            dummy.Cast(abilityId);
-            await Task.Delay(TimeSpan.FromSeconds(despawnSeconds));
-            _host.EntitySpawner.Delete(dummy);
-        }
-
-        async Task DummyExecute(Vector3 pos, float heading, uint abilityId, float despawnSeconds)
-        {
-            var dummy = Dummy(pos, heading);
-            dummy.Execute(abilityId);
-            await Task.Delay(TimeSpan.FromSeconds(despawnSeconds));
-            _host.EntitySpawner.Delete(dummy);
-        }
-
-        private void FireAndForget(Task task)
-        {
-            if (task == null) return;
-
-            task.ContinueWith(
-                t => _host.LogError("模拟错误：" + t.Exception.GetBaseException()),
-                TaskContinuationOptions.OnlyOnFaulted
-            );
         }
 
         private List<Triangle> _candidateTriangles = new List<Triangle>

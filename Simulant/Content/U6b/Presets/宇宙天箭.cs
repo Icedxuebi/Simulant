@@ -19,7 +19,7 @@ namespace Simulant.Content.U6b.Presets
         public override string Author { get; } = "阿洛";
         public override DateTime LastUpdated { get; } = new DateTime(2026, 5, 12);
         public override PhaseData Phase { get; } = U6b.P6;
-        public override int Level => 100;
+        public override int Level => 90;
         public override Type SimLogicType { get; } = typeof(U6b6_宇宙天箭Logic);
         public override string Description { get; } = "目前仅实现了宇宙天箭部分，并未实现分散/分摊后续机制。";
 
@@ -185,34 +185,6 @@ namespace Simulant.Content.U6b.Presets
             timer.Dispose();
         }
 
-        Character Dummy(Vector3 pos, float heading)
-        {
-            var dummy = _host.EntitySpawner.SpawnBNpc(9020, 0, 100);
-            dummy.Pos3D = pos;
-            dummy.Heading = heading;
-            // 不可见，但是可以绘制技能特效
-            // Native.SetReadyToDraw 就是在设置这个 flag
-            dummy.Native.TargetableStatus.Set(ObjectTargetableFlags.ReadyToDraw);
-            dummy.EnableDraw();
-            return dummy;
-        }
-
-        async Task DummyCast(Vector3 pos, float heading, uint abilityId, float despawnSeconds)
-        {
-            var dummy = Dummy(pos, heading);
-            dummy.Cast(abilityId);
-            await Task.Delay(TimeSpan.FromSeconds(despawnSeconds));
-            _host.EntitySpawner.Delete(dummy);
-        }
-
-        async Task DummyExecute(Vector3 pos, float heading, uint abilityId, float despawnSeconds)
-        {
-            var dummy = Dummy(pos, heading);
-            dummy.Execute(abilityId);
-            await Task.Delay(TimeSpan.FromSeconds(despawnSeconds));
-            _host.EntitySpawner.Delete(dummy);
-        }
-
         private void WideArrow(Vector3 pos, float heading)
         {
             FireAndForget(DummyCast(pos, heading, 0x7BA3, 10f)); // omen
@@ -226,16 +198,6 @@ namespace Simulant.Content.U6b.Presets
 
             FireAndForget(DummyExecute(pos, heading, 0x7BA4, 3f));
             return true;
-        }
-
-        private void FireAndForget(Task task)
-        {
-            if (task == null) return;
-
-            task.ContinueWith(
-                t => _host.LogError("模拟错误：" + t.Exception.GetBaseException()),
-                TaskContinuationOptions.OnlyOnFaulted
-            );
         }
 
     }

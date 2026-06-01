@@ -1,11 +1,14 @@
-﻿using Job = Simulant.Game.FFCS.Client.Game.Character.Job;
+﻿using Simulant.Core;
+using Simulant.Core.Entity;
+using Simulant.Game.FFCS.Client.Game.Object;
 using Simulant.Simulation.Runtime;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Reflection;
-using Simulant.Core.Entity;
-using Simulant.Core;
+using System.Threading.Tasks;
+using Job = Simulant.Game.FFCS.Client.Game.Character.Job;
 
 namespace Simulant.Simulation
 {
@@ -203,6 +206,46 @@ namespace Simulant.Simulation
         }
 
         #endregion Party / Roles
+
+        // to-do: 用 EntityManager 管理
+        protected Character Dummy(Vector3 pos, float heading)
+        {
+            var dummy = _host.EntitySpawner.SpawnBNpc(9020, 0, 100);
+            dummy.Pos3D = pos;
+            dummy.Heading = heading;
+            // 不可见，但是可以绘制技能特效
+            // Native.SetReadyToDraw 就是在设置这个 flag
+            dummy.Native.TargetableStatus.Set(ObjectTargetableFlags.ReadyToDraw);
+            dummy.EnableDraw();
+            return dummy;
+        }
+
+        protected async Task DummyCast(Vector3 pos, float heading, uint abilityId, float despawnSeconds, float? omenDelay = 0)
+        {
+            var dummy = Dummy(pos, heading);
+            dummy.Cast(abilityId, omenDelay);
+            await Task.Delay(TimeSpan.FromSeconds(despawnSeconds));
+            _host.EntitySpawner.Delete(dummy);
+        }
+
+        protected async Task DummyExecute(Vector3 pos, float heading, uint abilityId, float despawnSeconds)
+        {
+            var dummy = Dummy(pos, heading);
+            dummy.Execute(abilityId);
+            await Task.Delay(TimeSpan.FromSeconds(despawnSeconds));
+            _host.EntitySpawner.Delete(dummy);
+        }
+
+        protected void FireAndForget(Task task)
+        {
+            if (task == null) return;
+
+            task.ContinueWith(
+                t => _host.LogError("模拟错误：" + t.Exception.GetBaseException()),
+                TaskContinuationOptions.OnlyOnFaulted
+            );
+        }
+
     }
 
     [AttributeUsage(AttributeTargets.Property)]

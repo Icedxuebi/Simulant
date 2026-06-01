@@ -114,6 +114,19 @@ namespace Simulant.Core.Entity
             ClientObjectManager.Instance.DeleteObjectByIndex(createdIndex, 0);
         }
 
+        public EventObject SpawnEObj(int index, uint baseId, Vector3 pos, float heading, ushort animation = 0)
+        {
+            var data = new EObjData
+            {
+                Index = (byte)index,
+                BaseId = baseId,
+                Pos = pos,
+                Heading = heading,
+                SharedTimelineState = animation
+            };
+            return SpawnEObj(data);
+        }
+
         public EventObject SpawnEObj(EObjData data)
         {
             if (data.Index >= 40)
