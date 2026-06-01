@@ -104,6 +104,8 @@ namespace Simulant.Core.Zone
                 _initialTerritoryId = null;
                 _initialPosition = null;
 
+                _host.EnvironmentService.SetBgm(0);
+
                 var finalTerritoryId = territory != null ? (int)territory.Index : territoryId;
                 var placeName = territory != null ? territory.PlaceName.Name : "未知区域";
                 _host.LogSim($"已返回真实区域：{placeName} ({finalTerritoryId})");
