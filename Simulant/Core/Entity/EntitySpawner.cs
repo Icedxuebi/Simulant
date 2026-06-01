@@ -185,7 +185,7 @@ namespace Simulant.Core.Entity
                 OwnerId = 0xE0000000,
                 GimmickId = data.GimmickId,
                 Radius = data.Scale,
-                Rotation = PacketCodec.EncodeUShortCoord(data.Heading),
+                Rotation = PacketCodec.EncodeUShortHeading(data.Heading),
                 FateId = data.FateId,
                 EventState = data.EventState,
                 SharedTimelineState = data.SharedTimelineState,
