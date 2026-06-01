@@ -29,7 +29,20 @@ namespace Simulant
 
         internal async Task Run()
         {
-            await 异三角Test();
+            await 绝伊甸地火Test();
+        }
+
+        public async Task 绝伊甸地火Test()
+        {
+            var data = new EObjData
+            {
+                Index = 0,
+                BaseId = 2014199,
+                Pos = _host.EntityProvider.GetMyself().Pos3D,
+            };
+            var eobj = _host.EntitySpawner.SpawnEObj(data);
+            TriggernometryInterop.InvokeNamedCallback("command", $"/e ID: {eobj.Id:X8} #{data.Index} @ {eobj.Native.Ptr.Hex()}");
+            LogObjectArrays();
         }
 
         public async Task 异三角Test()
