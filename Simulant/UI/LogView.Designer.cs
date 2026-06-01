@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.tableLog = new System.Windows.Forms.TableLayoutPanel();
             this.chkLogFilterVerbose = new System.Windows.Forms.CheckBox();
             this.chkLogFilterSim = new System.Windows.Forms.CheckBox();
@@ -42,8 +43,13 @@
             this.colTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colType = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colText = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ctxRightClickMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.mnuLogCopySelected = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuLogDeleteSelected = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuLogClearAll = new System.Windows.Forms.ToolStripMenuItem();
             this.tableLog.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvLog)).BeginInit();
+            this.ctxRightClickMenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLog
@@ -256,6 +262,7 @@
             this.colType,
             this.colText});
             this.tableLog.SetColumnSpan(this.dgvLog, 2);
+            this.dgvLog.ContextMenuStrip = this.ctxRightClickMenu;
             this.dgvLog.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvLog.Location = new System.Drawing.Point(3, 3);
             this.dgvLog.Name = "dgvLog";
@@ -270,6 +277,7 @@
             this.dgvLog.TabStop = false;
             this.dgvLog.VirtualMode = true;
             this.dgvLog.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dgvLog_CellFormatting);
+            this.dgvLog.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvLog_CellMouseDown);
             this.dgvLog.CellValueNeeded += new System.Windows.Forms.DataGridViewCellValueEventHandler(this.dgvLog_CellValueNeeded);
             // 
             // colTime
@@ -298,6 +306,37 @@
             this.colText.Name = "colText";
             this.colText.ReadOnly = true;
             // 
+            // ctxRightClickMenu
+            // 
+            this.ctxRightClickMenu.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.ctxRightClickMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuLogCopySelected,
+            this.mnuLogDeleteSelected,
+            this.mnuLogClearAll});
+            this.ctxRightClickMenu.Name = "ctxRightClickMenu";
+            this.ctxRightClickMenu.Size = new System.Drawing.Size(154, 76);
+            // 
+            // mnuLogCopySelected
+            // 
+            this.mnuLogCopySelected.Name = "mnuLogCopySelected";
+            this.mnuLogCopySelected.Size = new System.Drawing.Size(210, 24);
+            this.mnuLogCopySelected.Text = "复制选中行";
+            this.mnuLogCopySelected.Click += new System.EventHandler(this.mnuLogCopySelected_Click);
+            // 
+            // mnuLogDeleteSelected
+            // 
+            this.mnuLogDeleteSelected.Name = "mnuLogDeleteSelected";
+            this.mnuLogDeleteSelected.Size = new System.Drawing.Size(210, 24);
+            this.mnuLogDeleteSelected.Text = "删除选中行";
+            this.mnuLogDeleteSelected.Click += new System.EventHandler(this.mnuLogDeleteSelected_Click);
+            // 
+            // mnuLogClearAll
+            // 
+            this.mnuLogClearAll.Name = "mnuLogClearAll";
+            this.mnuLogClearAll.Size = new System.Drawing.Size(210, 24);
+            this.mnuLogClearAll.Text = "全部清空";
+            this.mnuLogClearAll.Click += new System.EventHandler(this.mnuLogClearAll_Click);
+            // 
             // LogView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
@@ -308,6 +347,7 @@
             this.tableLog.ResumeLayout(false);
             this.tableLog.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvLog)).EndInit();
+            this.ctxRightClickMenu.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -329,5 +369,9 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colTime;
         private System.Windows.Forms.DataGridViewTextBoxColumn colType;
         private System.Windows.Forms.DataGridViewTextBoxColumn colText;
+        private System.Windows.Forms.ContextMenuStrip ctxRightClickMenu;
+        private System.Windows.Forms.ToolStripMenuItem mnuLogCopySelected;
+        private System.Windows.Forms.ToolStripMenuItem mnuLogDeleteSelected;
+        private System.Windows.Forms.ToolStripMenuItem mnuLogClearAll;
     }
 }

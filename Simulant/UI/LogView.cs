@@ -280,6 +280,85 @@ namespace Simulant.UI
                 chkLogFilterAll.CheckState = CheckState.Indeterminate;
             }
         }
+
+        /// <summary>
+        /// 右键选中行
+        /// </summary>
+        private void dgvLog_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.Button != MouseButtons.Right)
+                return;
+
+            if (e.RowIndex < 0)
+                return;
+
+            dgvLog.ClearSelection();
+            dgvLog.Rows[e.RowIndex].Selected = true;
+
+            if (e.ColumnIndex >= 0)
+                dgvLog.CurrentCell = dgvLog.Rows[e.RowIndex].Cells[e.ColumnIndex];
+        }
+
+        /// <summary>
+        /// 菜单项：复制选中行文本（格式：时间 类型 消息）
+        /// </summary>
+        private void mnuLogCopySelected_Click(object sender, EventArgs e)
+        {
+            if (dgvLog.SelectedRows.Count == 0)
+                return;
+
+            var lines = dgvLog.SelectedRows
+                .Cast<DataGridViewRow>()
+                .OrderBy(r => r.Index)
+                .Where(r => r.Index >= 0 && r.Index < _virtualData.Count)
+                .Select(r =>
+                {
+                    var item = _virtualData[r.Index];
+                    return $"{item.Timestamp:HH:mm:ss.fff} {item.TypeDescription} {item.Message}";
+                });
+
+            var text = string.Join(Environment.NewLine, lines);
+
+            if (!string.IsNullOrEmpty(text))
+                Clipboard.SetText(text);
+        }
+
+        /// <summary>
+        /// 删除选中行日志
+        /// </summary>
+        private void mnuLogDeleteSelected_Click(object sender, EventArgs e)
+        {
+            if (_host == null)
+                return;
+
+            var selectedItems = dgvLog.SelectedRows
+                .Cast<DataGridViewRow>()
+                .Select(r => r.Index)
+                .Where(i => i >= 0 && i < _virtualData.Count)
+                .Select(i => _virtualData[i])
+                .ToList();
+
+            if (selectedItems.Count == 0)
+                return;
+
+            _host.PluginLog.Remove(selectedItems);
+
+            RefreshLogView();
+        }
+
+        /// <summary>
+        /// 清空
+        /// </summary>
+        private void mnuLogClearAll_Click(object sender, EventArgs e)
+        {
+            _host?.PluginLog?.Clear();
+            _logSnapshot.Clear();
+            _virtualData.Clear();
+
+            dgvLog.RowCount = 0;
+            dgvLog.ClearSelection();
+            dgvLog.Invalidate();
+        }
     }
 }
 #pragma warning restore IDE1006

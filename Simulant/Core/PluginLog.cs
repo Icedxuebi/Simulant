@@ -18,12 +18,11 @@ namespace Simulant.Core
 
         internal void Clear()
         {
-            lock (_log)
+            foreach (var pair in _log)
             {
-                foreach (var pair in _log)
+                lock (_log)
                 {
                     pair.Value.Clear();
-
                 }
             }
         }
@@ -47,6 +46,37 @@ namespace Simulant.Core
                 if (queue.Count > MaxCountPerLevel)
                 {
                     queue.Dequeue();
+                }
+            }
+        }
+
+        internal void Remove(IEnumerable<LogItem> items)
+        {
+            if (items == null)
+                return;
+
+            var set = new HashSet<LogItem>(items.Where(x => x != null));
+
+            if (set.Count == 0)
+                return;
+
+            foreach (var pair in _log)
+            {
+                var queue = pair.Value;
+
+                lock (queue)
+                {
+                    if (queue.Count == 0)
+                        continue;
+
+                    var kept = queue
+                        .Where(x => !set.Contains(x))
+                        .ToList();
+
+                    queue.Clear();
+
+                    foreach (var item in kept)
+                        queue.Enqueue(item);
                 }
             }
         }
