@@ -29,21 +29,34 @@ namespace Simulant
 
         internal async Task Run()
         {
-            await EObjTowerTest();
+            await 异三角Test();
+        }
+
+        public async Task 异三角Test()
+        {
+            var data = new EObjData
+            {
+                Index = 5,
+                BaseId = 2000052,
+                SharedTimelineState = 0x2,
+                Pos = _host.EntityProvider.GetMyself().Pos3D,
+            };
+            var eobj = _host.EntitySpawner.SpawnEObj(data);
+            TriggernometryInterop.InvokeNamedCallback("command", $"/e ID: {eobj.Id:X8} @ index {data.Index}");
+            LogObjectArrays();
         }
 
         public async Task EObjTowerTest()
         {
             var data = new EObjData
             {
-                Index = 40, // 测试能否覆盖已有的 EventNpc
+                Index = 0,
                 TargetableFlags = 5,
                 BaseId = 2009610,
                 SharedTimelineState = 0x41,
                 Pos = _host.EntityProvider.GetMyself().Pos3D,
             };
             var eobj = _host.EntitySpawner.SpawnEObj(data);
-
             LogObjectArrays();
         }
 

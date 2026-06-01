@@ -138,7 +138,7 @@ namespace Simulant.Core.Entity
         /// <summary>
         /// 0x2 为 1 时不可见；至少也用到了 0x1 和 0x4，但暂时没观察到实际影响
         /// </summary>
-        public byte TargetableFlags;
+        public byte TargetableFlags = 0x1 | 0x4;
         public bool Hidden = false;
         public uint BaseId;
 

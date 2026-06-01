@@ -12,6 +12,5 @@ namespace Simulant.Game.FFCS.Client.Game.Object
         public static EventObjectManager Instance
             => InstancePtr.As<EventObjectManager>();
 
-
     }
 }

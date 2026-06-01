@@ -12,7 +12,7 @@ namespace Simulant.Simulation
     /// <summary> 模拟副本预设的元数据。</summary>
     public abstract class SimPresetBase
     {
-        public abstract int TerritoryId { get; }
+        public abstract int TerritoryId { get; } // to-do：这个和 Preset 的 Attribute 重复了
         public abstract string Name { get; }
         public abstract string Author { get; }
         public abstract DateTime LastUpdated { get; }
