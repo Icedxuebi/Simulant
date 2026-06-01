@@ -49,6 +49,10 @@ Work in progress.
 
 <img width="800" alt="image" src="https://github.com/user-attachments/assets/b2fde36d-dde1-47d1-9f7c-857ea61c9b9f" />
 
+> [!WARNING]
+> 此插件与卫月平台的一些插件存在兼容性问题。
+> 如果遇到游戏崩溃或初始化出错，请尝试纯净启动，或仅开启卫月框架。
+
 - 插件加载后，在游戏开启状态下，点击“初始化插件”。
 
 - 初始化完成后，进入任意旅馆地图，勾选“启用防火墙”。此功能与卫月插件 [Hyperborea](https://github.com/kawaii/Hyperborea) 类似。
