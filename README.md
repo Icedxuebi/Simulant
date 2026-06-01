@@ -70,3 +70,8 @@ Work in progress.
 
 - 如果此过程中有任何一步导致游戏崩溃，请记录问题并重启 ACT。
 
+- 可选：如果文字或界面排版有问题，可以安装字体：
+  
+  [更纱黑体](https://github.com/be5invis/Sarasa-Gothic/releases)
+
+  在 Single Family TTF Package 中下载 Mono 的压缩包并安装字体。
