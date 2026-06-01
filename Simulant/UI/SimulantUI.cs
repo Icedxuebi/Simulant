@@ -320,7 +320,14 @@ namespace Simulant.UI
 
         private async void btnDebug_Click(object sender, EventArgs e)
         {
-            await new Test(_host).Run();
+            try
+            {
+                await new Test(_host).Run();
+            }
+            catch (Exception ex)
+            {
+                _host.LogError("测试执行出现异常：" + ex);
+            }
         }
 
     }

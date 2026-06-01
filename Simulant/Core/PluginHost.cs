@@ -150,8 +150,11 @@ namespace Simulant.Core
             }
         }
 
+        public bool Disposed { get; private set; }
+
         public void Dispose()
         {
+            Disposed = true;
             try
             {
                 if (FirewallService != null && FirewallService.IsEnabled)

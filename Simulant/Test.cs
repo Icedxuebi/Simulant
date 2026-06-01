@@ -29,32 +29,72 @@ namespace Simulant
 
         internal async Task Run()
         {
-            await EObjTest();
+            await EObjTowerTest();
         }
 
-        public async Task EObjTest()
+        public async Task EObjTowerTest()
         {
+            var data = new EObjData
+            {
+                Index = 40, // 测试能否覆盖已有的 EventNpc
+                TargetableFlags = 5,
+                BaseId = 2009610,
+                SharedTimelineState = 0x41,
+                Pos = _host.EntityProvider.GetMyself().Pos3D,
+            };
+            var eobj = _host.EntitySpawner.SpawnEObj(data);
+
+            LogObjectArrays();
+        }
+
+        public async Task EObjSharedTimelineStateTest()
+        {
+            var data = new EObjData
+            {
+                Index = 6,
+                TargetableFlags = 5,
+                BaseId = 2009610,
+                Pos = _host.EntityProvider.GetMyself().Pos3D,
+            };
+            var eobj = _host.EntitySpawner.SpawnEObj(data);
+
+            LogObjectArrays();
+
+            for (byte i = 0; i <= 0xFF; i++)
+            {
+                eobj.SetSharedTimelineState(i);
+                TriggernometryInterop.InvokeNamedCallback("command", $"/e Timeline {i} = {i:X2}");
+
+                if (i == 0xFF || _host.Disposed) break;
+                await Task.Delay(1000);
+            }
+        }
+
+        public async Task EObjTargetableFlagsTest()
+        {
+            
             var data = new EObjData
             {
                 Index = 7,
                 TargetableFlags = 5,
-                Visible = false,
                 BaseId = 2009610,
-                LayoutId = 7597525,
-                EventId = 2147710331,
+                // LayoutId = 7597525,
+                // EventId = 0x8003757B,
                 GimmickId = 0,
-                SharedTimelineState = 17,
-                SharedGroupState = 4194307,
-                Pos = new Vector3(100.0f, 84.0f, 0.0f)
+                SharedTimelineState = 0x21,
+                // SharedGroupState = 4194307,
             };
 
-            var eobj = _host.EntitySpawner.SpawnEObj(data);
-            await Task.Delay(3000);
-            eobj.SetSharedTimelineState(0x11);
-            await Task.Delay(3000);
-            eobj.SetSharedTimelineState(0x21);
-            await Task.Delay(3000);
-            eobj.SetSharedTimelineState(0x11);
+            for (byte i = 0; i <= 0xFF; i++)
+            {
+                data.TargetableFlags = i;
+                data.Pos = _host.EntityProvider.GetMyself().Pos3D;
+                var eobj = _host.EntitySpawner.SpawnEObj(data);
+                TriggernometryInterop.InvokeNamedCallback("command", $"/e {i}");
+
+                if (i == 0xFF || _host.Disposed) break;
+                await Task.Delay(1000);
+            }
         }
 
         public void LogObjectArrays()

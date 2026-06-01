@@ -116,6 +116,8 @@ namespace Simulant.Core.Entity
 
         public EventObject SpawnEObj(EObjData data)
         {
+            if (data.Index >= 40)
+                throw new ArgumentOutOfRangeException(nameof(data), $"EventObject 实体索引必须为 0-39，实际传入 {data.Index}。");
             var packet = (SpawnObjectPacket)data;
             packet.EntityId = GetNextNonPlayerId();
             _ = PacketDispatcher.HandleSpawnObjectPacket(packet.EntityId, packet);
@@ -128,16 +130,42 @@ namespace Simulant.Core.Entity
 
     public class EObjData
     {
+        /// <summary>
+        /// EventObject 只有 40 个槽位，故最大为 39。
+        /// </summary>
         public byte Index;
+
+        /// <summary>
+        /// 0x2 为 1 时不可见；至少也用到了 0x1 和 0x4，但暂时没观察到实际影响
+        /// </summary>
         public byte TargetableFlags;
-        public bool Visible;
+        public bool Hidden = false;
         public uint BaseId;
+
+        /// <summary>
+        /// 似乎是绑定的场景实例 ID，缺少此值至少不影响 SetSharedTimelineState 动画
+        /// </summary>
         public uint LayoutId;
+
+        /// <summary>
+        /// 似乎是 InstanceContentId，缺少此值至少不影响 SetSharedTimelineState 动画
+        /// </summary>
         public uint EventId;
+
         public uint GimmickId;
-        public float Radius = 1f;
+
+        /// <summary>
+        /// 影响生成实体的缩放比例，不是实际尺寸
+        /// </summary>
+        public float Scale = 1f;
+
         public ushort FateId;
+
         public byte EventState;
+
+        /// <summary> 
+        /// 对于使用 SetSharedTimelineState 控制动画的实体，代表生成时显现的动画。
+        /// </summary>
         public ushort SharedTimelineState;
         public uint SharedGroupState;
         public Vector3 Pos;
@@ -150,13 +178,13 @@ namespace Simulant.Core.Entity
                 ObjectIndex = data.Index,
                 ObjectKind = (byte)ObjectKind.EventObj,
                 TargetableStatus = data.TargetableFlags,
-                Visibility = (byte)(data.Visible ? 1 : 0),
+                Visibility = (byte)(data.Hidden ? 1 : 0),
                 BaseId = data.BaseId,
                 LayoutId = data.LayoutId,
                 EventId = data.EventId,
                 OwnerId = 0xE0000000,
                 GimmickId = data.GimmickId,
-                Radius = data.Radius,
+                Radius = data.Scale,
                 Rotation = PacketCodec.EncodeUShortCoord(data.Heading),
                 FateId = data.FateId,
                 EventState = data.EventState,
