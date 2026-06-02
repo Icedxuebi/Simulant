@@ -9,9 +9,9 @@ namespace Simulant.ACT
         public static object RawPlugin { get; private set; }
         public static NamazuPlugin Plugin { get; private set; }
 
-        private static GreyMagicCallScheduler _callScheduler;
+        // private static GreyMagicCallScheduler _callScheduler;
 
-        public static bool IsReady => Plugin?.IsReady == true && _callScheduler != null;
+        public static bool IsReady => Plugin?.IsReady == true;// && _callScheduler != null;
 
         public static void Init()
         {
@@ -31,23 +31,24 @@ namespace Simulant.ACT
             if (!plugin.IsReady)
                 throw new Exception($"[{nameof(NamazuInterop)}] PostNamazu 插件未准备就绪，可能是游戏未启动或插件未就绪。");
 
-            var scheduler = new GreyMagicCallScheduler(plugin.Memory, frameLeaseMs: 10);
+            // var scheduler = new GreyMagicCallScheduler(plugin.Memory, frameLeaseMs: 10);
 
             RawPlugin = rawPlugin;
             Plugin = plugin;
-            _callScheduler = scheduler;
+            // _callScheduler = scheduler;
         }
 
         public static void DeInit()
         {
-            var scheduler = _callScheduler;
-            _callScheduler = null;
-            scheduler?.Dispose();
+            // var scheduler = _callScheduler;
+            // _callScheduler = null;
+            // scheduler?.Dispose();
 
             RawPlugin = null;
             Plugin = null;
         }
 
+        /*
         /// <summary>
         ///   尝试在 GreyMagic FrameLock 窗口内同步执行 Call 等操作。<br />
         ///   若短期内多次调用，会自动尝试在同一帧内调用，注意避免传入高延迟动作阻塞 UI。<br />
@@ -87,5 +88,6 @@ namespace Simulant.ACT
             _callScheduler.Execute(() => result = func());
             return result;
         }
+        */
     }
 }

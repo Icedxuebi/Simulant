@@ -6,6 +6,7 @@ using Simulant.Core;
 
 namespace Simulant.Simulation
 {
+    // 这是一个开发初期用的工具类。to do: 可以自动控制时间执行 Delegate 的 Timeline
     public sealed class SimTimer : IDisposable
     {
         private readonly Stopwatch _stopwatch = Stopwatch.StartNew();

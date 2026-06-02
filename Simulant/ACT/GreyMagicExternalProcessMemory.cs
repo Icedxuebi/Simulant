@@ -23,41 +23,16 @@ namespace Simulant.ACT
             _externalMem = memory ?? throw new ArgumentNullException(nameof(memory));
         }
 
-        public dynamic Patches
-        {
-            get { return _externalMem.Patches; }
-        }
+        public dynamic Patches => _externalMem.Patches;
+        public bool CacheEnabled => _externalMem.CacheEnabled;
+        public bool IsThreadOpen => _externalMem.IsThreadOpen;
+        public object GetLock() => _externalMem.GetLock();
+        public void ClearCache() => _externalMem.ClearCache();
+        public void DisableCache() => _externalMem.DisableCache();
+        public void EnableCache() => _externalMem.EnableCache();
+        public void ClearCallCache() => _externalMem.ClearCallCache();
 
-        public bool CacheEnabled
-        {
-            get { return _externalMem.CacheEnabled; }
-        }
-
-        public bool IsThreadOpen
-        {
-            get { return _externalMem.IsThreadOpen; }
-        }
-
-        public object GetLock()
-        {
-            return _externalMem.GetLock();
-        }
-
-        public void ClearCache()
-        {
-            _externalMem.ClearCache();
-        }
-
-        public void DisableCache()
-        {
-            _externalMem.DisableCache();
-        }
-
-        public void EnableCache()
-        {
-            _externalMem.EnableCache();
-        }
-
+        /*
         public T CallInjected64<T>(IntPtr address, params object[] args) where T : struct
         {
             return WrapInjectedCall(() => (T)_externalMem.CallInjected64<T>(address, args));
@@ -88,11 +63,6 @@ namespace Simulant.ACT
             {
                 throw new Exception("调用函数时游戏无响应，疑似崩溃，可能是开启了冲突的卫月插件等原因所致。建议重启 ACT 以防再次崩溃。\n\n", ex);
             }
-        }
-
-        public void ClearCallCache()
-        {
-            _externalMem.ClearCallCache();
         }
 
         public void CallVirtualFunction(IntPtr objAddress, int vFuncIndex, params object[] args)
@@ -138,6 +108,7 @@ namespace Simulant.ACT
                     Monitor.Exit(assmLock);
             }
         }
+        */
 
         public void WithAllocatedString(string text, Encoding encoding, Action<IntPtr> action)
         {

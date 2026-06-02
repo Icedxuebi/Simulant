@@ -15,170 +15,96 @@ namespace Simulant.ACT
         {
             _memory = memory ?? throw new ArgumentNullException(nameof(memory));
         }
-
-        public Process Process
-        {
-            get { return _memory.Process; }
-        }
-
-        public IntPtr ProcessHandle
-        {
-            get { return _memory.ProcessHandle; }
-        }
-
-        public bool IsProcessOpen
-        {
-            get { return _memory.IsProcessOpen; }
-        }
-
-        public IntPtr ImageBase
-        {
-            get { return _memory.ImageBase; }
-        }
+        public Process Process => _memory.Process;
+        public IntPtr ProcessHandle => _memory.ProcessHandle;
+        public bool IsProcessOpen => _memory.IsProcessOpen;
+        public IntPtr ImageBase => _memory.ImageBase;
 
         public byte[] ReadBytes<T>(IntPtr addr) where T : struct
-        {
-            return _memory.ReadBytes<T>(addr);
-        }
+            => _memory.ReadBytes<T>(addr);
 
         public byte[] ReadBytes(IntPtr addr, int count, bool isRelative)
-        {
-            return _memory.ReadBytes(addr, count, isRelative);
-        }
+            => _memory.ReadBytes(addr, count, isRelative);
 
         public byte[] ReadBytes(IntPtr addr, int count)
-        {
-            return _memory.ReadBytes(addr, count);
-        }
+            => _memory.ReadBytes(addr, count);
 
         public T Read<T>(bool isRelative, params IntPtr[] addrs) where T : struct
-        {
-            return _memory.Read<T>(isRelative, addrs);
-        }
+            => _memory.Read<T>(isRelative, addrs);
 
         public T Read<T>(IntPtr addr, bool isRelative) where T : struct
-        {
-            return _memory.Read<T>(addr, isRelative);
-        }
+            => _memory.Read<T>(addr, isRelative);
 
         public T Read<T>(IntPtr addr) where T : struct
-        {
-            return _memory.Read<T>(addr);
-        }
+            => _memory.Read<T>(addr);
 
         public T[] ReadArray<T>(IntPtr addr, int count, bool isRelative) where T : struct
-        {
-            return _memory.ReadArray<T>(addr, count, isRelative);
-        }
+            => _memory.ReadArray<T>(addr, count, isRelative);
 
         public T[] ReadArray<T>(IntPtr addr, int count) where T : struct
-        {
-            return _memory.ReadArray<T>(addr, count);
-        }
+            => _memory.ReadArray<T>(addr, count);
 
         public string ReadString(IntPtr address, Encoding encoding)
-        {
-            return _memory.ReadString(address, encoding);
-        }
+            => _memory.ReadString(address, encoding);
 
         public string ReadString(IntPtr address, Encoding encoding, int maxLength)
-        {
-            return _memory.ReadString(address, encoding, maxLength);
-        }
+            => _memory.ReadString(address, encoding, maxLength);
 
         public string ReadString(IntPtr address, Encoding encoding, int maxLength, bool isRelative)
-        {
-            return _memory.ReadString(address, encoding, maxLength, isRelative);
-        }
+            => _memory.ReadString(address, encoding, maxLength, isRelative);
 
         public string ReadStringUTF8(IntPtr address)
-        {
-            return _memory.ReadStringUTF8(address);
-        }
+            => _memory.ReadStringUTF8(address);
 
         public int WriteBytes<T>(IntPtr addr, byte[] bytes, bool isRelative)
-        {
-            return _memory.WriteBytes<T>(addr, bytes, isRelative);
-        }
+            => _memory.WriteBytes<T>(addr, bytes, isRelative);
 
         public int WriteBytes(IntPtr addr, byte[] bytes)
-        {
-            return _memory.WriteBytes(addr, bytes);
-        }
+            => _memory.WriteBytes(addr, bytes);
 
         public void Write<T>(IntPtr addr, T value, bool isRelative) where T : struct
-        {
-            _memory.Write<T>(addr, value, isRelative);
-        }
+            => _memory.Write<T>(addr, value, isRelative);
 
         public void Write<T>(IntPtr addr, T value) where T : struct
-        {
-            _memory.Write<T>(addr, value);
-        }
+            => _memory.Write<T>(addr, value);
 
         public bool WriteString(IntPtr addr, string value, Encoding encoding)
-        {
-            return _memory.WriteString(addr, value, encoding);
-        }
+            => _memory.WriteString(addr, value, encoding);
 
         public IntPtr AllocateMemory(int size)
-        {
-            return _memory.AllocateMemory(size);
-        }
+            => _memory.AllocateMemory(size);
 
         public IntPtr AllocateMemory(int size, uint allocationType, uint protect)
-        {
-            return _memory.AllocateMemory(size, allocationType, protect);
-        }
+            => _memory.AllocateMemory(size, allocationType, protect);
 
         public bool FreeMemory(IntPtr memory, int size, uint freeType)
-        {
-            return _memory.FreeMemory(memory, size, freeType);
-        }
+            => _memory.FreeMemory(memory, size, freeType);
 
         public bool FreeMemory(IntPtr memory)
-        {
-            return _memory.FreeMemory(memory);
-        }
+            => _memory.FreeMemory(memory);
 
         public IntPtr GetProcAddress(string module, string function)
-        {
-            return _memory.GetProcAddress(module, function);
-        }
+            => _memory.GetProcAddress(module, function);
 
         public IntPtr GetVFTableEntry(IntPtr address, int index)
-        {
-            return _memory.GetVFTableEntry(address, index);
-        }
+            => _memory.GetVFTableEntry(address, index);
 
         public IntPtr GetAbsolute(IntPtr relative)
-        {
-            return _memory.GetAbsolute(relative);
-        }
+            => _memory.GetAbsolute(relative);
 
         public IntPtr GetRelative(IntPtr absolute)
-        {
-            return _memory.GetRelative(absolute);
-        }
+            => _memory.GetRelative(absolute);
 
         public GreyMagicFrameLock AcquireFrame(bool hardLock)
-        {
-            return new GreyMagicFrameLock(_memory.AcquireFrame(hardLock));
-        }
+            => new GreyMagicFrameLock(_memory.AcquireFrame(hardLock));
 
         public GreyMagicFrameLock AcquireFrame()
-        {
-            return new GreyMagicFrameLock(_memory.AcquireFrame());
-        }
+            => new GreyMagicFrameLock(_memory.AcquireFrame());
 
         public GreyMagicFrameLockRelease ReleaseFrame(bool reacquireAsHardLock)
-        {
-            return new GreyMagicFrameLockRelease(_memory.ReleaseFrame(reacquireAsHardLock));
-        }
+            => new GreyMagicFrameLockRelease(_memory.ReleaseFrame(reacquireAsHardLock));
 
         public GreyMagicFrameLockRelease ReleaseFrame()
-        {
-            return new GreyMagicFrameLockRelease(_memory.ReleaseFrame());
-        }
+            => new GreyMagicFrameLockRelease(_memory.ReleaseFrame());
     }
 }
