@@ -66,10 +66,6 @@ namespace Simulant.Content.U7a.Presets
                 }),
         };
 
-        public P5地火()
-        {
-        }
-
     }
 
     internal enum CenterDir4

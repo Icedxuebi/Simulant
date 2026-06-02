@@ -62,11 +62,6 @@ namespace Simulant.Content.U6b.Presets
                     [true] = "第二轮（八方分散 + 挡枪）",
                 }),
         };
-
-        public 宇宙天箭()
-        {
-        }
-
     }
 
     internal enum ArrowMode
