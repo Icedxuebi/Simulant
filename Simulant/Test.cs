@@ -29,7 +29,40 @@ namespace Simulant
 
         internal async Task Run()
         {
-            await 绝伊甸地火Test();
+            await 绝妖星P3法阵();
+        }
+
+        public async Task 绝妖星P3法阵()
+        {
+            var me = _host.EntityProvider.GetMyself();
+            var data = new EObjData
+            {
+                Index = 0,
+                BaseId = 0x1EC03A,
+                Pos = me.Pos3D + new Vector3(-5, 0, 0),
+            };
+            var eobj = _host.EntitySpawner.SpawnEObj(data);
+            TriggernometryInterop.InvokeNamedCallback("command", $"/e ID: {eobj.Id:X8} #{data.Index} @ {eobj.Native.Ptr.Hex()}");
+
+            data = new EObjData
+            {
+                Index = 1,
+                BaseId = 0x1EC03B,
+                Pos = me.Pos3D + new Vector3(0, 0, 0),
+            };
+            eobj = _host.EntitySpawner.SpawnEObj(data);
+            TriggernometryInterop.InvokeNamedCallback("command", $"/e ID: {eobj.Id:X8} #{data.Index} @ {eobj.Native.Ptr.Hex()}");
+
+            data = new EObjData
+            {
+                Index = 2,
+                BaseId = 0x1EC03C,
+                Pos = me.Pos3D + new Vector3(5, 0, 0),
+            };
+            eobj = _host.EntitySpawner.SpawnEObj(data);
+            TriggernometryInterop.InvokeNamedCallback("command", $"/e ID: {eobj.Id:X8} #{data.Index} @ {eobj.Native.Ptr.Hex()}");
+
+            LogObjectArrays();
         }
 
         public async Task 绝伊甸地火Test()
