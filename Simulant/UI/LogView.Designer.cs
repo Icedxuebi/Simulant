@@ -96,8 +96,8 @@
             // 
             this.chkLogFilterVerbose.AutoCheck = false;
             this.chkLogFilterVerbose.AutoSize = true;
-            this.chkLogFilterVerbose.Checked = true;
-            this.chkLogFilterVerbose.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkLogFilterVerbose.Checked = false;
+            this.chkLogFilterVerbose.CheckState = System.Windows.Forms.CheckState.Unchecked;
             this.chkLogFilterVerbose.Dock = System.Windows.Forms.DockStyle.Fill;
             this.chkLogFilterVerbose.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.chkLogFilterVerbose.Location = new System.Drawing.Point(900, 183);
@@ -196,8 +196,7 @@
             // 
             this.chkLogFilterAll.AutoCheck = false;
             this.chkLogFilterAll.AutoSize = true;
-            this.chkLogFilterAll.Checked = true;
-            this.chkLogFilterAll.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkLogFilterAll.CheckState = System.Windows.Forms.CheckState.Indeterminate;
             this.chkLogFilterAll.Dock = System.Windows.Forms.DockStyle.Fill;
             this.chkLogFilterAll.Location = new System.Drawing.Point(900, 3);
             this.chkLogFilterAll.Margin = new System.Windows.Forms.Padding(0, 3, 0, 0);
