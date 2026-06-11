@@ -18,21 +18,19 @@ namespace Simulant.Content.U7b
         [Phase(30)]
         public static readonly PhaseData P34;
         [Phase(50)]
-        public static readonly PhaseData P5_1;
-        [Phase(55)]
-        public static readonly PhaseData P5_2;
+        public static readonly PhaseData P5;
         [Phase(999)]
         public static readonly PhaseData Complete;
 
         static U7b()
         {
             var spawnPos = new Vector3(100, 100, 0);
-            var mapEffects = Enumerable.Repeat<ushort>(0x4, 0x23).ToList();
+            var mapEffects = Enumerable.Repeat<ushort>(0x4, 0x24).ToList();
             mapEffects[0x11] = 0x1;
             mapEffects[0x12] = 0x1;
 
             var p1Effects = mapEffects.ToList();
-            P1_1 = new PhaseData("P1 前半", 77, 0, spawnPos, p1Effects);
+            P1_1 = new PhaseData("P1 前半", 77, 20293, spawnPos, p1Effects);
             P1_2 = new PhaseData("P1 后半", 78, 20289, spawnPos, p1Effects); // 20289-20291
 
             var p21Effects = mapEffects.ToList();
@@ -45,26 +43,25 @@ namespace Simulant.Content.U7b
             P2_2 = new PhaseData("P2 遗弃末世", 79, 20292, spawnPos, p22Effects);
 
             var p34Effects = mapEffects.ToList();
-            P34 = new PhaseData("P34", 174, 20293, spawnPos, p34Effects);
+            P34 = new PhaseData("P3-4", 174, 20293, spawnPos, p34Effects);
 
             var p5Effects = mapEffects.ToList();
-            p5Effects[14] = 0x20;
+            p5Effects[0x0] = 0x40;
+
+            // 补上九个洞
+            p5Effects[0x14] = 0x200;
             for (var i = 0x15; i <= 0x1C; i++)
                 p5Effects[i] = 0x1;
-            p5Effects[0x0] = 0x40;
-            P5_1 = new PhaseData("P5", 175, 20294, spawnPos, p5Effects);
+            
+            // 瓦砾之塔
+            for (var i = 0x1D; i <= 0x21; i++)
+                p5Effects[i] = 0x2;
 
-            var p52Effects = p5Effects.ToList();
-            p52Effects[0x1D] = 0x2;
-            p52Effects[0x1E] = 0x2;
-            p52Effects[0x1F] = 0x2;
-            p52Effects[0x20] = 0x2;
-            p52Effects[0x21] = 0x2;
-            p52Effects[0x0] = 0x40;
-            P5_2 = new PhaseData("P5_2", 175, 20294, spawnPos, p52Effects);
+            P5 = new PhaseData("P5", 175, 20294, spawnPos, p5Effects);
 
-            var completeEffects = mapEffects.ToList();
-            Complete = new PhaseData("过本", 2, 0, spawnPos, completeEffects);
+            var completeEffects = p5Effects.ToList();
+            completeEffects[0x23] = 0x1; // 像素小人
+            Complete = new PhaseData("过本", 174, 20293, spawnPos, completeEffects);
         }
     }
 }

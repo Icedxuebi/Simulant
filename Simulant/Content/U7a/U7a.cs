@@ -47,7 +47,8 @@ namespace Simulant.Content.U7a
             var p3Effects = mapEffects.ToList();
             p3Effects[0x28] = 0x2; // 紫色地板（阶段中会变绿）
             p3Effects[0x29] = 0x2; // 六重对称魔法阵花纹（阶段中会变化）
-            P3 = new PhaseData("P3", 105, 20105, spawnPos, p3Effects); // 天气没有实测，可能是 105 106 12 141 142，下同
+            P3 = new PhaseData("P3", 105, 20105, spawnPos, p3Effects); 
+            // 天气没有实测，可能是 105 106 12 141 142，下同
 
             var p4Effects = mapEffects.ToList();
             p4Effects[0x28] = 0x2; // 紫色地板（阶段中会变绿）
