@@ -22,7 +22,7 @@ namespace Simulant.Content.U7b.Presets
         public override PhaseData Phase { get; } = U7b.P5;
         public override int Level => 100;
         public override Type SimLogicType { get; } = typeof(P5地火Logic);
-        public override string Description { get; } = null;
+        public override string Description { get; } = "当前 Boss 模型与读条名称疑似因高难副本加密而无法正常显示。";
 
         public override List<SimOptionBase> Options { get; } = new List<SimOptionBase>
         {
