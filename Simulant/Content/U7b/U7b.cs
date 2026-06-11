@@ -61,7 +61,7 @@ namespace Simulant.Content.U7b
 
             var completeEffects = p5Effects.ToList();
             completeEffects[0x23] = 0x1; // 像素小人
-            Complete = new PhaseData("过本", 174, 20293, spawnPos, completeEffects);
+            Complete = new PhaseData("过本", 175, 20294, spawnPos, completeEffects);
         }
     }
 }
