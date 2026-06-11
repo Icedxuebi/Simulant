@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.splitMain = new System.Windows.Forms.SplitContainer();
             this.tableLeft = new System.Windows.Forms.TableLayoutPanel();
+            this.btnOk = new System.Windows.Forms.Button();
             this.txtFilter = new System.Windows.Forms.TextBox();
             this.dgvTerritory = new System.Windows.Forms.DataGridView();
             this.colId = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -39,54 +39,21 @@
             this.colType = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.lblFilter = new System.Windows.Forms.Label();
             this.chkPresetOnly = new System.Windows.Forms.CheckBox();
-            this.splitRight = new System.Windows.Forms.SplitContainer();
-            this.dgvPreset = new System.Windows.Forms.DataGridView();
-            this.colPreset = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.tableRight = new System.Windows.Forms.TableLayoutPanel();
-            this.btnOk = new System.Windows.Forms.Button();
-            this.txtInfo = new System.Windows.Forms.TextBox();
-            ((System.ComponentModel.ISupportInitialize)(this.splitMain)).BeginInit();
-            this.splitMain.Panel1.SuspendLayout();
-            this.splitMain.Panel2.SuspendLayout();
-            this.splitMain.SuspendLayout();
             this.tableLeft.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTerritory)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.splitRight)).BeginInit();
-            this.splitRight.Panel1.SuspendLayout();
-            this.splitRight.Panel2.SuspendLayout();
-            this.splitRight.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvPreset)).BeginInit();
-            this.tableRight.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // splitMain
-            // 
-            this.splitMain.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitMain.Location = new System.Drawing.Point(0, 0);
-            this.splitMain.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.splitMain.Name = "splitMain";
-            // 
-            // splitMain.Panel1
-            // 
-            this.splitMain.Panel1.Controls.Add(this.tableLeft);
-            this.splitMain.Panel1.Font = new System.Drawing.Font("等距更纱黑体 SC", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            // 
-            // splitMain.Panel2
-            // 
-            this.splitMain.Panel2.Controls.Add(this.splitRight);
-            this.splitMain.Size = new System.Drawing.Size(1059, 811);
-            this.splitMain.SplitterDistance = 800;
-            this.splitMain.TabIndex = 0;
             // 
             // tableLeft
             // 
             this.tableLeft.AutoSize = true;
             this.tableLeft.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.tableLeft.BackColor = System.Drawing.SystemColors.Control;
-            this.tableLeft.ColumnCount = 3;
+            this.tableLeft.ColumnCount = 4;
             this.tableLeft.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLeft.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLeft.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLeft.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLeft.Controls.Add(this.btnOk, 3, 0);
             this.tableLeft.Controls.Add(this.txtFilter, 1, 0);
             this.tableLeft.Controls.Add(this.dgvTerritory, 0, 1);
             this.tableLeft.Controls.Add(this.lblFilter, 0, 0);
@@ -97,8 +64,22 @@
             this.tableLeft.RowCount = 2;
             this.tableLeft.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLeft.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLeft.Size = new System.Drawing.Size(800, 811);
-            this.tableLeft.TabIndex = 0;
+            this.tableLeft.Size = new System.Drawing.Size(1059, 811);
+            this.tableLeft.TabIndex = 1;
+            // 
+            // btnOk
+            // 
+            this.btnOk.AutoSize = true;
+            this.btnOk.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btnOk.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnOk.Location = new System.Drawing.Point(932, 3);
+            this.btnOk.Name = "btnOk";
+            this.btnOk.Padding = new System.Windows.Forms.Padding(20, 2, 20, 2);
+            this.btnOk.Size = new System.Drawing.Size(124, 36);
+            this.btnOk.TabIndex = 8;
+            this.btnOk.Text = "读取预设";
+            this.btnOk.UseVisualStyleBackColor = true;
+            this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
             // 
             // txtFilter
             // 
@@ -106,7 +87,7 @@
             this.txtFilter.Location = new System.Drawing.Point(85, 7);
             this.txtFilter.Margin = new System.Windows.Forms.Padding(5, 7, 20, 5);
             this.txtFilter.Name = "txtFilter";
-            this.txtFilter.Size = new System.Drawing.Size(529, 29);
+            this.txtFilter.Size = new System.Drawing.Size(658, 29);
             this.txtFilter.TabIndex = 6;
             this.txtFilter.TextChanged += new System.EventHandler(this.txtFilter_TextChanged);
             // 
@@ -123,9 +104,9 @@
             this.colInstance,
             this.colRegion,
             this.colType});
-            this.tableLeft.SetColumnSpan(this.dgvTerritory, 3);
+            this.tableLeft.SetColumnSpan(this.dgvTerritory, 4);
             this.dgvTerritory.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvTerritory.Location = new System.Drawing.Point(3, 44);
+            this.dgvTerritory.Location = new System.Drawing.Point(3, 45);
             this.dgvTerritory.MultiSelect = false;
             this.dgvTerritory.Name = "dgvTerritory";
             this.dgvTerritory.ReadOnly = true;
@@ -133,10 +114,11 @@
             this.dgvTerritory.RowHeadersWidth = 51;
             this.dgvTerritory.RowTemplate.Height = 27;
             this.dgvTerritory.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvTerritory.Size = new System.Drawing.Size(794, 764);
+            this.dgvTerritory.Size = new System.Drawing.Size(1053, 763);
             this.dgvTerritory.TabIndex = 0;
             this.dgvTerritory.TabStop = false;
             this.dgvTerritory.VirtualMode = true;
+            this.dgvTerritory.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvTerritory_CellDoubleClick);
             this.dgvTerritory.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dgvTerritory_CellFormatting);
             this.dgvTerritory.CellValueNeeded += new System.Windows.Forms.DataGridViewCellValueEventHandler(this.dgvTerritory_CellValueNeeded);
             this.dgvTerritory.SelectionChanged += new System.EventHandler(this.dgvTerritory_SelectionChanged);
@@ -193,7 +175,7 @@
             this.lblFilter.Margin = new System.Windows.Forms.Padding(3);
             this.lblFilter.Name = "lblFilter";
             this.lblFilter.Padding = new System.Windows.Forms.Padding(0, 2, 0, 2);
-            this.lblFilter.Size = new System.Drawing.Size(74, 35);
+            this.lblFilter.Size = new System.Drawing.Size(74, 36);
             this.lblFilter.TabIndex = 3;
             this.lblFilter.Text = "正则搜索";
             this.lblFilter.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -202,153 +184,45 @@
             // 
             this.chkPresetOnly.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.chkPresetOnly.AutoSize = true;
-            this.chkPresetOnly.Location = new System.Drawing.Point(637, 7);
+            this.chkPresetOnly.Location = new System.Drawing.Point(766, 8);
             this.chkPresetOnly.Name = "chkPresetOnly";
             this.chkPresetOnly.Size = new System.Drawing.Size(160, 26);
             this.chkPresetOnly.TabIndex = 7;
             this.chkPresetOnly.Text = "仅显示含预设区域";
             this.chkPresetOnly.UseVisualStyleBackColor = true;
+            this.chkPresetOnly.CheckedChanged += new System.EventHandler(this.chkPresetOnly_CheckedChanged);
             // 
-            // splitRight
-            // 
-            this.splitRight.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitRight.Location = new System.Drawing.Point(0, 0);
-            this.splitRight.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.splitRight.Name = "splitRight";
-            this.splitRight.Orientation = System.Windows.Forms.Orientation.Horizontal;
-            // 
-            // splitRight.Panel1
-            // 
-            this.splitRight.Panel1.Controls.Add(this.dgvPreset);
-            this.splitRight.Panel1.Font = new System.Drawing.Font("等距更纱黑体 SC", 10.2F);
-            // 
-            // splitRight.Panel2
-            // 
-            this.splitRight.Panel2.Controls.Add(this.tableRight);
-            this.splitRight.Panel2.Font = new System.Drawing.Font("等距更纱黑体 SC", 10.2F);
-            this.splitRight.Size = new System.Drawing.Size(255, 811);
-            this.splitRight.SplitterDistance = 499;
-            this.splitRight.SplitterWidth = 6;
-            this.splitRight.TabIndex = 0;
-            // 
-            // dgvPreset
-            // 
-            this.dgvPreset.AllowUserToAddRows = false;
-            this.dgvPreset.AllowUserToDeleteRows = false;
-            this.dgvPreset.AllowUserToResizeRows = false;
-            this.dgvPreset.BackgroundColor = System.Drawing.SystemColors.Control;
-            this.dgvPreset.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.Disable;
-            this.dgvPreset.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvPreset.ColumnHeadersVisible = false;
-            this.dgvPreset.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.colPreset});
-            this.dgvPreset.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvPreset.Location = new System.Drawing.Point(0, 0);
-            this.dgvPreset.Name = "dgvPreset";
-            this.dgvPreset.ReadOnly = true;
-            this.dgvPreset.RowHeadersVisible = false;
-            this.dgvPreset.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
-            this.dgvPreset.RowTemplate.Height = 27;
-            this.dgvPreset.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvPreset.Size = new System.Drawing.Size(255, 499);
-            this.dgvPreset.TabIndex = 0;
-            // 
-            // colPreset
-            // 
-            this.colPreset.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.colPreset.HeaderText = "模拟预设";
-            this.colPreset.MinimumWidth = 6;
-            this.colPreset.Name = "colPreset";
-            this.colPreset.ReadOnly = true;
-            this.colPreset.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // tableRight
-            // 
-            this.tableRight.ColumnCount = 1;
-            this.tableRight.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableRight.Controls.Add(this.btnOk, 0, 1);
-            this.tableRight.Controls.Add(this.txtInfo, 0, 0);
-            this.tableRight.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableRight.Location = new System.Drawing.Point(0, 0);
-            this.tableRight.Name = "tableRight";
-            this.tableRight.RowCount = 2;
-            this.tableRight.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableRight.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableRight.Size = new System.Drawing.Size(255, 306);
-            this.tableRight.TabIndex = 0;
-            // 
-            // btnOk
-            // 
-            this.btnOk.AutoSize = true;
-            this.btnOk.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btnOk.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnOk.Location = new System.Drawing.Point(3, 267);
-            this.btnOk.Name = "btnOk";
-            this.btnOk.Padding = new System.Windows.Forms.Padding(20, 2, 20, 2);
-            this.btnOk.Size = new System.Drawing.Size(249, 36);
-            this.btnOk.TabIndex = 6;
-            this.btnOk.Text = "读取预设";
-            this.btnOk.UseVisualStyleBackColor = true;
-            this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
-            // 
-            // txtInfo
-            // 
-            this.txtInfo.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtInfo.Location = new System.Drawing.Point(3, 3);
-            this.txtInfo.Multiline = true;
-            this.txtInfo.Name = "txtInfo";
-            this.txtInfo.ReadOnly = true;
-            this.txtInfo.Size = new System.Drawing.Size(249, 258);
-            this.txtInfo.TabIndex = 1;
-            // 
-            // SimPresetSelectForm
+            // TerritoryForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 22F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1059, 811);
-            this.Controls.Add(this.splitMain);
+            this.Controls.Add(this.tableLeft);
             this.Font = new System.Drawing.Font("等距更纱黑体 SC", 10.2F);
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.Name = "SimPresetSelectForm";
+            this.Name = "TerritoryForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "选择副本预设";
-            this.splitMain.Panel1.ResumeLayout(false);
-            this.splitMain.Panel1.PerformLayout();
-            this.splitMain.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitMain)).EndInit();
-            this.splitMain.ResumeLayout(false);
             this.tableLeft.ResumeLayout(false);
             this.tableLeft.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTerritory)).EndInit();
-            this.splitRight.Panel1.ResumeLayout(false);
-            this.splitRight.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitRight)).EndInit();
-            this.splitRight.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dgvPreset)).EndInit();
-            this.tableRight.ResumeLayout(false);
-            this.tableRight.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
 
-        private System.Windows.Forms.SplitContainer splitMain;
-        private System.Windows.Forms.SplitContainer splitRight;
         private System.Windows.Forms.TableLayoutPanel tableLeft;
-        private System.Windows.Forms.DataGridView dgvTerritory;
-        private System.Windows.Forms.Label lblFilter;
-        private System.Windows.Forms.TextBox txtFilter;
-        private System.Windows.Forms.CheckBox chkPresetOnly;
-        private System.Windows.Forms.DataGridView dgvPreset;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colPreset;
-        private System.Windows.Forms.TableLayoutPanel tableRight;
         private System.Windows.Forms.Button btnOk;
-        private System.Windows.Forms.TextBox txtInfo;
+        private System.Windows.Forms.TextBox txtFilter;
+        private System.Windows.Forms.DataGridView dgvTerritory;
         private System.Windows.Forms.DataGridViewTextBoxColumn colId;
         private System.Windows.Forms.DataGridViewTextBoxColumn colPlace;
         private System.Windows.Forms.DataGridViewTextBoxColumn colInstance;
         private System.Windows.Forms.DataGridViewTextBoxColumn colRegion;
         private System.Windows.Forms.DataGridViewTextBoxColumn colType;
+        private System.Windows.Forms.Label lblFilter;
+        private System.Windows.Forms.CheckBox chkPresetOnly;
     }
 }
