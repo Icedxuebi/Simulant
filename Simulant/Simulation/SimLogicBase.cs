@@ -146,7 +146,7 @@ namespace Simulant.Simulation
             AutoRole.Asc(JobRole.MagicalRanged),
         };
 
-        protected void GeneratePartyMembers(int myPartyIdx, Job myJob)
+        protected void GeneratePartyMembers(int myPartyIdx)
         {
             var partyRoles = PartyRoles();
 
@@ -154,6 +154,7 @@ namespace Simulant.Simulation
             if (isOutOfRange)
                 throw new ArgumentOutOfRangeException(nameof(myPartyIdx), $"小队职能序号必须在小队范围内（1-{partyRoles.Count}）。");
 
+            var myJob = _host.EntityProvider.GetMyself().Job;
             var usedJobs = new HashSet<Job> { myJob };
 
             List<Job?> jobs = new List<Job?>();

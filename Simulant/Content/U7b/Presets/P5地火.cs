@@ -1,5 +1,6 @@
 ﻿using Simulant.ACT;
 using Simulant.Core;
+using Simulant.Core.Entity;
 using Simulant.Core.Environment;
 using Simulant.Game.FFCS.Client.Game.Object;
 using Simulant.Simulation;
@@ -55,6 +56,17 @@ namespace Simulant.Content.U7b.Presets
                     [ExaFlareOrder.Line36_14_25] = "3/6列 - 1/4列 - 2/5列",
                     [ExaFlareOrder.Line36_25_14] = "3/6列 - 2/5列 - 1/4列",
                 }),
+
+            new CheckBoxOption(
+                nameof(P5地火Logic.EnableAuxiliaryLines),
+                "启用斜向辅助线",
+                false,
+                "在地火前进方向添加斜向辅助线，辅助走位。"),
+
+            new CheckBoxOption(
+                nameof(P5地火Logic.UseSpreadDummies),
+                "生成七个无敌的假队友干扰最终分散",
+                false),
         };
     }
 
@@ -67,14 +79,19 @@ namespace Simulant.Content.U7b.Presets
         Line36_14_25, Line36_25_14
     }
 
-
     internal class P5地火Logic : SimLogicBase
     {
         [SimOption]
         internal ExaFlareOrder LeftExaFlareOrder { get; set; }
-        
+
         [SimOption]
         internal ExaFlareOrder RightExaFlareOrder { get; set; }
+
+        [SimOption]
+        internal bool EnableAuxiliaryLines { get; set; }
+
+        [SimOption]
+        internal bool UseSpreadDummies { get; set; }
 
         public P5地火Logic(PluginHost host, SimPresetBase preset) : base(host, preset)
         {
@@ -94,6 +111,7 @@ namespace Simulant.Content.U7b.Presets
 
         protected override void OnStop()
         {
+            RemoveAuxiliaryLines();
         }
 
         const float ExaFlareGroupDelay = 2.5f;
@@ -102,12 +120,26 @@ namespace Simulant.Content.U7b.Presets
         {
             var leftOrder = ResolveExaFlareOrder(LeftExaFlareOrder);
             var rightOrder = ResolveExaFlareOrder(RightExaFlareOrder);
-            
+
             var boss = _host.EntitySpawner.SpawnBNpc(19511, 7131, 100); // Kefka
             boss.Pos3D = new Vector3(100, 100, 0);
             boss.Heading = (float)PI;
             boss.SetReadyToDraw();
             boss.EnableDraw();
+
+            var me = _host.EntityProvider.GetMyself();
+            var myIdx = GetFakePartyIndex(me);
+
+            if (UseSpreadDummies)
+            {
+                GeneratePartyMembers(myIdx);
+                SpreadPartyMembers(me, 3f);
+            }
+
+            if (EnableAuxiliaryLines)
+            {
+                CreateAuxiliaryLines();
+            }
 
             await Task.Delay(3000);
             using (var timer = new SimTimer(_host))
@@ -144,27 +176,33 @@ namespace Simulant.Content.U7b.Presets
 
                 await timer.WaitUntil(16.2);
                 boss.Cast(0xBB3E); // 混沌末世 本体读条
+                
+                if (UseSpreadDummies)
+                {
+                    SpreadPartyMembers(me, 5.1f);
+                }
 
                 await timer.WaitUntil(22.0);
                 var playerPositions = _host.EntityProvider.GetCharacters()
                     .Where(e => e.Native.ObjectKind == ObjectKind.Pc)
-                    .Select(e => e.Pos3D)
+                    .Select(e => (e.Pos3D, e.Address == me.Address))
                     .ToList();
 
-                foreach (var pos in playerPositions)
+                foreach (var (pos, isSelf) in playerPositions)
                 {
-                    FireAndForget(DummyExecute(pos, 0f, 0xBB3F, 3f));
+                    ExecuteAndValidateSpread(pos, isSelf);
                 }
-                
+
                 await timer.WaitUntil(23.5);
                 if (_isPerfect)
                 {
-                    TriggernometryInterop.InvokeNamedCallback("LockOn", 
+                    TriggernometryInterop.InvokeNamedCallback("LockOn",
                         $"{_host.EntityProvider.GetMyself().Address}, m0489trg_a0c");
                 }
 
                 await timer.WaitUntil(27);
                 _host.EntitySpawner.Delete(boss);
+                EntityManager.Clear();
             }
         }
 
@@ -212,7 +250,7 @@ namespace Simulant.Content.U7b.Presets
                 var dt = 0.513f;
 
                 FireAndForget(DummyCast(initPos, heading, 0xBB3C, 6f));
-                
+
                 for (int i = 0; i < 6; i++)
                 {
                     await timer.WaitUntil(t0 + dt * i);
@@ -232,6 +270,116 @@ namespace Simulant.Content.U7b.Presets
             }
         }
 
-    }
+        private void ExecuteAndValidateSpread(Vector3 pos, bool isSelf)
+        {
+            FireAndForget(DummyExecute(pos, 0f, 0xBB3F, 3f));
+            if (isSelf) return;
 
+            var player = _host.EntityProvider.GetMyself();
+            if (Vector2.Distance(new Vector2(pos.X, pos.Y), player.Pos) <= 5f)
+            {
+                _isPerfect = false;
+                TriggernometryInterop.InvokeNamedCallback("LockOn", $"{player.Address}, m0489trg_b0c");
+            }
+        }
+
+        const string AuxiliaryLineTag = "Simulant_AuxiliaryLine";
+        private string AuxiliaryLinePictoACTCommand(int lineIdx, bool isTopLeft) => $@"
+Omen: m131om_setu0f
+Tag: {AuxiliaryLineTag}
+t: 30
+O: 100, 100
+DirN4: {(isTopLeft ? 0 : 3)}
+Pos: {lineIdx - 3.5} * 5 * √2, -17.5 * √2
+Angle: 0
+Scale: 0.03, 35 * √2, 0.05
+Color: 1, 1, 1, 0.5";
+
+        private void CreateAuxiliaryLines()
+        {
+            for (int lineIdx = 1; lineIdx <= 6; lineIdx++)
+            {
+                TriggernometryInterop.InvokeNamedCallback("PictoACT", AuxiliaryLinePictoACTCommand(lineIdx, true));
+                TriggernometryInterop.InvokeNamedCallback("PictoACT", AuxiliaryLinePictoACTCommand(lineIdx, false));
+            }
+        }
+
+        private void RemoveAuxiliaryLines()
+        {
+            TriggernometryInterop.InvokeNamedCallback("PictoACT", $"Action: Remove\nTag: {AuxiliaryLineTag}");
+        }
+
+        private int GetFakePartyIndex(Character me)
+        {
+            var myJob = me.Job;
+            var role = JobsByRole.FirstOrDefault(pair => pair.Value.Contains(myJob)).Key;
+            switch (role)
+            {
+                case JobRole.Tank:
+                    return 1;
+                case JobRole.Healer:
+                    return 3;
+                case JobRole.Melee:
+                    return 5;
+                case JobRole.PhysicalRanged:
+                    return 7;
+                case JobRole.MagicalRanged:
+                    return 8;
+                default:
+                    return 5;
+            }
+        }
+
+        private void SpreadPartyMembers(Character me, float minDistance)
+        {
+            var random = new Random();
+            var myPos = me.Pos;
+            var center = new Vector2(100, 100);
+            const int maxAttemptsPerMember = 1000;
+
+            var placedPositions = new List<Vector2>();
+
+            Vector2 RandomPos(float radius)
+            {
+                var angle = random.NextDouble() * PI * 2.0;
+                var distance = Sqrt(random.NextDouble()) * radius;
+
+                return new Vector2(
+                    myPos.X + (float)(Cos(angle) * distance),
+                    myPos.Y + (float)(Sin(angle) * distance));
+            }
+
+            for (int i = 1; i <= 8; i++)
+            {
+                var member = EntityManager.GetPartyMember(i)
+                    ?? throw new Exception($"无法获取队伍成员 {i}");
+                if (member.Address == me.Address)
+                    continue;
+
+                Vector2 pos = myPos;
+                var found = false;
+
+                for (int attempt = 0; attempt < maxAttemptsPerMember; attempt++)
+                {
+                    pos = RandomPos(15f);
+
+                    if (Vector2.Distance(center, pos) <= 20f && placedPositions.All(p => Vector2.Distance(p, pos) > minDistance))
+                    {
+                        found = true;
+                        break;
+                    }
+                }
+
+                if (!found)
+                    pos = RandomPos(1f);
+
+                placedPositions.Add(pos);
+
+                member.Pos = pos;
+                member.Heading = (float)(PI + Atan2(pos.X - myPos.X, pos.Y - myPos.Y));
+                member.SetReadyToDraw();
+                member.Redraw();
+            }
+        }
+    }
 }

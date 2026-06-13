@@ -65,6 +65,7 @@ namespace Simulant.Simulation.Runtime
                 }
                 _localEntities.Clear();
             }
+            Party.Clear();
         }
 
         internal Character GetPartyMember(int partyIndex)
