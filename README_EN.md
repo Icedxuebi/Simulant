@@ -23,10 +23,6 @@ Work in progress. Collaboration is welcome.
 
 ## Instructions
 
-The project is still in an early development stage. Errors, crashes, and similar issues are to be expected.
-
-A complete validation flow is not yet in place, so please follow the steps below strictly.
-
 > [!TIP]
 > **When downloading, get the latest released `dll` from the Release section on the right. Do not download the source code from the top of the page.**
 
@@ -37,10 +33,14 @@ A complete validation flow is not yet in place, so please follow the steps below
   - [Triggernometry](https://github.com/MnFeN/Triggernometry) (v2.0 or above)
   - [PostNamazu](https://github.com/Natsukage/PostNamazu)
 
-  The first two come bundled with any all-in-one ACT distribution. Installation instructions for the latter two can be found at [this link](https://www.bilibili.com/opus/998425290402168834).
+  Installation instructions for the latter two can be found at [this link](https://www.bilibili.com/opus/998425290402168834).
 
   If you have already installed my Triggernometry bundle, you can skip this step.
 
+> [!WARNING]
+> This plugin is still under active development. It is currently only a demo for testing whether this idea is feasible.
+> 
+> It has no i18n support for now, and it relies on several tools that I personally maintain or that are mainly used in the Chinese community.
 - Load this plugin's `dll` into ACT's plugin list to complete the setup. It can be placed fairly far down the list.
 
 <img width="800" alt="image" src="https://github.com/user-attachments/assets/b2fde36d-dde1-47d1-9f7c-857ea61c9b9f" />
@@ -68,7 +68,7 @@ A complete validation flow is not yet in place, so please follow the steps below
 
 - When you are done, uncheck "Enable Firewall" to return to your original location in the inn.
 
-- If any step during this process causes the game to crash, please record the issue and restart ACT.
+- If any step during this process causes the game to crash, please record any errors and restart ACT.
 
 - Optional: If you experience problems with text or UI layout, you can install a font:
 
